@@ -1,6 +1,15 @@
 import "./index.css";
+import {useEffect} from 'react';
+import Post from './firebase/posts';
 
 function App() {
+
+  useEffect(async () => {
+    console.log("Use Effect");
+    // const posts = await Post.getAllPosts();
+    // const newpost = await Post.uploadNewPost();
+  }, []);
+
   return (
     <>
       <header class="p-4 dark:bg-coolGray-800 dark:text-coolGray-100">
