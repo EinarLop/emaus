@@ -1,6 +1,21 @@
 import "./index.css";
+import {useEffect} from 'react';
+import Post from './firebase/posts';
 
 function App() {
+
+  const tryAPI = async () => {
+    // Test create, delete and get of firestore posts
+    console.log("Use Effect");
+    const newpost = await Post.uploadNewPost();
+    console.log("New post result", newpost);
+    const res = await Post.deletePost(newpost.id);
+    console.log("After deletion: ", res);
+    const posts = await Post.getAllPosts();
+    console.log("ALL POSTS\n");
+    console.log(posts);
+  };
+
   return (
     <>
       <header class="p-4 dark:bg-coolGray-800 dark:text-coolGray-100">
