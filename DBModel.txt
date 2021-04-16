@@ -1,0 +1,49 @@
+ESQUEMA FIRESTORE
+
+Usuario
+- nombre
+- correo 
+- rol: int **
+
+correo de usuario es a manera de llave para matchearlo con firebase auth.
+
+rol se piensa usar para 1 admin y 0 voluntario
+
+
+Blogpost
+- title
+- content
+- timestamp
+- favorite
+- image [1]
+
+*timestamp es más ligero que un ISOstring. Podemos hacer la conversión de back a front y front a back.
+
+Event
+- title
+- content
+- timestamp
+- image [1]
+- type: int
+
+Volunteer
+- name
+- email
+- phone
+- message
+
+
+
+¿Por qué no agregamos Comentarios a posts?
+Cuestiones de uso de memoria en Firestore.
+Creamos un producto que sea duradero y utilizable por la fundación, de forma que se optimice el uso de memoria. 
+
+
+
+
+
+
+
+
+
+

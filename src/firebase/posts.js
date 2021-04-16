@@ -1,12 +1,11 @@
-import {db} from './app'
-import { storage } from './app';
+import {firebase, db, storage} from './app'
 
-/* Firebase API for managing posts in firestore dataabse */
+/* Post API for managing posts in firestore and images in storage */
 
 const Post = {};
 
+// Fetch all posts from post collection in Firestore. 
 Post.getAllPosts = async () => {
-    // Fetch all posts from post collection in Firestore.
     try {
     const data = await db
     .collection('post')
@@ -37,13 +36,12 @@ Post.getAllPosts = async () => {
 
 };
 
+// Upload a new post with the data received from Client
 Post.uploadNewPost = async (clientData) => {
-    // Upload a new post with data sent from Client
     const ejemplo = {
         title: "Nuevo post ejemplo",
         content: "Soy un nuevo post para borrar",
         favorite: true,
-        type: 1,
     }       // ejemplo
 
     clientData = ejemplo;
@@ -89,17 +87,19 @@ Post.uploadNewPost = async (clientData) => {
         return result;
     }
 
-    // DEFINE NEW POST OBJECT
-    const post = {
+
+    // UPLOAD TO FIRESTORE
+    try {
+
+        // DEFINE NEW POST OBJECT
+        const post = {
         title: clientData.title,
         content: clientData.content,
         favorite: clientData.favorite || false,
         type: clientData.type || 1,
-        posted: new Date().toISOString(),
-    }
+        posted: firebase.firestore.Timestamp.fromDate(new Date()),      // Timestamp is more lightweight than Date
+        }
 
-    // UPLOAD TO FIRESTORE
-    try {
         const newPost = await db.collection('post').add(post);
         console.log("New post id: ", newPost.id);
         let result = {
@@ -113,7 +113,7 @@ Post.uploadNewPost = async (clientData) => {
         console.error(err);
         let result = {
             ok: false,
-            message: "Algo inesperado sucedió. Por favor intenta de nuevo",
+            message: "Algo inesperado sucedió:" + err.message,
         }
         return result;
     }
@@ -137,16 +137,43 @@ Post.deletePost = async (postId) => {
     }
 }
 
-export default Post;
 
 
 Post.getOnePost = async (postId) => {
-    // TODO
+    try {
+        const postRef = await db.collection('post').doc(postId);
+        const doc = await postRef.get();
+        if (!doc.exists) {
+            let result = {
+                ok: false,
+                message: "No se encontró el Post especificado."
+            }
+            return result;
+        }
+        // Todo ok
+        let result = {
+            ok: true,
+            data: doc.data(),
+        }
+    
+        return result;
+    } catch (err) {
+        console.error(err);
+        let result = {
+            ok: false,
+            message: "API Error:" + err.message,
+        }
+        return result;
+    }
+
 }
 
-// Use in conjunction with browser-image-compression
+// IMAGE COMPRESSION
 // https://www.npmjs.com/package/browser-image-compression
 // https://firebase.google.com/docs/storage/security
+
+
+// UPLOAD AN IMAGE AND REPLACE IF ONE EXISTS
 Post.uploadImage = async (postId, imageFile) => {
     // Expects to receive a compressed file
     console.log(typeof(postId));
@@ -173,6 +200,38 @@ Post.uploadImage = async (postId, imageFile) => {
     }
 }
 
-Post.removeImage = async(postId) => {
-    // TODO remove the image of given post Id
+Post.removeImage = async (postId) => {
+    // TODO remove the postId's reference of image in firestore
+    /*
+const FieldValue = admin.firestore.FieldValue;
+    // Create a document reference
+    const cityRef = db.collection('cities').doc('BJ');
+
+    // Remove the 'capital' field from the document
+    const res = await cityRef.update({
+    capital: FieldValue.delete()
+    });
+    */
+    // TODO remove the image of given post Id from storage
 }
+
+
+Post.updatePost = async (postId, postData) => {
+    // NOT TESTED YET
+    const docRef = db.collection('cities').doc(postId);
+
+    // postData is an object, firestore only updates the defined fields
+    const res = await docRef.update(postData);
+
+    /* For nested objects
+    const res = await db.collection('users').doc('Frank').update({
+    age: 13,
+    'favorites.color': 'Red'
+    });
+
+    */
+}
+
+
+
+export default Post;

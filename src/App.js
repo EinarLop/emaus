@@ -6,7 +6,6 @@ function App() {
 
   const tryAPI = async () => {
     // Test create, delete and get of firestore posts
-    console.log("Use Effect");
     const newpost = await Post.uploadNewPost();
     console.log("New post result", newpost);
     const res = await Post.deletePost(newpost.id);
@@ -27,9 +26,20 @@ function App() {
       console.log("Something went wrong");
     }
   }
+  const submitPost = async (e) => {
+    const newpost = await Post.uploadNewPost();
+    console.log("New post result", newpost);
+  }
+
+  const getPost = async (e) => {
+    console.log("Getting post...");
+    const post = await Post.getOnePost('1');
+    console.log(post);
+  }
 
   return (
     <>
+      <button onClick={()=>console.log("Test a function")}>"Sube post"</button>
       <input type="file" accept="image/*" onChange={handleImageUpload} />
       <header class="p-4 dark:bg-coolGray-800 dark:text-coolGray-100">
         <div class="container flex justify-between h-16 mx-auto md:justify-center md:space-x-8">
