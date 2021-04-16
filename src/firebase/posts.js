@@ -42,6 +42,7 @@ Post.uploadNewPost = async (clientData) => {
         title: "Nuevo post ejemplo",
         content: "Soy un nuevo post para borrar",
         favorite: true,
+        image: null,
     }       // ejemplo
 
     clientData = ejemplo;
@@ -98,6 +99,7 @@ Post.uploadNewPost = async (clientData) => {
         favorite: clientData.favorite || false,
         type: clientData.type || 1,
         posted: firebase.firestore.Timestamp.fromDate(new Date()),      // Timestamp is more lightweight than Date
+        image: "",    // downloadURL
         }
 
         const newPost = await db.collection('post').add(post);
@@ -173,11 +175,9 @@ Post.getOnePost = async (postId) => {
 // https://firebase.google.com/docs/storage/security
 
 
-// UPLOAD AN IMAGE AND REPLACE IF ONE EXISTS
+// Utility function: UPLOAD AN IMAGE to blogposts/postId/imageName in Storage
 Post.uploadImage = async (postId, imageFile) => {
-    // Expects to receive a compressed file
-    // saves the file to storage/blogposts/postId/imageName
-    console.log(typeof(postId));
+    // Returns error if any and the image URL from storage
     if (typeof(postId) !== 'string') {
         console.log('API Error: postId is not a String');
         return null;
@@ -193,12 +193,58 @@ Post.uploadImage = async (postId, imageFile) => {
         await fileRef.put(imageFile);
         let url = await fileRef.getDownloadURL();
         console.log("Saved succesfully to Storage.");
-        return url;
+        return {error: null, url: url};
 
     } catch (err) {
         console.error(err);
-        return null;
+        return {error: err, url: null};
     }
+}
+
+Post.addImageToPost = async (postId, imageFile) => {
+    // Get blogpost data
+    const postRef = await db.collection('post').doc(postId);
+    const doc = await postRef.get(); // to read the data
+    
+    if (!doc.exists) {
+        console.log("API ERROR: Post not found");
+        return;
+    }
+        
+    // Delete from storage if existing image
+    if (doc.data().image !== "") {
+        // TODO: Post.removeImage(postId);
+        console.log("Post id has Existing image. Deleting...")
+    }
+
+    // Upload and update the downloadURL
+    try {
+        const {error, url} = await Post.uploadImage(postId, imageFile);
+        if (url) {
+            await postRef.update({
+                image: url,
+            });
+        } else {
+            throw error;
+        }
+
+        let result = {
+            ok:true,
+            message:"Image added to Post",
+        }
+        return result;
+
+    } catch (err) {
+        // MAX IMAGE SIZE: 2MB
+        console.error(err);
+
+        let result = {
+            ok:false ,
+            message:"API error: " + err.message,
+        }
+        return result;
+    }
+
 }
 
 Post.removeImage = async (postId) => {
@@ -219,7 +265,7 @@ const FieldValue = admin.firestore.FieldValue;
 
 Post.updatePost = async (postId, postData) => {
     // NOT TESTED YET
-    const docRef = db.collection('cities').doc(postId);
+    const docRef = db.collection('post').doc(postId);
 
     // postData is an object, firestore only updates the defined fields
     const res = await docRef.update(postData);
