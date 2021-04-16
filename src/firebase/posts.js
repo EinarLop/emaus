@@ -1,4 +1,5 @@
 import {db} from './app'
+import { storage } from './app';
 
 /* Firebase API for managing posts in firestore dataabse */
 
@@ -137,3 +138,41 @@ Post.deletePost = async (postId) => {
 }
 
 export default Post;
+
+
+Post.getOnePost = async (postId) => {
+    // TODO
+}
+
+// Use in conjunction with browser-image-compression
+// https://www.npmjs.com/package/browser-image-compression
+// https://firebase.google.com/docs/storage/security
+Post.uploadImage = async (postId, imageFile) => {
+    // Expects to receive a compressed file
+    console.log(typeof(postId));
+    if (typeof(postId) !== 'string') {
+        console.log('API Error: postId is not a String');
+        return null;
+    };
+        
+    let storageRef = storage.ref();
+    let blogpostRef = storageRef.child('blogposts').child(postId);
+    console.log("Storage reference: ", blogpostRef.fullPath);
+    console.log("Adding image with name: ", blogpostRef.name);
+
+    try {
+        let fileRef = blogpostRef.child(imageFile.name);
+        await fileRef.put(imageFile);
+        let url = await fileRef.getDownloadURL();
+        console.log("Saved succesfully to Storage.");
+        return url;
+
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
+
+Post.removeImage = async(postId) => {
+    // TODO remove the image of given post Id
+}

@@ -16,8 +16,21 @@ function App() {
     console.log(posts);
   };
 
+  const handleImageUpload = async (e) => {
+    const imageFile = e.target.files[0];
+    console.log('originalFile instanceof Blob', imageFile instanceof Blob); // true
+    console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
+    let imageURL = await Post.uploadImage('1', imageFile);
+    if (imageURL) {
+      console.log("Image URL: ", imageURL);
+    } else {
+      console.log("Something went wrong");
+    }
+  }
+
   return (
     <>
+      <input type="file" accept="image/*" onChange={handleImageUpload} />
       <header class="p-4 dark:bg-coolGray-800 dark:text-coolGray-100">
         <div class="container flex justify-between h-16 mx-auto md:justify-center md:space-x-8">
           <ul class="items-stretch hidden space-x-3 md:flex">
