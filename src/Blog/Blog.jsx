@@ -1,6 +1,7 @@
 const Blog = () => {
     return (
         <>
+            Blog Component
         </>
     );
 }
