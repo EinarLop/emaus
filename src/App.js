@@ -46,6 +46,8 @@ function App() {
     <>
       <Router>
         <Header />
+        <button onClick={()=>console.log("Test a function")}>"Sube post"</button>
+        <input type="file" accept="image/*" onChange={handleImageUpload} />
         <Route exact path="/" component={Home} />
         <Route exact path="/blog" component={Blog} />
         <Route exact path="/donativos" component={Donate} />
