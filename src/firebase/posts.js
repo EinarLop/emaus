@@ -176,6 +176,7 @@ Post.getOnePost = async (postId) => {
 // UPLOAD AN IMAGE AND REPLACE IF ONE EXISTS
 Post.uploadImage = async (postId, imageFile) => {
     // Expects to receive a compressed file
+    // saves the file to storage/blogposts/postId/imageName
     console.log(typeof(postId));
     if (typeof(postId) !== 'string') {
         console.log('API Error: postId is not a String');
