@@ -1,7 +1,9 @@
 const Events = () => {
     return (
 
-        <> </>
+        <>
+            Events Component
+        </>
     );
 }
 

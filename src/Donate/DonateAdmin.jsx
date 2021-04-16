@@ -1,9 +1,9 @@
-const HomeAdmin = () => {
+const DonateAdmin = () => {
     return (
         <>
-            Hola
+
         </>
     );
 }
 
-export default HomeAdmin;
+export default DonateAdmin;
