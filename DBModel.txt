@@ -31,6 +31,23 @@ Volunteer
 - email
 - phone
 - message
+- eventId
+- timestamp
+
+
+
+SÉ VOLUNTARIO
+.nombre...
+
+.evento? -> dropdown de eventos vigentes (fetch eventos cuyo date > today)
+
+
+VOLUNTARIOS
+nombre	correo	telefono  fechas	evento
+...					       X
+
+Agregar (+)
+
 
 
 

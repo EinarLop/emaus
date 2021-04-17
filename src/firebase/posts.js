@@ -7,10 +7,7 @@ const Post = {};
 // Fetch all posts from post collection in Firestore. 
 Post.getAllPosts = async () => {
     try {
-    const data = await db
-    .collection('post')
-    .orderBy('posted', 'desc')
-    .get();
+    const data = await db.collection('post').orderBy('posted', 'desc').get();
 
     let posts = [];
 
@@ -38,13 +35,14 @@ Post.getAllPosts = async () => {
 
 // Upload a new post with the data received from Client
 Post.uploadNewPost = async (clientData) => {
-    const ejemplo = {
+    /* const ejemplo = {
         title: "Nuevo post ejemplo",
         content: "Soy un nuevo post para borrar",
         favorite: true,
+        image: null,
     }       // ejemplo
 
-    clientData = ejemplo;
+    clientData = ejemplo; */
 
     // SANITY CHECKS
     if (clientData === undefined) {
@@ -87,10 +85,8 @@ Post.uploadNewPost = async (clientData) => {
         return result;
     }
 
-
     // UPLOAD TO FIRESTORE
     try {
-
         // DEFINE NEW POST OBJECT
         const post = {
         title: clientData.title,
@@ -98,14 +94,16 @@ Post.uploadNewPost = async (clientData) => {
         favorite: clientData.favorite || false,
         type: clientData.type || 1,
         posted: firebase.firestore.Timestamp.fromDate(new Date()),      // Timestamp is more lightweight than Date
+        image: "",    // downloadURL
         }
 
         const newPost = await db.collection('post').add(post);
+
         console.log("New post id: ", newPost.id);
         let result = {
             ok: true,
             message: "El post publicó exitosamente",
-            id: newPost.id, 
+            id: newPost.id,    // para la URL individual del nuevo post
         }
         return result;
 
@@ -123,10 +121,11 @@ Post.deletePost = async (postId) => {
     console.log("deletePost id:", postId, typeof(postId));
     try {
         const res = await db.collection('post').doc(postId).delete();
-        return {
+        let result = {
             message: "Deleted succesfully",
             ok: true,
         }
+        return result;
 
     } catch (err) {
         let result = {
@@ -173,53 +172,104 @@ Post.getOnePost = async (postId) => {
 // https://firebase.google.com/docs/storage/security
 
 
-// UPLOAD AN IMAGE AND REPLACE IF ONE EXISTS
+// Utility function: UPLOAD AN IMAGE to blogposts/postId/imageName in Storage
 Post.uploadImage = async (postId, imageFile) => {
-    // Expects to receive a compressed file
-    // saves the file to storage/blogposts/postId/imageName
-    console.log(typeof(postId));
+    // Returns error if any and the image URL from storage
     if (typeof(postId) !== 'string') {
         console.log('API Error: postId is not a String');
         return null;
     };
         
-    let storageRef = storage.ref();
+    let storageRef = storage.ref();   // => referencia base de nuestro storage
     let blogpostRef = storageRef.child('blogposts').child(postId);
-    console.log("Storage reference: ", blogpostRef.fullPath);
-    console.log("Adding image with name: ", blogpostRef.name);
+    console.log("Adding image with name: ", blogpostRef.name); 
 
     try {
         let fileRef = blogpostRef.child(imageFile.name);
-        await fileRef.put(imageFile);
+        console.log("Storage reference: ", fileRef.fullPath);
+        await fileRef.put(imageFile);  
         let url = await fileRef.getDownloadURL();
         console.log("Saved succesfully to Storage.");
-        return url;
+        return {error: null, url: url};
 
     } catch (err) {
         console.error(err);
-        return null;
+        return {error: err, url: null};
     }
 }
 
-Post.removeImage = async (postId) => {
-    // TODO remove the postId's reference of image in firestore
-    /*
-const FieldValue = admin.firestore.FieldValue;
-    // Create a document reference
-    const cityRef = db.collection('cities').doc('BJ');
+Post.addImageToPost = async (postId, imageFile) => {
+    // Get blogpost data
+    const postRef = await db.collection('post').doc(postId).catch(err => {
+        console.error(err);
+        return;
+    }); // referencia o apuntador
 
-    // Remove the 'capital' field from the document
-    const res = await cityRef.update({
-    capital: FieldValue.delete()
-    });
-    */
-    // TODO remove the image of given post Id from storage
+    const doc = await postRef.get().catch(err => {
+        console.error(err);
+        return;
+    }); // to actually get the data
+    
+    if (!doc.exists) {
+        console.log("API ERROR: Post not found");
+        return;
+    }
+        
+    // Delete from storage if existing image
+    if (doc.data().image !== "") {
+        await Post.deleteImage(postId, doc.data().image);
+        console.log("Post id has Existing image. Deleting from storage...")
+    }
+
+    // Upload and update the downloadURL
+    try {
+        const {error, url} = await Post.uploadImage(postId, imageFile);
+
+        let imageUrl = url || "";  // if null, default to empty string
+        
+        await postRef.update({
+            image: imageUrl,
+        });
+
+        if (error) {
+            throw error;
+        }
+
+        let result = {
+            ok:true,
+            message:"Image added to Post",
+        }
+        return result;
+
+    } catch (err) {
+        // MAX IMAGE SIZE: 2MB
+        console.error(err);
+
+        let result = {
+            ok:false ,
+            message:"Storage error: \n" + err.message,
+        }
+        return result;
+    }
+
+}
+
+Post.deleteImage = async (postId, fileUrl) => {
+    console.log("File url", fileUrl);
+    try {
+        let fileRef = storage.refFromURL(fileUrl);
+        console.log("Deleting image: " + fileRef.name);
+        await fileRef.delete();
+        console.log("Deleted image for post: " + postId)
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 
 Post.updatePost = async (postId, postData) => {
     // NOT TESTED YET
-    const docRef = db.collection('cities').doc(postId);
+    const docRef = db.collection('post').doc(postId);
 
     // postData is an object, firestore only updates the defined fields
     const res = await docRef.update(postData);
