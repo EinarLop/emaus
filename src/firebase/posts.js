@@ -19,6 +19,7 @@ Post.getAllPosts = async () => {
             posted: doc.data().posted,
             favorite: doc.data().favorite,
             type: doc.data().type,
+            image: doc.data().image,
         }
         posts.push(obj);
     })
@@ -34,16 +35,7 @@ Post.getAllPosts = async () => {
 };
 
 // Upload a new post with the data received from Client
-Post.uploadNewPost = async (clientData) => {
-    /* const ejemplo = {
-        title: "Nuevo post ejemplo",
-        content: "Soy un nuevo post para borrar",
-        favorite: true,
-        image: null,
-    }       // ejemplo
-
-    clientData = ejemplo; */
-
+Post.createNewPost = async (clientData) => {
     // SANITY CHECKS
     if (clientData === undefined) {
         let result = {
@@ -172,7 +164,7 @@ Post.getOnePost = async (postId) => {
 // https://firebase.google.com/docs/storage/security
 
 
-// Utility function: UPLOAD AN IMAGE to blogposts/postId/imageName in Storage
+// Uploads AN IMAGE to blogposts/postId/imageName in Storage
 Post.uploadImage = async (postId, imageFile) => {
     // Returns error if any and the image URL from storage
     if (typeof(postId) !== 'string') {
@@ -182,7 +174,6 @@ Post.uploadImage = async (postId, imageFile) => {
         
     let storageRef = storage.ref();   // => referencia base de nuestro storage
     let blogpostRef = storageRef.child('blogposts').child(postId);
-    console.log("Adding image with name: ", blogpostRef.name); 
 
     try {
         let fileRef = blogpostRef.child(imageFile.name);
@@ -200,29 +191,23 @@ Post.uploadImage = async (postId, imageFile) => {
 
 Post.addImageToPost = async (postId, imageFile) => {
     // Get blogpost data
-    const postRef = await db.collection('post').doc(postId).catch(err => {
-        console.error(err);
-        return;
-    }); // referencia o apuntador
-
-    const doc = await postRef.get().catch(err => {
-        console.error(err);
-        return;
-    }); // to actually get the data
-    
-    if (!doc.exists) {
-        console.log("API ERROR: Post not found");
-        return;
-    }
-        
-    // Delete from storage if existing image
-    if (doc.data().image !== "") {
-        await Post.deleteImage(postId, doc.data().image);
-        console.log("Post id has Existing image. Deleting from storage...")
-    }
-
-    // Upload and update the downloadURL
     try {
+        const postRef = await db.collection('post').doc(postId); // referencia o apuntador
+
+        const doc = await postRef.get(); // to actually get the data
+        
+        if (!doc.exists) {
+            console.log("API ERROR: Post not found");
+            return;
+        }
+            
+        // Delete from storage if existing image
+        if (doc.data().image !== "") {
+            await Post.deleteImage(postId, doc.data().image);
+            console.log("Post id has Existing image. Deleting from storage...")
+        }
+
+        // Upload and update the downloadURL
         const {error, url} = await Post.uploadImage(postId, imageFile);
 
         let imageUrl = url || "";  // if null, default to empty string
@@ -237,7 +222,7 @@ Post.addImageToPost = async (postId, imageFile) => {
 
         let result = {
             ok:true,
-            message:"Image added to Post",
+            message:"Se agregó la imagen al Blog Post con éxito",
         }
         return result;
 
@@ -279,7 +264,6 @@ Post.updatePost = async (postId, postData) => {
     age: 13,
     'favorites.color': 'Red'
     });
-
     */
 }
 

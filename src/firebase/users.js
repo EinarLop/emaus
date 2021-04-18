@@ -6,6 +6,7 @@ const User = {}
 
 /* AUTHENTICATION */
 User.loginUser = async (email, password) => {
+    // returns an errors object and the status: valid or not
     const user = {
         email: email,
         password: password
@@ -23,10 +24,10 @@ User.loginUser = async (email, password) => {
         const resp = await firebase.auth().signInWithEmailAndPassword(user.email, user.password);
         let result = {
             ok: true,
-            token: resp.user.getIdToken(),
+            errors: errors,
+            token: resp.user.getIdToken(), // still don't know what token is for
         }
 
-        await firebase.auth().signOut(); // testing
         return result;
     
     } catch (err) {
@@ -37,43 +38,34 @@ User.loginUser = async (email, password) => {
                 general: "El usuario o contraseña son incorrectos",
             }
         }
+        return result;
     }
-}
-
-const validateLogin = ({email, password}) => {
-    if (email.trim() === "") {
-        let valid = false;
-        let errors = "Correo no debe de estar vacío";
-        return {valid, errors};
-    }
-    if (password.trim() === "") {
-        let valid = false;
-        let errors = "Contraseña no debe de estar vacía";
-        return {valid, errors};
-    }
-
-    let valid = true;
-    let errors = "";
-    return {valid, errors};
 }
 
 User.logOut = async () => {
     const res = await firebase.auth().signOut();
+    console.log("Succesfull sign out");
     return res;
 }
 
 
 /* USER INFO */
 
-User.logInWithUsername = async (username, password) => {
+User.loginWithUsername = async (username, password) => {
     // look for User object with given username
     try {
         const userRef = db.collection('users');
-        const query = await userRef.where('username', '==', username).get();
+        const query = await userRef.where('username', '==', username).limit(1).get();
         if (query.empty) {
-            console.log("No user found");
+            let result = {
+                ok: false,
+                message: "El usuario especificado no fue encontrado.",
+            }
+            return result;
         }
+
         let user = null;
+
         query.forEach(doc => {
             user = doc.data();
         });
@@ -82,9 +74,28 @@ User.logInWithUsername = async (username, password) => {
 
     } catch (err) {
         console.error(err);
+        let result = {
+            ok: false,
+            message: "API Error: " + err.message,
+        }
+        return result;
     }
 }
 
-// User should be able to 
+// https://firebase.google.com/docs/auth/users
+
+const validateLogin = ({email, password}) => {
+    let errors = {};
+    if (isEmpty(email)) errors.email = 'Must not be empty';
+    if (isEmpty(password)) errors.password = 'Must not be  empty';
+    return {
+        errors,
+        valid: Object.keys(errors).length === 0 ? true : false
+     };
+}
+
+const isEmpty = (string) => {
+    return (string.trim() === '');
+}
 
 export default User;
