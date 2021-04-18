@@ -2,18 +2,8 @@ import {firebase, db, storage} from './app'
 
 const Event = {};
 
+// Create new event
 Event.creatNewEvent = async (clientData) => {
-    // Todo create an event
-    // const date2 = new Date('1995-12-17T03:24:00');
-    const ejemplo = {
-        title: "NUEVO EVENTO",
-        content: "Soy un nuevo Evento a borrar",
-        date: clientData.date,
-        type: 1,
-        image: "",
-    }       // ejemplo
-
-    clientData = ejemplo;
     // SANITY CHECKS
     if (clientData === undefined) {
         let result = {
@@ -50,8 +40,9 @@ Event.creatNewEvent = async (clientData) => {
         }
 
         if (! (clientData.date instanceof Date)) {
-            clientData.date = Date(clientData.date);
-            console.log("Date converted: ", clientData.date.toISOString());
+            console.log("Converting Datestring to Date...");
+            clientData.date = Date(clientData.date);        
+            console.log("Date converted: ", clientData.date);
         }
 
     } catch (err) {
@@ -66,6 +57,8 @@ Event.creatNewEvent = async (clientData) => {
     // UPLOAD TO FIRESTORE
     try {
         // DEFINE NEW EVENT OBJECT
+        console.log("Date to be sent to Firebase:", clientData.date);  // toma en cuenta Timezone de MX
+        
         const event = {
         title: clientData.title,
         content: clientData.content,
@@ -74,13 +67,15 @@ Event.creatNewEvent = async (clientData) => {
         image: "",    // downloadURL
         }
 
-        const newPost = await db.collection('post').add(post);
+        const newEvent = await db.collection('event').add(event);
 
-        console.log("New post id: ", newPost.id);
+        console.log("New event id: ", newEvent.id);
+        console.dir(newEvent);
+
         let result = {
             ok: true,
-            message: "El post publicó exitosamente",
-            id: newPost.id,    // para la URL individual del nuevo post
+            message: "El evento se publicó exitosamente",
+            id: newEvent.id,    // para la URL individual del nuevo post
         }
         return result;
 
@@ -97,12 +92,50 @@ Event.creatNewEvent = async (clientData) => {
 
 
 Event.deleteEvent = async (eventId) => {
-    // Todo delete an event
+    console.log("delete Event id:", eventId, typeof(eventId));
+    try {
+        const res = await db.collection('event').doc(eventId).delete();
+        let result = {
+            message: "Deleted succesfully",
+            ok: true,
+        }
+        return result;
+
+    } catch (err) {
+        let result = {
+            message: "Error al buscar Evento con id"  + eventId,
+            ok: false,
+        }
+        return result;
+    }
 }
 
 
 Event.getAllEvents = async () => {
-    //
+    try {
+        const data = await db.collection('event').orderBy('date', 'asc').get();
+    
+        let events = [];
+    
+        data.forEach(doc => {
+            let obj = {
+                eventId: doc.id,
+                title: doc.data().title,
+                content: doc.data().content,
+                date: doc.data().date.toDate(),
+                image: doc.data().image,
+                type: doc.data().type,
+            }
+            events.push(obj);
+        })
+    
+        console.log("Fetched events succesfully");
+        return events;
+    
+        } catch (err) {
+            console.error(err);
+            return err;
+        }
 }
 
 Event.getOneEvent = async () => {
@@ -118,7 +151,6 @@ Event.uploadImage = async (eventId, imageFile) => {
         
     let storageRef = storage.ref();   // => referencia base de nuestro storage
     let eventRef = storageRef.child('events').child(eventId);
-    console.log("Adding image to folder:", eventRef.name); 
 
     try {
         let fileRef = eventRef.child(imageFile.name);
@@ -153,7 +185,7 @@ Event.addImageToEvent = async (eventId, imageFile) => {
         
     // Delete from storage if existing image
     if (doc.data().image !== "") {
-        await Event.deleteImage(eventID, doc.data().image);
+        await Event.deleteImage(eventId, doc.data().image);
         console.log("Event id has Existing image. Deleting from storage...")
     }
 
@@ -196,7 +228,7 @@ Event.deleteImage = async (eventId, fileUrl) => {
         let fileRef = storage.refFromURL(fileUrl);
         console.log("Deleting image: " + fileRef.name);
         await fileRef.delete();
-        console.log("Deleted image for event: " + postId)
+        console.log("Deleted image for event: " + eventId)
     } catch (err) {
         console.error(err);
     }

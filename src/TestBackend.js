@@ -1,11 +1,37 @@
 import React, {useState} from 'react'
 import Post from "./firebase/posts";
 import User from "./firebase/users";
+import Event from "./firebase/events";
 
 export default function TestBackend() {
 
     const [loginStatus, setLoginStatus] = useState(true);
+    const [userDate, setUserDate] = useState();
 
+    // Event API ***********
+
+    const submitEvent = async (e) => {
+        let currDate = new Date(userDate);
+        const evt = {
+            title: "Example Event",
+            content: "It is my birthday",
+            date: currDate,
+            type: 2,
+        };
+        console.log("Date in Locale:", evt.date.toLocaleString());
+        console.log("To Date String", evt.date.toDateString());
+
+        let res = await Event.creatNewEvent(evt);
+        console.log(res);
+    }
+
+    const getEvents = async (e) => {
+        let events = await Event.getAllEvents();
+        console.log("Fetched events succesfully");
+        console.log(events);
+    }
+
+    // Post API ************
     const tryAPI = async () => {
         // Test Create, Delete and GetAll of firestore posts
         const newpost = await Post.createNewPost();
@@ -43,6 +69,7 @@ export default function TestBackend() {
         console.log(post);
     }
 
+    // User API ***********
     const login = async (e) => {
         console.log("logging in...")
         let email = "archanavermarodriguez@gmail.com";
@@ -74,10 +101,17 @@ export default function TestBackend() {
         }
     }
 
-      
+    const printDate = (e) => {
+        let x = e.target.value;
+        console.log(x);
+        setUserDate(x);
+    }  
+
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
-            <button onClick={submitPost}>Do something</button>
+            <input type='datetime-local' onChange={printDate}></input>
+            <button onClick={submitEvent}>Do something</button>
+            <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>
             <button onClick={loginAction}>{loginStatus ? "Log in" : "Log out"}</button>
             <input type="file" accept="image/*" onChange={handlePostImageUpload} />
