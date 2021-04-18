@@ -34,12 +34,12 @@ Post.getAllPosts = async () => {
 };
 
 // Upload a new post with the data received from Client
-Post.uploadNewPost = async (clientData) => {
+Post.createNewPost = async (clientData) => {
     /* const ejemplo = {
         title: "Nuevo post ejemplo",
         content: "Soy un nuevo post para borrar",
         favorite: true,
-        image: null,
+        image: "",
     }       // ejemplo
 
     clientData = ejemplo; */
@@ -182,7 +182,7 @@ Post.uploadImage = async (postId, imageFile) => {
         
     let storageRef = storage.ref();   // => referencia base de nuestro storage
     let blogpostRef = storageRef.child('blogposts').child(postId);
-    console.log("Adding image with name: ", blogpostRef.name); 
+    console.log("Adding image to folder:", blogpostRef.name); 
 
     try {
         let fileRef = blogpostRef.child(imageFile.name);
@@ -237,7 +237,7 @@ Post.addImageToPost = async (postId, imageFile) => {
 
         let result = {
             ok:true,
-            message:"Image added to Post",
+            message:"Se agregó la imagen al Blog Post con éxito",
         }
         return result;
 

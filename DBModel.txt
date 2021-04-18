@@ -26,6 +26,14 @@ Event
 - image [1]
 - type: int
 
+TIPOS DE EVENTO
+1: cumpleaños
+2: actividad recreativa al aire libre (jueves)
+3: actividades culturales
+4: eventos sociales 1 vez por mes
+5: actividades cognitivas y/o motrices 
+6: actividades religiosas
+
 Volunteer
 - name
 - email
@@ -57,6 +65,8 @@ Creamos un producto que sea duradero y utilizable por la fundación, de forma qu
 
 
 
+Después de SRS:
+- Planear interfaces voluntario
 
 
 
