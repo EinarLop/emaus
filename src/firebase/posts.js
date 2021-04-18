@@ -35,15 +35,6 @@ Post.getAllPosts = async () => {
 
 // Upload a new post with the data received from Client
 Post.createNewPost = async (clientData) => {
-    /* const ejemplo = {
-        title: "Nuevo post ejemplo",
-        content: "Soy un nuevo post para borrar",
-        favorite: true,
-        image: "",
-    }       // ejemplo
-
-    clientData = ejemplo; */
-
     // SANITY CHECKS
     if (clientData === undefined) {
         let result = {

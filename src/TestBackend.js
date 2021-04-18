@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Post from "./firebase/posts";
 import User from "./firebase/users";
 
 export default function TestBackend() {
+
+    const [loginStatus, setLoginStatus] = useState(true);
 
     const tryAPI = async () => {
         // Test Create, Delete and GetAll of firestore posts
@@ -15,7 +17,7 @@ export default function TestBackend() {
         console.log(posts);
     };
 
-    const handleImageUpload = async (e) => {
+    const handlePostImageUpload = async (e) => {
         const imageFile = e.target.files[0];    // Blob
         console.log('originalFile instanceof Blob', imageFile instanceof Blob); // true
         console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
@@ -24,7 +26,14 @@ export default function TestBackend() {
     }
 
     const submitPost = async (e) => {
-        const newpost = await Post.uploadNewPost();
+        const example = {
+            title: "Nuevo post ejemplo",
+            content: "Soy un nuevo post para borrar",
+            favorite: true,
+            image: "",
+        }       // ejemplo
+
+        const newpost = await Post.createNewPost(example);
         console.log("New post result", newpost);
     }
 
@@ -40,23 +49,38 @@ export default function TestBackend() {
         let password = "Toggle123";
         let res = await User.loginUser(email, password);
         console.log(res);
+        setLoginStatus(false);
     }
 
     const logout = async (e) => {
-        let res = await User.logOut();
-        console.log("Logged out? ", res);
+        console.log("Logging out...");
+        await User.logOut();
+        setLoginStatus(true);
     }
 
     const loginWithUsername = async (e) => {
-        let res = await User.logInWithUsername("admin123", "Toggle123");
+        let username = "admin123";
+        let password = "Toggle123";
+        let res = await User.loginWithUsername(username, password);
         console.log(res);
+        setLoginStatus(false);
+    }
+
+    const loginAction = (e) => {
+        if (loginStatus) {
+            return login(e);
+        } else {
+            return logout(e);
+        }
     }
 
       
     return (
-        <div style={{border:"solid 1px blue", padding:"20px"}}>
-            <button onClick={loginWithUsername}>Do something</button>
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
+        <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
+            <button onClick={submitPost}>Do something</button>
+            <button onClick={loginWithUsername}>Log in with username</button>
+            <button onClick={loginAction}>{loginStatus ? "Log in" : "Log out"}</button>
+            <input type="file" accept="image/*" onChange={handlePostImageUpload} />
         </div>
     )
 }

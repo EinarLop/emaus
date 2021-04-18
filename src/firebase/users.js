@@ -44,6 +44,7 @@ User.loginUser = async (email, password) => {
 
 User.logOut = async () => {
     const res = await firebase.auth().signOut();
+    console.log("Succesfull sign out");
     return res;
 }
 

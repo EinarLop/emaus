@@ -1,5 +1,4 @@
 import "./index.css";
-import { useEffect } from "react";
 import Header from "./Components/Header";
 import Home from "./Home/Home";
 import Donate from "./Donate/Donate";
