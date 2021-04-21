@@ -257,15 +257,21 @@ Post.updatePost = async (postId, postData) => {
     const docRef = db.collection('post').doc(postId);
 
     // postData is an object, firestore only updates the defined fields
-    const res = await docRef.update(postData);
+    try {
+        const res = await docRef.update(postData);
+        return res
+    } catch (e) {
+        console.error(e.message);
+        return e;
+    }
+}
 
-    /* For nested objects
+    /* For updating nested objects
     const res = await db.collection('users').doc('Frank').update({
     age: 13,
     'favorites.color': 'Red'
     });
     */
-}
 
 
 

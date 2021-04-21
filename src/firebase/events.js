@@ -168,29 +168,26 @@ Event.uploadImage = async (eventId, imageFile) => {
 
 Event.addImageToEvent = async (eventId, imageFile) => {
     // Get blogpost data
-    const postRef = await db.collection('event').doc(eventId).catch(err => {
-        console.error(err);
-        return;
-    }); // create a reference or pointer to db
+    try {
+        const postRef = await db.collection('event').doc(eventId); // create a reference or pointer to db
 
-    const doc = await postRef.get().catch(err => {
-        console.error(err);
-        return;
-    }); // actually get the data
-    
-    if (!doc.exists) {
-        console.log("API ERROR: Post not found");
-        return;
-    }
+        const doc = await postRef.get().catch(err => {
+            console.error(err);
+            return;
+        }); // actually get the data
         
-    // Delete from storage if existing image
-    if (doc.data().image !== "") {
-        await Event.deleteImage(eventId, doc.data().image);
-        console.log("Event id has Existing image. Deleting from storage...")
-    }
+        if (!doc.exists) {
+            console.log("API ERROR: Post not found");
+            return;
+        }
+            
+        // Delete from storage if existing image
+        if (doc.data().image !== "") {
+            await Event.deleteImage(eventId, doc.data().image);
+            console.log("Event id has Existing image. Deleting from storage...")
+        }
 
     // Upload and update the downloadURL
-    try {
         const {error, url} = await Event.uploadImage(eventId, imageFile);
 
         let imageUrl = url || "";  // if null, default to empty string
@@ -232,6 +229,10 @@ Event.deleteImage = async (eventId, fileUrl) => {
     } catch (err) {
         console.error(err);
     }
+}
+
+Event.updateEvent = async (clientData) => {
+    // TODO
 }
 
 export default Event;

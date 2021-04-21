@@ -11,6 +11,9 @@ export default function TestBackend() {
     // Event API ***********
 
     const submitEvent = async (e) => {
+        if (!userDate) {
+            return console.log("No user Date given");
+        }
         let currDate = new Date(userDate);
         const evt = {
             title: "Example Event",
@@ -29,6 +32,17 @@ export default function TestBackend() {
         let events = await Event.getAllEvents();
         console.log("Fetched events succesfully");
         console.log(events);
+    }
+
+    const handleEventImageUpload = async (e) => {
+        const imageFile = e.target.files[0];    // Blob
+        if (imageFile===undefined) {
+            return console.log("No image File");
+        }
+        console.log('originalFile instanceof Blob', imageFile instanceof Blob); // true
+        console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
+        let res = await Event.addImageToEvent('1', imageFile);
+        console.log(res);
     }
 
     // Post API ************
@@ -107,14 +121,23 @@ export default function TestBackend() {
         setUserDate(x);
     }  
 
+    const updatePost = async () => {
+        console.log("Update post called");
+        const data = {
+            title: "This is the New Title"
+        }
+
+        await Post.updatePost('1', data);
+    }
+
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
             <input type='datetime-local' onChange={printDate}></input>
-            <button onClick={submitEvent}>Do something</button>
+            <button onClick={updatePost}>Do something</button>
             <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>
             <button onClick={loginAction}>{loginStatus ? "Log in" : "Log out"}</button>
-            <input type="file" accept="image/*" onChange={handlePostImageUpload} />
+            <input type="file" accept="image/*" onChange={handleEventImageUpload} />
         </div>
     )
 }
