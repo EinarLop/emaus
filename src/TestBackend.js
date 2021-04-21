@@ -16,8 +16,8 @@ export default function TestBackend() {
         }
         let currDate = new Date(userDate);
         const evt = {
-            title: "Example Event",
-            content: "It is my birthday",
+            title: "Evento ejemplo jajaja",
+            content: "contenido evento ejemplo jijiji",
             date: currDate,
             type: 2,
         };
@@ -67,8 +67,8 @@ export default function TestBackend() {
 
     const submitPost = async (e) => {
         const example = {
-            title: "Nuevo post ejemplo",
-            content: "Soy un nuevo post para borrar",
+            title: "Post de ejemplo",
+            content: "Contenido post ejemplo jejeje",
             favorite: true,
             image: "",
         }       // ejemplo
@@ -121,19 +121,42 @@ export default function TestBackend() {
         setUserDate(x);
     }  
 
-    const updatePost = async () => {
+    const updatePost = async (e) => {
         console.log("Update post called");
         const data = {
-            title: "This is the New Title"
+            title: "I am an updated title",
+            content: "And this is the new content"
         }
 
-        await Post.updatePost('1', data);
+        let res = await Post.updatePost('1', data);
+        // todo ok
+        console.log("Update post succesfull:");
+        console.dir(res);
+    }
+
+    const updateEvent = async (e) => {
+        console.log("Update Event called");
+
+        if(!userDate) {
+            return console.log("No user date defined");
+        }
+
+        const data = {
+            title: "I am an updated EVENT",
+            content: "And this is the new EVENT INFO",
+            date: new Date(userDate),
+        }
+
+        let res = await Event.updateEvent('1', data);
+        // todo ok
+        console.log("Update event succesfull:");
+        console.dir(res);
     }
 
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
             <input type='datetime-local' onChange={printDate}></input>
-            <button onClick={updatePost}>Do something</button>
+            <button onClick={submitPost}>Do something</button>
             <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>
             <button onClick={loginAction}>{loginStatus ? "Log in" : "Log out"}</button>

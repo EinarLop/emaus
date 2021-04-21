@@ -5,40 +5,13 @@ const Event = {};
 // Create new event
 Event.creatNewEvent = async (clientData) => {
     // SANITY CHECKS
-    if (clientData === undefined) {
-        let result = {
-            message: 'Client Error: no Client Data object',
-            ok: false,
-        }
-        return result;
-    }
+    const validation = validateClientData(clientData);
 
-    if (clientData.content === undefined || clientData.title === undefined || 
-        clientData.date === undefined) {
-        let result = {
-            message: 'Client Error: Title/Body/Date are undefined',
-            ok: false,
-        }
-        return result;
+    if (!validation.ok) {
+        return validation;
     }
 
     try {
-        if (clientData.content.trim() === '') {
-            let result = {
-                message:  "La descripción de evento no debe estar vacía.",
-                ok: false,
-            }
-            return result
-        }
-
-        if (clientData.title.trim() === '') {
-            let result = {
-                message:  "El título de evenot no debe estar vacío.",
-                ok: false,
-            }
-            return result
-        }
-
         if (! (clientData.date instanceof Date)) {
             console.log("Converting Datestring to Date...");
             clientData.date = Date(clientData.date);        
@@ -231,8 +204,80 @@ Event.deleteImage = async (eventId, fileUrl) => {
     }
 }
 
-Event.updateEvent = async (clientData) => {
-    // TODO
+Event.updateEvent = async (eventId, eventData) => {
+    // eventData should contain all Object keys
+    // eventData should be a Date object.
+
+    const validation = validateClientData(eventData);
+
+    if (!validation.ok) {
+        return validation;
+    }
+
+    const docRef = db.collection('event').doc(eventId);
+
+    try {
+        if (eventData.date !== undefined) {
+            eventData.date = firebase.firestore.Timestamp.fromDate(eventData.date);
+        }
+
+        await docRef.update(eventData);
+        let result = {
+            ok: true,
+            message: "El evento fue actualizado correctamente."
+        }
+        return result;
+
+    } catch (e) {
+        console.error(e);
+        let result = {
+            message: 'Server Error: ' + e.message,
+            ok: false,
+        }
+        return result;
+    }
+}
+
+const validateClientData = (data) => {
+    if (!data) {
+        let result = {
+            message: "Client Error: no client Data received",
+            ok: false,
+        }
+        return result;
+    }
+
+    try {
+        if (data.content.trim() === '') {
+            let result = {
+                message:  "La descripción de evento no debe estar vacía.",
+                ok: false,
+            }
+            return result
+        }
+    
+        if (data.title.trim() === '') {
+            let result = {
+                message:  "El título de evento no debe estar vacío.",
+                ok: false,
+            }
+            return result
+        }
+    
+        // All is ok
+        let result = {
+            ok: true,
+        }
+        return result;
+    } catch(e) {
+        console.error(e);
+        let result = {
+            ok: false,
+            message: 'Type Error: title/content no son strings',
+        }
+
+        return result;
+    }
 }
 
 export default Event;
