@@ -2,11 +2,35 @@ import React, {useState} from 'react'
 import Post from "./firebase/posts";
 import User from "./firebase/users";
 import Event from "./firebase/events";
+import Volunteer from './firebase/volunteers';
 
 export default function TestBackend() {
 
     const [loginStatus, setLoginStatus] = useState(true);
     const [userDate, setUserDate] = useState();
+
+    // Volunteer API ************
+    const submitVolunteer = async (e) => {
+        const example = {
+            name: "Eric Chao 2",
+            phone: "7787888887",
+            mail: "ericjardon@hotmail.com",
+            note: "Hello thank you bye"
+        }
+
+        let res = await Volunteer.registerOne(example);
+        console.dir(res)
+    }
+
+    const deleteVolunteer = async (e) => {
+        let res = await Volunteer.deleteVolunteer("OEZvFvo7lV8sFYgXRYfG");
+        console.dir(res);
+    }
+
+    const getVolunteers = async (e) => {
+        let res = await Volunteer.getAllVolunteers();
+        console.log(res);
+    }
 
     // Event API ***********
 
@@ -45,10 +69,31 @@ export default function TestBackend() {
         console.log(res);
     }
 
+    const tryEvtAPI = async () => {
+        const example = {
+            title:"Eventito",
+            content:"k se arma o q",
+            date: userDate,
+            type:1,
+        }
+        const newevt = await Event.creatNewEvent(example);
+        console.log("New post result", newevt);
+        const res = await Event.deleteEvent(newevt.id);
+        console.log("After deletion: ", res);
+        const evts = await Event.getAllEvents();
+        console.log("ALL EVENTS\n");
+        console.log(evts);
+    };
+
     // Post API ************
-    const tryAPI = async () => {
+    const tryPostAPI = async () => {
         // Test Create, Delete and GetAll of firestore posts
-        const newpost = await Post.createNewPost();
+        const example = {
+            title:"OCC Mundial",
+            content:"Comiendo pizza dos por uno",
+            favorite: true,
+        }
+        const newpost = await Post.createNewPost(example);
         console.log("New post result", newpost);
         const res = await Post.deletePost(newpost.id);
         console.log("After deletion: ", res);
@@ -81,6 +126,12 @@ export default function TestBackend() {
         console.log("Getting post...");
         const post = await Post.getOnePost('1');
         console.log(post);
+    }
+
+    const getEvent = async (e) => {
+        console.log("Getting event...");
+        const evt = await Event.getOneEvent('1');
+        console.log(evt);
     }
 
     // User API ***********
@@ -156,7 +207,8 @@ export default function TestBackend() {
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
             <input type='datetime-local' onChange={printDate}></input>
-            <button onClick={submitPost}>Do something</button>
+            <button onClick={getVolunteers}>Do something</button>
+            <button onClick={deleteVolunteer}>Delete something</button>
             <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>
             <button onClick={loginAction}>{loginStatus ? "Log in" : "Log out"}</button>

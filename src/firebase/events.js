@@ -14,7 +14,7 @@ Event.creatNewEvent = async (clientData) => {
     try {
         if (! (clientData.date instanceof Date)) {
             console.log("Converting Datestring to Date...");
-            clientData.date = Date(clientData.date);        
+            clientData.date = new Date(clientData.date);        
             console.log("Date converted: ", clientData.date);
         }
 
@@ -31,7 +31,7 @@ Event.creatNewEvent = async (clientData) => {
     try {
         // DEFINE NEW EVENT OBJECT
         console.log("Date to be sent to Firebase:", clientData.date);  // toma en cuenta Timezone de MX
-        
+        console.log(typeof(clientData.date));
         const event = {
         title: clientData.title,
         content: clientData.content,
@@ -111,8 +111,32 @@ Event.getAllEvents = async () => {
         }
 }
 
-Event.getOneEvent = async () => {
-    //
+Event.getOneEvent = async (eventId) => {
+    try {
+        const evtRef = await db.collection('event').doc(eventId);
+        const doc = await evtRef.get();
+        if (!doc.exists) {
+            let result = {
+                ok: false,
+                message: "No se encontró el Evento especificado."
+            }
+            return result;
+        }
+        // Todo ok
+        let result = {
+            ok: true,
+            data: doc.data(),
+        }
+    
+        return result;
+    } catch (err) {
+        console.error(err);
+        let result = {
+            ok: false,
+            message: "API Error:" + err.message,
+        }
+        return result;
+    }
 }
 
 Event.uploadImage = async (eventId, imageFile) => {

@@ -31,13 +31,11 @@ Post.getAllPosts = async () => {
         console.error(err);
         return err;
     }
-
 };
 
 // Upload a new post with the data received from Client
 Post.createNewPost = async (clientData) => {
-    // SANITY CHECKS
-    
+
     const validation = validateClientData(clientData);
     if (!validation.ok) {
         return validation;
@@ -50,7 +48,6 @@ Post.createNewPost = async (clientData) => {
         title: clientData.title,
         content: clientData.content,
         favorite: clientData.favorite || false,
-        type: clientData.type || 1,
         posted: firebase.firestore.Timestamp.fromDate(new Date()),      // Timestamp is more lightweight than Date
         image: "",    // downloadURL
         }
@@ -80,7 +77,7 @@ Post.deletePost = async (postId) => {
     try {
         const res = await db.collection('post').doc(postId).delete();
         let result = {
-            message: "Deleted succesfully",
+            message: "El post se borró exitosamente",
             ok: true,
         }
         return result;
