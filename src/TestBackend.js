@@ -2,11 +2,35 @@ import React, {useState} from 'react'
 import Post from "./firebase/posts";
 import User from "./firebase/users";
 import Event from "./firebase/events";
+import Volunteer from './firebase/volunteers';
 
 export default function TestBackend() {
 
     const [loginStatus, setLoginStatus] = useState(true);
     const [userDate, setUserDate] = useState();
+
+    // Volunteer API ************
+    const submitVolunteer = async (e) => {
+        const example = {
+            name: "Eric Chao 2",
+            phone: "7787888887",
+            mail: "ericjardon@hotmail.com",
+            note: "Hello thank you bye"
+        }
+
+        let res = await Volunteer.registerOne(example);
+        console.dir(res)
+    }
+
+    const deleteVolunteer = async (e) => {
+        let res = await Volunteer.deleteVolunteer("OEZvFvo7lV8sFYgXRYfG");
+        console.dir(res);
+    }
+
+    const getVolunteers = async (e) => {
+        let res = await Volunteer.getAllVolunteers();
+        console.log(res);
+    }
 
     // Event API ***********
 
@@ -16,8 +40,8 @@ export default function TestBackend() {
         }
         let currDate = new Date(userDate);
         const evt = {
-            title: "Example Event",
-            content: "It is my birthday",
+            title: "Evento ejemplo jajaja",
+            content: "contenido evento ejemplo jijiji",
             date: currDate,
             type: 2,
         };
@@ -45,10 +69,31 @@ export default function TestBackend() {
         console.log(res);
     }
 
+    const tryEvtAPI = async () => {
+        const example = {
+            title:"Eventito",
+            content:"k se arma o q",
+            date: userDate,
+            type:1,
+        }
+        const newevt = await Event.creatNewEvent(example);
+        console.log("New post result", newevt);
+        const res = await Event.deleteEvent(newevt.id);
+        console.log("After deletion: ", res);
+        const evts = await Event.getAllEvents();
+        console.log("ALL EVENTS\n");
+        console.log(evts);
+    };
+
     // Post API ************
-    const tryAPI = async () => {
+    const tryPostAPI = async () => {
         // Test Create, Delete and GetAll of firestore posts
-        const newpost = await Post.createNewPost();
+        const example = {
+            title:"OCC Mundial",
+            content:"Comiendo pizza dos por uno",
+            favorite: true,
+        }
+        const newpost = await Post.createNewPost(example);
         console.log("New post result", newpost);
         const res = await Post.deletePost(newpost.id);
         console.log("After deletion: ", res);
@@ -67,8 +112,8 @@ export default function TestBackend() {
 
     const submitPost = async (e) => {
         const example = {
-            title: "Nuevo post ejemplo",
-            content: "Soy un nuevo post para borrar",
+            title: "Post de ejemplo",
+            content: "Contenido post ejemplo jejeje",
             favorite: true,
             image: "",
         }       // ejemplo
@@ -81,6 +126,12 @@ export default function TestBackend() {
         console.log("Getting post...");
         const post = await Post.getOnePost('1');
         console.log(post);
+    }
+
+    const getEvent = async (e) => {
+        console.log("Getting event...");
+        const evt = await Event.getOneEvent('1');
+        console.log(evt);
     }
 
     // User API ***********
@@ -121,19 +172,43 @@ export default function TestBackend() {
         setUserDate(x);
     }  
 
-    const updatePost = async () => {
+    const updatePost = async (e) => {
         console.log("Update post called");
         const data = {
-            title: "This is the New Title"
+            title: "I am an updated title",
+            content: "And this is the new content"
         }
 
-        await Post.updatePost('1', data);
+        let res = await Post.updatePost('1', data);
+        // todo ok
+        console.log("Update post succesfull:");
+        console.dir(res);
+    }
+
+    const updateEvent = async (e) => {
+        console.log("Update Event called");
+
+        if(!userDate) {
+            return console.log("No user date defined");
+        }
+
+        const data = {
+            title: "I am an updated EVENT",
+            content: "And this is the new EVENT INFO",
+            date: new Date(userDate),
+        }
+
+        let res = await Event.updateEvent('1', data);
+        // todo ok
+        console.log("Update event succesfull:");
+        console.dir(res);
     }
 
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
             <input type='datetime-local' onChange={printDate}></input>
-            <button onClick={updatePost}>Do something</button>
+            <button onClick={getVolunteers}>Do something</button>
+            <button onClick={deleteVolunteer}>Delete something</button>
             <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>
             <button onClick={loginAction}>{loginStatus ? "Log in" : "Log out"}</button>

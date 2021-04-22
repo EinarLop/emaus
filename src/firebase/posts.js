@@ -31,50 +31,14 @@ Post.getAllPosts = async () => {
         console.error(err);
         return err;
     }
-
 };
 
 // Upload a new post with the data received from Client
 Post.createNewPost = async (clientData) => {
-    // SANITY CHECKS
-    if (clientData === undefined) {
-        let result = {
-            message: 'Client Error: no Client Data object',
-            ok: false,
-        }
-        return result;
-    }
 
-    if (clientData.content === undefined || clientData.title === undefined) {
-        let result = {
-            message: 'Client Error: Title/Body are undefined',
-            ok: false,
-        }
-        return result;
-    }
-
-    try {
-        if (clientData.content.trim() === '') {
-            let result = {
-                message:  "La publicación de blog no debe estar vacía.",
-                ok: false,
-            }
-            return result
-        }
-    
-        if (clientData.title.trim() === '') {
-            let result = {
-                message:  "El título no debe estar vacío.",
-                ok: false,
-            }
-            return result
-        }
-    } catch (err) {
-        let result = {
-            message:  "Error de Tipado: title o content no son Strings",
-            ok: false,
-        }
-        return result;
+    const validation = validateClientData(clientData);
+    if (!validation.ok) {
+        return validation;
     }
 
     // UPLOAD TO FIRESTORE
@@ -84,7 +48,6 @@ Post.createNewPost = async (clientData) => {
         title: clientData.title,
         content: clientData.content,
         favorite: clientData.favorite || false,
-        type: clientData.type || 1,
         posted: firebase.firestore.Timestamp.fromDate(new Date()),      // Timestamp is more lightweight than Date
         image: "",    // downloadURL
         }
@@ -114,7 +77,7 @@ Post.deletePost = async (postId) => {
     try {
         const res = await db.collection('post').doc(postId).delete();
         let result = {
-            message: "Deleted succesfully",
+            message: "El post se borró exitosamente",
             ok: true,
         }
         return result;
@@ -253,16 +216,41 @@ Post.deleteImage = async (postId, fileUrl) => {
 
 
 Post.updatePost = async (postId, postData) => {
-    // NOT TESTED YET
+    // postData should have all object keys defined
+
     const docRef = db.collection('post').doc(postId);
+
+    if (!postData) {
+        let result = {
+            message: 'Client Error: no postData received',
+            ok: false,
+        }
+    }
 
     // postData is an object, firestore only updates the defined fields
     try {
-        const res = await docRef.update(postData);
-        return res
+
+        if (postData.posted !== undefined) {
+            postData.posted = firebase.firestore.Timestamp.fromDate(new Date());
+        }
+
+        await docRef.update(postData);
+        
+        let result = {
+            message: "El post fue actualizado exitosamente.",
+            ok: true,
+        }
+        
+        return result
+
     } catch (e) {
         console.error(e.message);
-        return e;
+        let result = {
+            ok: false,
+            message: 'API error: ' + e.message,
+        }
+
+        return result;
     }
 }
 
@@ -272,6 +260,55 @@ Post.updatePost = async (postId, postData) => {
     'favorites.color': 'Red'
     });
     */
+
+const validateClientData = (clientData) => {
+    if (clientData === undefined) {
+        let result = {
+            message: 'Client Error: no Client Data object',
+            ok: false,
+        }
+        return result;
+    }
+
+    if (clientData.content === undefined || clientData.title === undefined) {
+        let result = {
+            message: 'Client Error: Title/Body are undefined',
+            ok: false,
+        }
+        return result;
+    }
+
+    try {
+        if (clientData.content.trim() === '') {
+            let result = {
+                message:  "La publicación de blog no debe estar vacía.",
+                ok: false,
+            }
+            return result
+        }
+    
+        if (clientData.title.trim() === '') {
+            let result = {
+                message:  "El título no debe estar vacío.",
+                ok: false,
+            }
+            return result
+        }
+
+        // All is ok
+        let result = {
+            ok: true,
+        }
+        return result;
+    } catch (err) {
+        let result = {
+            message:  "Error de Tipado: title o content no son Strings",
+            ok: false,
+        }
+        return result;
+    }
+
+}
 
 
 
