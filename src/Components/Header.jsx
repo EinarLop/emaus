@@ -35,7 +35,7 @@ const Header = () => {
                             to="/donativos"
                             class="mr-5 hover:text-gray-900"
                         >
-                            Donativos
+                            Apóyanos
                         </Link>
 
                     </nav>
