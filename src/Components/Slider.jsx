@@ -8,7 +8,7 @@ const MyCarousel = () => (
     {
       resolve: autoplayPlugin,
       options: {
-        interval: 1000,
+        interval: 5000,
       }
     },
   ]}
