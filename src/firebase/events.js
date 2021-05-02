@@ -1,12 +1,12 @@
 import { firebase, db, storage } from "./app";
 
+/* ------ CRUD DE EVENTOS ----- */
 const Event = {};
 
-// Create new event
+// CREATE
 Event.creatNewEvent = async (clientData) => {
-  // SANITY CHECKS
+  // Sanity checks
   const validation = validateClientData(clientData);
-
   if (!validation.ok) {
     return validation;
   }
@@ -26,9 +26,9 @@ Event.creatNewEvent = async (clientData) => {
     return result;
   }
 
-  // UPLOAD TO FIRESTORE
+  // Upload to firestore
   try {
-    // DEFINE NEW EVENT OBJECT
+    // define new event object
     console.log("Date to be sent to Firebase:", clientData.date); // toma en cuenta Timezone de MX
     console.log(typeof clientData.date);
     const event = {
@@ -60,24 +60,9 @@ Event.creatNewEvent = async (clientData) => {
   }
 };
 
-Event.deleteEvent = async (eventId) => {
-  console.log("delete Event id:", eventId, typeof eventId);
-  try {
-    const res = await db.collection("event").doc(eventId).delete();
-    let result = {
-      message: "Deleted succesfully",
-      ok: true,
-    };
-    return result;
-  } catch (err) {
-    let result = {
-      message: "Error al buscar Evento con id" + eventId,
-      ok: false,
-    };
-    return result;
-  }
-};
 
+
+// GET EVENTS
 Event.getAllEvents = async () => {
   try {
     const data = await db.collection("event").orderBy("date", "asc").get();
@@ -132,6 +117,63 @@ Event.getOneEvent = async (eventId) => {
   }
 };
 
+
+// UPDATE
+Event.updateEvent = async (eventId, eventData) => {
+  // eventData should contain all Object keys
+  // eventData should be a Date object.
+
+  const validation = validateClientData(eventData);
+
+  if (!validation.ok) {
+    return validation;
+  }
+
+  const docRef = db.collection("event").doc(eventId);
+
+  try {
+    if (eventData.date !== undefined) {
+      eventData.date = firebase.firestore.Timestamp.fromDate(eventData.date);
+    }
+
+    await docRef.update(eventData);
+    let result = {
+      ok: true,
+      message: "El evento fue actualizado correctamente.",
+    };
+    return result;
+  } catch (e) {
+    console.error(e);
+    let result = {
+      message: "Server Error: " + e.message,
+      ok: false,
+    };
+    return result;
+  }
+};
+
+
+// DELETE
+Event.deleteEvent = async (eventId) => {
+  console.log("delete Event id:", eventId, typeof eventId);
+  try {
+    const res = await db.collection("event").doc(eventId).delete();
+    let result = {
+      message: "Deleted succesfully",
+      ok: true,
+    };
+    return result;
+  } catch (err) {
+    let result = {
+      message: "Error al buscar Evento con id" + eventId,
+      ok: false,
+    };
+    return result;
+  }
+};
+
+
+// EVENT IMAGE MANAGEMENT
 Event.uploadImage = async (eventId, imageFile) => {
   // Returns error if any and the image URL from storage
   if (typeof eventId !== "string") {
@@ -218,38 +260,7 @@ Event.deleteImage = async (eventId, fileUrl) => {
   }
 };
 
-Event.updateEvent = async (eventId, eventData) => {
-  // eventData should contain all Object keys
-  // eventData should be a Date object.
 
-  const validation = validateClientData(eventData);
-
-  if (!validation.ok) {
-    return validation;
-  }
-
-  const docRef = db.collection("event").doc(eventId);
-
-  try {
-    if (eventData.date !== undefined) {
-      eventData.date = firebase.firestore.Timestamp.fromDate(eventData.date);
-    }
-
-    await docRef.update(eventData);
-    let result = {
-      ok: true,
-      message: "El evento fue actualizado correctamente.",
-    };
-    return result;
-  } catch (e) {
-    console.error(e);
-    let result = {
-      message: "Server Error: " + e.message,
-      ok: false,
-    };
-    return result;
-  }
-};
 
 const validateClientData = (data) => {
   if (!data) {

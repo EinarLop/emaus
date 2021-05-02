@@ -19,7 +19,7 @@ const Home = () => {
 
                 <div class="flex flex-wrap justify-center mx-auto ">
 
-                    <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et iscing elit, sed do eiusmod tempor incididunt ut labore et iscing elit, sed do eiusm." />
+                    <BlogCard subtitle="ARCHANA" title="Post 1" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et iscing elit, sed do eiusmod tempor incididunt ut labore et iscing elit, sed do eiusm." />
 
 
 

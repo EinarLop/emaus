@@ -1,39 +1,10 @@
 import {firebase, db, storage} from './app'
 
-/* Post API for managing posts in firestore and images in storage */
+/* ------ CRUD DE BLOG POSTS ------- */
 
 const Post = {};
 
-// Fetch all posts from post collection in Firestore. 
-Post.getAllPosts = async () => {
-    try {
-    const data = await db.collection('post').orderBy('posted', 'desc').get();
-
-    let posts = [];
-
-    data.forEach(doc => {
-        let obj = {
-            postId: doc.id,
-            title: doc.data().title,
-            content: doc.data().content,
-            posted: doc.data().posted,
-            favorite: doc.data().favorite,
-            type: doc.data().type,
-            image: doc.data().image,
-        }
-        posts.push(obj);
-    })
-
-    console.log("Fetched posts succesfully");
-    return posts;
-
-    } catch (err) {
-        console.error(err);
-        return err;
-    }
-};
-
-// Upload a new post with the data received from Client
+// CREATE
 Post.createNewPost = async (clientData) => {
 
     const validation = validateClientData(clientData);
@@ -72,26 +43,34 @@ Post.createNewPost = async (clientData) => {
     }
 }
 
-Post.deletePost = async (postId) => {
-    console.log("deletePost id:", postId, typeof(postId));
+// GET
+Post.getAllPosts = async () => {
     try {
-        const res = await db.collection('post').doc(postId).delete();
-        let result = {
-            message: "El post se borró exitosamente",
-            ok: true,
+    const data = await db.collection('post').orderBy('posted', 'desc').get();
+
+    let posts = [];
+
+    data.forEach(doc => {
+        let obj = {
+            postId: doc.id,
+            title: doc.data().title,
+            content: doc.data().content,
+            posted: doc.data().posted,
+            favorite: doc.data().favorite,
+            type: doc.data().type,
+            image: doc.data().image,
         }
-        return result;
+        posts.push(obj);
+    })
+
+    console.log("Fetched posts succesfully");
+    return posts;
 
     } catch (err) {
-        let result = {
-            message: "Error al buscar Post con id"  + postId,
-            ok: false,
-        }
-        return result;
+        console.error(err);
+        return err;
     }
-}
-
-
+};
 
 Post.getOnePost = async (postId) => {
     try {
@@ -119,14 +98,77 @@ Post.getOnePost = async (postId) => {
         }
         return result;
     }
-
 }
 
-// IMAGE COMPRESSION
-// https://www.npmjs.com/package/browser-image-compression
-// https://firebase.google.com/docs/storage/security
+
+// UPDATE
+Post.updatePost = async (postId, postData) => {
+    // postData should have all object keys defined
+    const docRef = db.collection('post').doc(postId);
+
+    if (!postData) {
+        let result = {
+            message: 'Client Error: no postData received',
+            ok: false,
+        }
+    }
+
+    // postData is an object, firestore only updates the defined fields
+    try {
+
+        if (postData.posted !== undefined) {
+            postData.posted = firebase.firestore.Timestamp.fromDate(new Date());
+        }
+
+        await docRef.update(postData);
+        
+        let result = {
+            message: "El post fue actualizado exitosamente.",
+            ok: true,
+        }
+        
+        return result
+
+    } catch (e) {
+        console.error(e.message);
+        let result = {
+            ok: false,
+            message: 'API error: ' + e.message,
+        }
+
+        return result;
+    }
+}
+    /* For updating nested objects
+    const res = await db.collection('users').doc('Frank').update({
+    age: 13,
+    'favorites.color': 'Red'
+    });
+    */
+
+// DELETE
+Post.deletePost = async (postId) => {
+    console.log("deletePost id:", postId, typeof(postId));
+    try {
+        const res = await db.collection('post').doc(postId).delete();
+        let result = {
+            message: "El post se borró exitosamente",
+            ok: true,
+        }
+        return result;
+
+    } catch (err) {
+        let result = {
+            message: "Error al buscar Post con id"  + postId,
+            ok: false,
+        }
+        return result;
+    }
+}
 
 
+
+// POST IMAGE MANAGEMENT
 // Uploads AN IMAGE to blogposts/postId/imageName in Storage
 Post.uploadImage = async (postId, imageFile) => {
     // Returns error if any and the image URL from storage
@@ -215,51 +257,6 @@ Post.deleteImage = async (postId, fileUrl) => {
 }
 
 
-Post.updatePost = async (postId, postData) => {
-    // postData should have all object keys defined
-
-    const docRef = db.collection('post').doc(postId);
-
-    if (!postData) {
-        let result = {
-            message: 'Client Error: no postData received',
-            ok: false,
-        }
-    }
-
-    // postData is an object, firestore only updates the defined fields
-    try {
-
-        if (postData.posted !== undefined) {
-            postData.posted = firebase.firestore.Timestamp.fromDate(new Date());
-        }
-
-        await docRef.update(postData);
-        
-        let result = {
-            message: "El post fue actualizado exitosamente.",
-            ok: true,
-        }
-        
-        return result
-
-    } catch (e) {
-        console.error(e.message);
-        let result = {
-            ok: false,
-            message: 'API error: ' + e.message,
-        }
-
-        return result;
-    }
-}
-
-    /* For updating nested objects
-    const res = await db.collection('users').doc('Frank').update({
-    age: 13,
-    'favorites.color': 'Red'
-    });
-    */
 
 const validateClientData = (clientData) => {
     if (clientData === undefined) {
@@ -310,6 +307,7 @@ const validateClientData = (clientData) => {
 
 }
 
-
+// https://www.npmjs.com/package/browser-image-compression
+// https://firebase.google.com/docs/storage/security
 
 export default Post;
