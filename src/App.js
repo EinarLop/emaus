@@ -23,6 +23,7 @@ function App() {
         <Route exact path="/cblog" component={BlogCreate} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/blogpost" component={BlogPost} />
+        <Route exact path="/asayo" component={TestBackend} />
       </Router>
     </>
   );
