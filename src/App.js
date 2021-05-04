@@ -13,7 +13,7 @@ function App() {
     <>
       <Router>
         <Header />
-        <TestBackend/>
+        {/* <TestBackend/> */}
         <Route exact path="/" component={Home} />
         <Route exact path="/blog" component={Blog} />
         <Route exact path="/donativos" component={Donate} />
