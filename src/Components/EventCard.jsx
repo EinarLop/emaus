@@ -1,7 +1,46 @@
-const EventCard = () => {
+const EventCard = (props) => {
     return (
-        <>
-        </>
+    <section class="text-gray-600 body-font overflow-hidden ">
+        <div class="container  px-5 py-16 md:py-12 mx-auto ">
+            <div class=" -my-8 lg:mx-6 divide-gray-100 shadow-md border  bg-gray-100 p-6 rounded-lg">
+                <div class="p-4 xl:p-8 flex flex-wrap md:flex-nowrap ">
+                    <div class=" w-0 invisible  md:visible md:w-20 md:p-4 justify-items-center ">
+                        
+                        <h2 class="text-base font-medium text-gray-900  mb-1 border-b-2 uppercase text-left xl:text-xl">Jun</h2>
+                        <h2 class="text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-900 text-center ">23</h2>
+                      
+
+                    </div>
+                    <div class="  w-full pt-2 pl-2 pr-2 h-3/4 md: p-4  flex flex-wrap  md:flex-nowrap">
+                       
+
+                       <img alt="ecommerce" class=" rounded  container mx-auto " src="https://dummyimage.com/400x400"/>
+                   </div>
+                    <div class=" p-4 w-full md:flex-wrap xl:tracking-wide ">
+                        <span class="font-light text-xs xl:text-sm  text-gray-700 uppercase">{props.type}</span> 
+                        <h2 class="text-2xl xl:text-4xl font-medium text-gray-900  mb-2 xl:mb-3 xl:mt-1">{props.title}</h2>
+                        <span class="mt-1  text-gray-500 text-sm xl:text-base  ">{props.date}</span>
+                        
+                        <p class=" leading-relaxed xl:text-xl xl:mt-2">{props.content}</p>
+
+                        <a class="text-indigo-500 xl:text-lg inline-flex items-center mt-4">Learn More
+                            <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                        
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
     );
 }
 
