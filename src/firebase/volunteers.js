@@ -1,10 +1,12 @@
 import {firebase, db} from './app'
 
+/* ------ CRD DE VOLUNTARIOS ------ */
 const Volunteer = {}
 
+// CREATE
 Volunteer.registerOne = async (clientData) => {
     
-    if (clientData==undefined) {
+    if (clientData===undefined) {
         let result = {
             ok: false,
             message: "Client Error: no data object received",
@@ -45,7 +47,7 @@ Volunteer.registerOne = async (clientData) => {
     }
 }
 
-
+// GET
 Volunteer.getAllVolunteers = async () => {
     try {
         const data = await db.collection('volunteer').orderBy('date', 'desc').get();
@@ -73,6 +75,7 @@ Volunteer.getAllVolunteers = async () => {
         }
 }
 
+// DELETE
 Volunteer.deleteVolunteer = async (volunteerId) => {
     console.log("delete Volunteer id:", volunteerId);
     try {

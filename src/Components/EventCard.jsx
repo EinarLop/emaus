@@ -39,6 +39,8 @@ const EventCard = (props) => {
             </div>
         </div>
     </section>
+
+
     );
 }
 

@@ -1,13 +1,13 @@
-// import { firebase } from '@firebase/app'
-// import '@firebase/auth'
-// import '@firebase/firestore'
-// import '@firebase/storage'
 
-// const firebaseConfig = require('./config/config').firebase;
+import { firebase } from "@firebase/app";
+import "@firebase/auth";
+import "@firebase/firestore";
+import "@firebase/storage";
 
-// firebase.initializeApp(firebaseConfig);
+const firebaseConfig = require("./config/config").firebase;
+firebase.initializeApp(firebaseConfig);
 
-// const db = firebase.firestore()
-// const storage = firebase.storage();
+const db = firebase.firestore();
+const storage = firebase.storage();
 
-// export { firebase, db, storage }
+export { firebase, db, storage };

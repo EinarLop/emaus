@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import {firebase} from './firebase/app';
 import Post from "./firebase/posts";
 import User from "./firebase/users";
 import Event from "./firebase/events";
@@ -6,8 +7,23 @@ import Volunteer from './firebase/volunteers';
 
 export default function TestBackend() {
 
-    const [loginStatus, setLoginStatus] = useState(true);
+    const [loginStatus, setLoginStatus] = useState();
     const [userDate, setUserDate] = useState();
+    useEffect(() => {
+        // Set up an auth observer
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              // User is signed in.
+              console.log("Curr user", user.email);
+              setLoginStatus(true);
+            } else {
+              // No user is signed in.
+              console.log("No user");
+              setLoginStatus(false);
+            }
+        });
+    }, [])
+
 
     // Volunteer API ************
     const submitVolunteer = async (e) => {
@@ -141,13 +157,13 @@ export default function TestBackend() {
         let password = "Toggle123";
         let res = await User.loginUser(email, password);
         console.log(res);
-        setLoginStatus(false);
+        //setLoginStatus(false);
     }
 
     const logout = async (e) => {
         console.log("Logging out...");
         await User.logOut();
-        setLoginStatus(true);
+        //setLoginStatus(true);
     }
 
     const loginWithUsername = async (e) => {
@@ -155,14 +171,14 @@ export default function TestBackend() {
         let password = "Toggle123";
         let res = await User.loginWithUsername(username, password);
         console.log(res);
-        setLoginStatus(false);
+        //setLoginStatus(false);
     }
 
     const loginAction = (e) => {
         if (loginStatus) {
-            return login(e);
-        } else {
             return logout(e);
+        } else {
+            return login(e);
         }
     }
 
@@ -211,7 +227,7 @@ export default function TestBackend() {
             <button onClick={deleteVolunteer}>Delete something</button>
             <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>
-            <button onClick={loginAction}>{loginStatus ? "Log in" : "Log out"}</button>
+            <button onClick={loginAction}>{loginStatus ? "Log out" : "Log in"}</button>
             <input type="file" accept="image/*" onChange={handleEventImageUpload} />
         </div>
     )

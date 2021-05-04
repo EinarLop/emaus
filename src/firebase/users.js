@@ -3,7 +3,6 @@ import Post from './posts';
 
 const User = {}
 
-
 /* AUTHENTICATION */
 User.loginUser = async (email, password) => {
     // returns an errors object and the status: valid or not
@@ -98,4 +97,11 @@ const isEmpty = (string) => {
     return (string.trim() === '');
 }
 
+User.whoLoggedIn = () => {
+    const currUser = firebase.auth().currentUser;
+    console.log(currUser);
+}
+
 export default User;
+
+// https://firebase.google.com/docs/auth/web/manage-users
