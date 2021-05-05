@@ -1,4 +1,7 @@
 const EventCard = (props) => {
+
+    const {title, content, date} = props.eventInfo;
+
     return (
     <section class="text-gray-600 body-font overflow-hidden ">
         <div class="container  px-5 py-16 md:py-12 mx-auto ">
@@ -18,10 +21,10 @@ const EventCard = (props) => {
                    </div>
                     <div class=" p-4 w-full md:flex-wrap xl:tracking-wide ">
                         <span class="font-light text-xs xl:text-sm  text-gray-700 uppercase">{props.type}</span> 
-                        <h2 class="text-2xl xl:text-4xl font-medium text-gray-900  mb-2 xl:mb-3 xl:mt-1">{props.title}</h2>
-                        <span class="mt-1  text-gray-500 text-sm xl:text-base  ">{props.date}</span>
+                        <h2 class="text-2xl xl:text-4xl font-medium text-gray-900  mb-2 xl:mb-3 xl:mt-1">{title}</h2>
+                        <span class="mt-1  text-gray-500 text-sm xl:text-base  ">{null}</span>
                         
-                        <p class=" leading-relaxed xl:text-xl xl:mt-2">{props.content}</p>
+                        <p class=" leading-relaxed xl:text-xl xl:mt-2">{content}</p>
 
                         <a class="text-indigo-500 xl:text-lg inline-flex items-center mt-4">Learn More
                             <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">

@@ -1,7 +1,26 @@
+import {useState, useEffect} from 'react'
 import EventCard from "../Components/EventCard.jsx"
-const Events = () => {
-    return (
 
+import Event from '../firebase/events'
+
+const Events = () => {
+
+    const [eventList, setEventList] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            console.log("Fetching events data...");
+            const events = await Event.getAllEvents();
+            setEventList(events);
+            console.log(events[0]);
+            console.log("Events instance of array? ", Array.isArray(events));
+            setLoading(false);
+        }
+        fetchData();
+    }, [])
+
+    return (
         <>
             <div class=" container px-5 py-16 md:py-12   flex flex-wrap justify-center mx-auto">
                 <div class="flex flex-col text-center w-full mb-4 ">
@@ -10,10 +29,15 @@ const Events = () => {
                     <p class=" lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag.</p>
                 </div>
             </div>
-        <EventCard type="Category" title="Titulo del evento" date="23 Jun 2021" content="Glossier echo park pug,  sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. "/> 
-            
-        <EventCard type="Category" title="Titulo del evento" date="23 Jun 2021" content="contenido del evento"/> 
-            Events Component
+            {
+            loading ? <p>Cargando Eventos...</p>
+            : 
+            (eventList.length ? 
+                <div>
+                    {eventList.map((e, i) => (<EventCard key={i} eventInfo={e}/>))}
+                </div>
+                : (<p>No hay eventos planeados</p>)
+            )}
         </>
     );
 }

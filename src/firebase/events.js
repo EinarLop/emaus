@@ -67,7 +67,7 @@ Event.getAllEvents = async () => {
   try {
     const data = await db.collection("event").orderBy("date", "asc").get();
 
-    let events = [];
+    let events = Array();
 
     data.forEach((doc) => {
       let obj = {
@@ -76,13 +76,15 @@ Event.getAllEvents = async () => {
         content: doc.data().content,
         date: doc.data().date.toDate(),
         image: doc.data().image,
-        type: doc.data().type,
+        type: doc.data().type,   // category: efeméride, cultural, cumpleaños, religiosa, recreativa
       };
       events.push(obj);
     });
 
     console.log("Fetched events succesfully");
+    console.log("Events type:", typeof(events));
     return events;
+
   } catch (err) {
     console.error(err);
     return err;
