@@ -56,8 +56,8 @@ export default function TestBackend() {
         }
         let currDate = new Date(userDate);
         const evt = {
-            title: "Evento ejemplo jajaja",
-            content: "contenido evento ejemplo jijiji",
+            title: "Evento prueba número 3",
+            content: "Probando fechas ....1",
             date: currDate,
             type: 2,
         };
@@ -81,7 +81,7 @@ export default function TestBackend() {
         }
         console.log('originalFile instanceof Blob', imageFile instanceof Blob); // true
         console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
-        let res = await Event.addImageToEvent('1', imageFile);
+        let res = await Event.addImageToEvent('x3hmHHnXDgiNQQlfU1ud', imageFile);
         console.log(res);
     }
 
@@ -100,6 +100,12 @@ export default function TestBackend() {
         console.log("ALL EVENTS\n");
         console.log(evts);
     };
+
+    const eventDelete = async () => {
+        console.log("Deleting event and its image!!")
+        const res = await Event.deleteEvent('x3hmHHnXDgiNQQlfU1ud');
+        console.log(res);
+    }
 
     // Post API ************
     const tryPostAPI = async () => {
@@ -223,8 +229,8 @@ export default function TestBackend() {
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
             <input type='datetime-local' onChange={printDate}></input>
-            <button onClick={getVolunteers}>Do something</button>
-            <button onClick={deleteVolunteer}>Delete something</button>
+            <button onClick={eventDelete}>Do something</button>
+            <button onClick={handleEventImageUpload}>Upload Event img</button>
             <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>
             <button onClick={loginAction}>{loginStatus ? "Log out" : "Log in"}</button>

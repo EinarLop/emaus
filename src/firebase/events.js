@@ -67,7 +67,7 @@ Event.getAllEvents = async () => {
   try {
     const data = await db.collection("event").orderBy("date", "asc").get();
 
-    let events = [];
+    let events = Array();
 
     data.forEach((doc) => {
       let obj = {
@@ -76,13 +76,15 @@ Event.getAllEvents = async () => {
         content: doc.data().content,
         date: doc.data().date.toDate(),
         image: doc.data().image,
-        type: doc.data().type,
+        type: doc.data().type,   // category: efeméride, cultural, cumpleaños, religiosa, recreativa
       };
       events.push(obj);
     });
 
     console.log("Fetched events succesfully");
+    console.log("Events type:", typeof(events));
     return events;
+
   } catch (err) {
     console.error(err);
     return err;
@@ -156,13 +158,26 @@ Event.updateEvent = async (eventId, eventData) => {
 // DELETE
 Event.deleteEvent = async (eventId) => {
   console.log("delete Event id:", eventId, typeof eventId);
+ 
+
   try {
-    const res = await db.collection("event").doc(eventId).delete();
+    const eventRef = await db.collection("event").doc(eventId);
+        
+    // Delete event image
+    const imageUrl = (await eventRef.get()).data().image;
+    if (imageUrl !== '') {
+      let delImg = await Event.deleteImage(eventId, imageUrl);
+      console.log(imageUrl,"deleted:\n",delImg);
+    }
+
+    let res = await eventRef.delete();
+
     let result = {
-      message: "Deleted succesfully",
+      message: "El evento fue eliminado exitosamente",
       ok: true,
     };
     return result;
+    
   } catch (err) {
     let result = {
       message: "Error al buscar Evento con id" + eventId,
@@ -303,5 +318,7 @@ const validateClientData = (data) => {
     return result;
   }
 };
+
+Event.defaultImage = 'https://firebasestorage.googleapis.com/v0/b/emaus-49818.appspot.com/o/default%2FEmaus_Default.jpg?alt=media&token=5ba32091-4e93-4262-a325-f3a5f3dc9a34';
 
 export default Event;
