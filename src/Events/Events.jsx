@@ -13,8 +13,6 @@ const Events = () => {
             console.log("Fetching events data...");
             const events = await Event.getAllEvents();
             setEventList(events);
-            console.log(events[0]);
-            console.log("Events instance of array? ", Array.isArray(events));
             setLoading(false);
         }
         fetchData();

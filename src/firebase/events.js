@@ -158,13 +158,26 @@ Event.updateEvent = async (eventId, eventData) => {
 // DELETE
 Event.deleteEvent = async (eventId) => {
   console.log("delete Event id:", eventId, typeof eventId);
+ 
+
   try {
-    const res = await db.collection("event").doc(eventId).delete();
+    const eventRef = await db.collection("event").doc(eventId);
+        
+    // Delete event image
+    const imageUrl = (await eventRef.get()).data().image;
+    if (imageUrl !== '') {
+      let delImg = await Event.deleteImage(eventId, imageUrl);
+      console.log(imageUrl,"deleted:\n",delImg);
+    }
+
+    let res = await eventRef.delete();
+
     let result = {
-      message: "Deleted succesfully",
+      message: "El evento fue eliminado exitosamente",
       ok: true,
     };
     return result;
+    
   } catch (err) {
     let result = {
       message: "Error al buscar Evento con id" + eventId,
@@ -305,5 +318,7 @@ const validateClientData = (data) => {
     return result;
   }
 };
+
+Event.defaultImage = 'https://firebasestorage.googleapis.com/v0/b/emaus-49818.appspot.com/o/default%2FEmaus_Default.jpg?alt=media&token=5ba32091-4e93-4262-a325-f3a5f3dc9a34';
 
 export default Event;
