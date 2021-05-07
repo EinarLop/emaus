@@ -57,7 +57,6 @@ Post.getAllPosts = async () => {
             content: doc.data().content,
             posted: doc.data().posted,
             favorite: doc.data().favorite,
-            type: doc.data().type,
             image: doc.data().image,
         }
         posts.push(obj);
@@ -306,6 +305,9 @@ const validateClientData = (clientData) => {
     }
 
 }
+
+Post.defaultImage = 'https://firebasestorage.googleapis.com/v0/b/emaus-49818.appspot.com/o/default%2FEmaus_Default.jpg?alt=media&token=5ba32091-4e93-4262-a325-f3a5f3dc9a34';
+
 
 // https://www.npmjs.com/package/browser-image-compression
 // https://firebase.google.com/docs/storage/security

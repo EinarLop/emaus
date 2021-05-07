@@ -229,7 +229,7 @@ export default function TestBackend() {
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
             <input type='datetime-local' onChange={printDate}></input>
-            <button onClick={eventDelete}>Do something</button>
+            <button onClick={submitEvent}>Do something</button>
             <button onClick={handleEventImageUpload}>Upload Event img</button>
             <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>

@@ -5,6 +5,7 @@ const EventCard = (props) => {
     const {title, content, date, image} = props.eventInfo;
     const mm = date.toLocaleString('es-ES', {month:'short'}).toUpperCase();
     const dd = date.getDate();
+    const imageUrl = image === '' ? Event.defaultImage : image
 
     return (
     <section class="text-gray-600 body-font overflow-hidden ">
@@ -21,7 +22,7 @@ const EventCard = (props) => {
                     <div class="  w-full pt-2 pl-2 pr-2 h-3/4 md: p-4  flex flex-wrap  md:flex-nowrap">
                        
 
-                       <img alt="evento" class=" rounded  container mx-auto " style={{objectFit:'cover'}} src={image === '' ? Event.defaultImage : image}/>
+                       <img alt="evento" class=" rounded  container mx-auto " style={{objectFit:'cover'}} src={imageUrl}/>
                    </div>
                     <div class=" p-4 w-full md:flex-wrap xl:tracking-wide ">
                         <span class="font-light text-xs xl:text-sm  text-gray-700 uppercase">{props.type}</span> 
