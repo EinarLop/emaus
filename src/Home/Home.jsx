@@ -7,24 +7,48 @@ import { useState } from "react"
 
 const Home = () => {
 
-    const [blogs, setBlog] = useState([
+    const [blogs, setBlogs] = useState([
         {
             title: "OneGiselle",
-            description: "OneD"
+            description: "OneD",
+            favorite: true,
         },
 
         {
             title: "Two",
-            description: "TwoD"
+            description: "TwoD",
+            favorite: false,
         },
 
         {
             title: "Three",
-            description: "ThreeD"
+            description: "ThreeD",
+            favorite: false,
         },
 
 
+
     ])
+
+    const onDelete = (index) => {
+        console.log("Deleting comment", index);
+        let newBlogs = blogs.filter((blog, blog_index) => blog_index !== index);
+        setBlogs(newBlogs);
+    }
+
+
+
+    const setFav = (index) => {
+        let newBlogs = [...blogs]
+        console.log(newBlogs[index])
+        newBlogs[index].favorite = !newBlogs[index].favorite
+
+        setBlogs(newBlogs)
+        console.log(blogs[index])
+
+    }
+
+
     return (
         <>
             <section class=" sm:p-8 text-gray-600 body-font p-4  ">
@@ -48,13 +72,9 @@ const Home = () => {
 
 
                             <>
-                                <div>
-                                    <button class="bg-red-500 w-12 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4">X</button>
-                                    <button class="bg-yellow-500 w-12 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mb-4">★</button>
-                                </div>
+                                <BlogCardAdmin setFav={() => setFav(index)} key={index} fav={blog.favorite} delete={() => onDelete(index)} subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris labori labori" />
 
 
-                                <BlogCard subtitle={blog.title} title={index + " Post"} summary={blog.description} />
                             </>
                         )
                     })}
@@ -64,8 +84,7 @@ const Home = () => {
                     <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris laboris l exercitation ullamco laboris  ullamco laboris  ullamco laboris " />
 
 
-                    <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris labori labori" />
-                    <BlogCardAdmin subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris labori labori" /> */}
+                    <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris labori labori" />*/}
                 </div>
             </section>
 

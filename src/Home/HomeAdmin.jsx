@@ -2,9 +2,6 @@ import Slider from "../Components/Slider"
 import BlogCard from "../Components/BlogCard"
 import { useState } from "react"
 
-
-
-
 const HomeAdmin = () => {
 
     const [content, setContent] = useState({
@@ -13,8 +10,6 @@ const HomeAdmin = () => {
         mainDescription: "Description",
         featuredBlogsTitle: "Titulo Blogs",
         featuredBlogsDescription: "Descripción blogs",
-
-
     })
 
 
@@ -28,8 +23,8 @@ const HomeAdmin = () => {
     return (
         <>
             <div class="bg-blue-300 flex flex-col text-center w-full mb-4 p-4">
-                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de la página principal</h1>
-                <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Actualmente la página principal luce de esta forma, para modifcar el contenido solo sobrescribelo en las entradas de texto</p>
+                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de Página de Inicio</h1>
+                <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Usted se encuentra en modo de edición. Escriba sobre las entradas de texto y presione guardar cambios cuando termine para actualizar el contenido.</p>
             </div>
 
             <section class=" sm:p-8 text-gray-600 body-font p-4  ">
@@ -47,7 +42,7 @@ const HomeAdmin = () => {
                 </div>
 
                 <div class="flex flex-wrap justify-center mx-auto ">
-
+                    {/* 
                     <BlogCard subtitle="ARCHANA" title="Post 1" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et iscing elit, sed do eiusmod tempor incididunt ut labore et iscing elit, sed do eiusm." />
 
 
@@ -55,7 +50,7 @@ const HomeAdmin = () => {
                     <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris laboris l exercitation ullamco laboris  ullamco laboris  ullamco laboris " />
 
 
-                    <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris labori labori" />
+                    <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris labori labori" /> */}
 
                 </div>
             </section>

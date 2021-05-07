@@ -20,9 +20,15 @@ const DonateAdmin = () => {
         disclaimerDescription: " Si requieres recibo deducible de impuestos, solicítalo comunicándote con nosotros.",
         officialData: "CLUNI: CEM02062809015 -- RFC.: CEM0206286W0",
         voluntariado1Title: "Voluntariado 1",
-        voluntariado1Desc: "Description Voluntariado 1"
-
-
+        voluntariado1Desc: "Description Voluntariado 1",
+        voluntariado2Title: "Voluntariado 2",
+        voluntariado2Desc: "Description Voluntariado 2",
+        voluntariado3Title: "Voluntariado 3",
+        voluntariado3Desc: "Description Voluntariado 3",
+        email: "example@gmail.com",
+        telephone: "telefono",
+        registerVol: "Te invitamos a que nos apoyes como voluntario y te explicamos en qué ámbitos puedes colaborar.",
+        officialAddress: "Carr. Xochimilco Topilejo No. 33 Col. San Miguel Topilejo Alcaldía Tlalpan CDMX C.P. 14500"
     })
 
 
@@ -31,8 +37,6 @@ const DonateAdmin = () => {
             ...content,
             [event.target.align]: event.target.textContent,
         });
-
-
     }
 
     // <h2 contenteditable="True" onBlur={handleOnChange} align="mainKicker" class="text-xs  h-auto text-indigo-500 tracking-widest font-medium title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.mainKicker}</h2>
@@ -43,7 +47,7 @@ const DonateAdmin = () => {
 
             <div class="bg-blue-300 flex flex-col text-center w-full mb-4 p-4">
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de la página principal</h1>
-                <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Actualmente la página principal luce de esta forma, para modifcar el contenido solo sobrescribelo en las entradas de texto</p>
+                <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Usted se encuentra en modo de edición. Escriba sobre las entradas de texto y presione guardar cambios cuando termine para actualizar el contenido.</p>
             </div>
 
             <div class="text-center mb-4 px-4">
@@ -114,8 +118,8 @@ const DonateAdmin = () => {
                                 </svg>
                             </div>
                             <div class="flex-grow">
-                                <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Voluntariado 2</h2>
-                                <p class="leading-relaxed text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <h2 contenteditable="True" onBlur={handleOnChange} align="voluntariado2Title" class="text-gray-900 text-lg title-font font-medium mb-3 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado2Title}</h2>
+                                <p contenteditable="True" onBlur={handleOnChange} align="voluntariado2Des" class="leading-relaxed text-base tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado2Desc}</p>
                                 <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                         <path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -131,8 +135,8 @@ const DonateAdmin = () => {
                                 </svg>
                             </div>
                             <div class="flex-grow">
-                                <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Voluntariado 3</h2>
-                                <p class="leading-relaxed text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <h2 contenteditable="True" onBlur={handleOnChange} align="voluntariado3Title" class="text-gray-900 text-lg title-font font-medium mb-3 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado3Title}</h2>
+                                <p contenteditable="True" onBlur={handleOnChange} align="voluntariado3Des" class="leading-relaxed text-base tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado3Desc}</p>
                                 <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                         <path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -156,30 +160,19 @@ const DonateAdmin = () => {
                         <div class="bg-white relative flex flex-wrap py-6 rounded shadow-md">
                             <div class="lg:w-1/2 px-6">
                                 <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">DIRECCIÓN</h2>
-                                <p class="mt-1">Carr. Xochimilco Topilejo No. 33
-
-                                Col. San Miguel Topilejo
-
-Alcaldía Tlalpan CDMX  C.P. 14500</p>
+                                <p contenteditable="True" onBlur={handleOnChange} align="featuredBlogsDescription" class="lg:w-2/3 w-screen leading-relaxed text-base focus:bg-blue-100 focus:outline-none">{content.officialAddress}</p>
                             </div>
                             <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                                 <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">EMAIL</h2>
-                                <a class="text-indigo-500 leading-relaxed">example@email.com</a>
+                                <a contenteditable="True" onBlur={handleOnChange} align="voluntariado3Des" class="text-indigo-500 leading-relaxedmb-3 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.email}</a>
                                 <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">TELÉFONO</h2>
-                                <p class="leading-relaxed">
-
-
-                                    55 8936 8636</p>
+                                <p contenteditable="True" onBlur={handleOnChange} align="featuredBlogsDescription" class="lg:w-2/3 mx-auto leading-relaxed text-base focus:bg-blue-100 focus:outline-none">{content.telephone}</p>
                             </div>
                         </div>
                     </div>
                     <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-                        <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Registrate</h2>
-                        <p class="leading-relaxed mb-5 text-gray-600">
-                            Te invitamos a que nos apoyes como voluntario y te explicamos en qué ámbitos puedes colaborar.
-
-
-                        </p>
+                        <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Regístrate</h2>
+                        <p contenteditable="True" onBlur={handleOnChange} align="registerVol" class="leading-relaxed mb-5 text-gray-600 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.registerVol}</p>
                         <div class="relative mb-4">
                             <label for="name" class="leading-7 text-sm text-gray-600">Nombre</label>
                             <input type="text" id="name" name="name" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
@@ -193,7 +186,7 @@ Alcaldía Tlalpan CDMX  C.P. 14500</p>
                             <textarea id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
                         </div>
                         <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Contáctanos</button>
-                        <p class="text-xs text-gray-500 mt-3">Chicharrones blog helvetica normcore iceland tousled brook viral artisan.</p>
+
                     </div>
                 </div>
             </section>
