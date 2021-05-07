@@ -1,9 +1,8 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import Post from '../firebase/posts'
 import BlogCard from "../Components/BlogCard"
 
 const Blog = () => {
-
     const [postList, setPostList] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -28,14 +27,14 @@ const Blog = () => {
 
                 {/* MIN 200 chars*/}
                 {
-            loading ? <p>Cargando Eventos...</p>
-            : 
-            (postList.length ? 
-                <div class="flex flex-wrap justify-center mx-auto p-4">
-                    {postList.map((p, i) => (<BlogCard key={i} postInfo={p}/>))}
-                </div>
-                : (<p>No hay eventos planeados</p>)
-            )}
+                    loading ? <p>Cargando Eventos...</p>
+                        :
+                        (postList.length ?
+                            <div class="flex flex-wrap justify-center mx-auto p-4">
+                                {postList.map((p, i) => (<BlogCard key={i} postInfo={p} />))}
+                            </div>
+                            : (<p>No hay eventos planeados</p>)
+                        )}
             </div>
 
         </>

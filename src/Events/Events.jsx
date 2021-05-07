@@ -1,6 +1,5 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import EventCard from "../Components/EventCard.jsx"
-
 import Event from '../firebase/events'
 
 const Events = () => {
@@ -28,14 +27,14 @@ const Events = () => {
                 </div>
             </div>
             {
-            loading ? <p>Cargando Eventos...</p>
-            : 
-            (eventList.length ? 
-                <div>
-                    {eventList.map((e, i) => (<EventCard key={i} eventInfo={e}/>))}
-                </div>
-                : (<p>No hay eventos planeados</p>)
-            )}
+                loading ? <p>Cargando Eventos...</p>
+                    :
+                    (eventList.length ?
+                        <div>
+                            {eventList.map((e, i) => (<EventCard key={i} eventInfo={e} />))}
+                        </div>
+                        : (<p>No hay eventos planeados</p>)
+                    )}
         </>
     );
 }
