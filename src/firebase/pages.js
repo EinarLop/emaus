@@ -1,10 +1,12 @@
-import { firebase, db, storage } from "./app";
+import { firebase, db} from "./app";
 
-/* ------ CRUD DE PAGES ------- */
+/* ------ UPDATE DE PAGES ------- */
 
 const Page = {};
 
-Page.updateHome(page) {
+// in every update, pageData is an object, firestore only updates the defined fields.
+
+Page.updateHome = async (page) => {
     // page is an object containing the editable fields of home page
     if (!page) {
         let result = {
@@ -14,36 +16,23 @@ Page.updateHome(page) {
         return result;
     }
 
-    const update = {
-        electronicDescription: page.electronicDescription,
-        traditionalDescription: page.traditionalDescription,
-        clabeNumber: page.clabeNumber,
-        disclaimerDescription: page.disclaimerDescription,
-        officialData: page.officialData,
-        voluntariado1Title: page.voluntariado1Title,
-        voluntariado1Desc: page.voluntariado1Desc,
-        voluntariado2Title: page.voluntariado2Title,
-        voluntariado2Desc: page.voluntariado2Desc,
-        voluntariado3Title: page.voluntariado3Title,
-        voluntariado3Desc: page.voluntariado3Desc,
-        email: page.email,
-        telephone: page.telephone,
-        registerVol: page.registerVol,
-    }
+    // Home admin page Data
+    const pageData = {
+        mainTitle: page.mainTitle,
+        mainKicker: page.mainKicker,
+        mainDescription: page.mainDescription,
+        featuredBlogsTitle: page.featuredBlogsTitle,
+        featuredBlogsDescription: page.featuredBlogsDescription,
+    };
 
-    const pageRef = db.collection('post').doc('emaus-home-4111');
+    const pageRef = db.collection('pages').doc('emaus-home-4111');
 
-    // postData is an object, firestore only updates the defined fields
     try {
-
-        if (postData.posted !== undefined) {
-            postData.posted = firebase.firestore.Timestamp.fromDate(new Date());
-        }
-
-        await docRef.update(postData);
+        const res = await pageRef.update(pageData);
+        console.log("Update page result", res);
         
         let result = {
-            message: "El post fue actualizado exitosamente.",
+            message: "La página de Inicio fue actualizada exitosamente.",
             ok: true,
         }
         
@@ -60,11 +49,134 @@ Page.updateHome(page) {
     }
 }
 
-Page.updateDonations(page) {
-    // 
+Page.updateDonations = async (page) => {
+    if (!page) {
+        let result = {
+            message: 'Client Error: page data is undefined',
+            ok: false,
+        }
+        return result;
+    }
+
+    // Donations Admin page data
+    const pageData = {
+        electronicDescription: page.electronicDescription,
+        traditionalDescription: page.traditionalDescription,
+        clabeNumber: page.clabeNumber,
+        disclaimerDescription: page.disclaimerDescription,
+        officialData: page.officialData,
+        voluntariado1Title: page.voluntariado1Title,
+        voluntariado1Desc: page.voluntariado1Desc,
+        voluntariado2Title: page.voluntariado2Title,
+        voluntariado2Desc: page.voluntariado2Desc,
+        voluntariado3Title: page.voluntariado3Title,
+        voluntariado3Desc: page.voluntariado3Desc,
+        email: page.email,
+        telephone: page.telephone,
+        registerVol: page.registerVol,
+        officialAddress: page.officialAddress,
+    };
+
+    const pageRef = db.collection('pages').doc('emaus-donate-1433');
+
+    try {
+        const res = await pageRef.update(pageData);
+        console.log("Update page result", res);
+        let result = {
+            message: "La página de Donaciones fue actualizada exitosamente.",
+            ok: true,
+        }
+        
+        return result
+
+    } catch (e) {
+        console.error(e.message);
+        let result = {
+            ok: false,
+            message: 'API error: ' + e.message,
+        }
+
+        return result;
+    }
 }
 
-Page.updateBlog(page)
+Page.updateBlog = async (page) => {
+    if (!page) {
+        let result = {
+            message: 'Client Error: page data is undefined',
+            ok: false,
+        }
+        return result;
+    }
+
+    // Blog Admin page data
+    const pageData = {
+        mainTitle: page.mainTitle,
+        mainKicker: page.mainKicker,
+        mainDescription: page.mainDescription,
+    };
+
+    const pageRef = db.collection('pages').doc('emaus-blog-4663');
+
+    try {
+        const res = await pageRef.update(pageData);
+        console.log("Update page result", res);
+        let result = {
+            message: "La página de Donaciones fue actualizada exitosamente.",
+            ok: true,
+        }
+        
+        return result
+
+    } catch (e) {
+        console.error(e.message);
+        let result = {
+            ok: false,
+            message: 'API error: ' + e.message,
+        }
+
+        return result;
+    }
+}
+
+Page.updateEvents = async (page) => {
+    if (!page) {
+        let result = {
+            message: 'Client Error: page data is undefined',
+            ok: false,
+        }
+        return result;
+    }
+
+    // Events Admin page data
+    const pageData = {
+        mainTitle: page.mainTitle,
+        mainKicker: page.mainKicker,
+        mainDescription: page.mainDescription,
+    };
+
+    const pageRef = db.collection('pages').doc('emaus-events-1787');
+
+    try {
+        const res = await pageRef.update(pageData);
+        console.log("Update page result", res);
+        let result = {
+            message: "La página de Donaciones fue actualizada exitosamente.",
+            ok: true,
+        }
+        
+        return result
+
+    } catch (e) {
+        console.error(e.message);
+        let result = {
+            ok: false,
+            message: 'API error: ' + e.message,
+        }
+
+        return result;
+    }
+}
 
 
 export default Page;

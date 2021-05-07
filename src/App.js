@@ -29,7 +29,7 @@ function App() {
         <Route exact path="/blog" component={Blog} />
         <Route exact path="/donativos" component={Donate} />
         <Route exact path="/eventos" component={Events} />
-        <Route exact path="/cblog" component={BlogCreate} />
+      
 
         <Route exact path="/blogpost" component={BlogPost} />
         <Route exact path="/asayo" component={TestBackend} />
@@ -41,6 +41,7 @@ function App() {
         <Route exact path="/admin/donativos" component={DonateAdmin} />
         <Route exact path="/admin/blog" component={BlogAdmin} />
         <Route exact path="/admin/eventos" component={EventsAdmin} />
+        <Route exact path="/admin/crear/blog" component={BlogCreate} />
         {/* ////////////////////Admin/////////////////// */}
       </Router>
     </>

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Page from '../firebase/pages'
 const DonateAdmin = () => {
 
     const iframeStyle = {
@@ -39,8 +40,11 @@ const DonateAdmin = () => {
         });
     }
 
-    // <h2 contenteditable="True" onBlur={handleOnChange} align="mainKicker" class="text-xs  h-auto text-indigo-500 tracking-widest font-medium title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.mainKicker}</h2>
-
+    const handleOnSubmit = async () => {
+        // async / await
+        const res = await Page.updateDonations(content);
+        console.log(res);
+    }
 
     return (
         <>
@@ -119,7 +123,7 @@ const DonateAdmin = () => {
                             </div>
                             <div class="flex-grow">
                                 <h2 contenteditable="True" onBlur={handleOnChange} align="voluntariado2Title" class="text-gray-900 text-lg title-font font-medium mb-3 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado2Title}</h2>
-                                <p contenteditable="True" onBlur={handleOnChange} align="voluntariado2Des" class="leading-relaxed text-base tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado2Desc}</p>
+                                <p contenteditable="True" onBlur={handleOnChange} align="voluntariado2Desc" class="leading-relaxed text-base tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado2Desc}</p>
                                 <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                         <path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -136,7 +140,7 @@ const DonateAdmin = () => {
                             </div>
                             <div class="flex-grow">
                                 <h2 contenteditable="True" onBlur={handleOnChange} align="voluntariado3Title" class="text-gray-900 text-lg title-font font-medium mb-3 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado3Title}</h2>
-                                <p contenteditable="True" onBlur={handleOnChange} align="voluntariado3Des" class="leading-relaxed text-base tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado3Desc}</p>
+                                <p contenteditable="True" onBlur={handleOnChange} align="voluntariado3Desc" class="leading-relaxed text-base tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado3Desc}</p>
                                 <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                         <path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -160,13 +164,13 @@ const DonateAdmin = () => {
                         <div class="bg-white relative flex flex-wrap py-6 rounded shadow-md">
                             <div class="lg:w-1/2 px-6">
                                 <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">DIRECCIÓN</h2>
-                                <p contenteditable="True" onBlur={handleOnChange} align="featuredBlogsDescription" class="lg:w-2/3 w-screen leading-relaxed text-base focus:bg-blue-100 focus:outline-none">{content.officialAddress}</p>
+                                <p contenteditable="True" onBlur={handleOnChange} align="officialAddress" class="lg:w-2/3 w-screen leading-relaxed text-base focus:bg-blue-100 focus:outline-none">{content.officialAddress}</p>
                             </div>
                             <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                                 <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">EMAIL</h2>
-                                <a contenteditable="True" onBlur={handleOnChange} align="voluntariado3Des" class="text-indigo-500 leading-relaxedmb-3 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.email}</a>
+                                <p contenteditable="True" onBlur={handleOnChange} align="email" class="text-indigo-500 leading-relaxedmb-3 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.email}</p>
                                 <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">TELÉFONO</h2>
-                                <p contenteditable="True" onBlur={handleOnChange} align="featuredBlogsDescription" class="lg:w-2/3 mx-auto leading-relaxed text-base focus:bg-blue-100 focus:outline-none">{content.telephone}</p>
+                                <p contenteditable="True" onBlur={handleOnChange} align="telephone" class="lg:w-2/3 mx-auto leading-relaxed text-base focus:bg-blue-100 focus:outline-none">{content.telephone}</p>
                             </div>
                         </div>
                     </div>
@@ -191,7 +195,9 @@ const DonateAdmin = () => {
                 </div>
             </section>
 
-
+            <div class="w-full flex justify-center my-20">
+            <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" onClick={handleOnSubmit}>Guardar cambios</button>
+            </div>
         </>
     );
 }

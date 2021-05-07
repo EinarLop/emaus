@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import EventCard from "../Components/EventCard.jsx"
 import Event from '../firebase/events'
+import Page from '../firebase/pages'
 
 const EventsAdmin = () => {
 
@@ -25,10 +26,19 @@ const EventsAdmin = () => {
 
 
     const handleOnChange = (event) => {
+        console.log(event.target.textContent);
         setContent({
             ...content,
             [event.target.align]: event.target.textContent,
         });
+        console.log(content);
+    }
+
+    
+    const handleOnSubmit = async () => {
+        // async / await
+        const res = await Page.updateEvents(content);
+        console.log(res);
     }
 
     return (
@@ -49,7 +59,13 @@ const EventsAdmin = () => {
                         </div>
                         : (<p>No hay eventos planeados</p>)
                     )}
+
+            <div class="w-full flex justify-center my-20">
+                <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" onClick={handleOnSubmit}>Guardar cambios</button>
+            </div>  
         </>
+
+        
     );
 }
 

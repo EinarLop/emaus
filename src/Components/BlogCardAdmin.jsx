@@ -23,7 +23,7 @@ const BlogCardAdmin = (props) => {
         <div class=" bg-gray-100 p-6 rounded-lg">
 
           <div class="flex justify-between">
-            <button onClick={props.delete} class="bg-red-500 w-12 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4">X</button>
+            <button onClick={props.delete} class="focus:outline-none bg-red-500 w-12 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4">X</button>
             {
               props.fav ? <button onClick={props.setFav} class="bg-yellow-500 w-12 focus:outline-none hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mb-4">★</button>
                 : <button onClick={props.setFav} class="bg-gray-500 w-12 focus:outline-none hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded mb-4">★</button>
@@ -31,7 +31,7 @@ const BlogCardAdmin = (props) => {
 
           </div>
 
-          <img class="h-40 rounded w-full object-cover object-center mb-6" src="https://dummyimage.com/720x400" alt="content" />
+          <img class="h-40 rounded w-full object-cover object-center mb-6" src={props.img} alt="content" />
           <h3 class="tracking-widest text-indigo-500 text-xs font-medium title-font">{props.subtitle}</h3>
           <h2 class="text-lg text-gray-900 font-medium title-font mb-4">{props.title}</h2>
           <p class="leading-relaxed text-base" style={textStyle}>{props.summary}</p>
