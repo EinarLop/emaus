@@ -12,7 +12,11 @@ const Donate = () => {
     }
 
     return (
+
+
         <>
+
+
             <div class="text-center mb-4 px-4">
                 <h1 class="sm:text-4xl text-3xl font-medium title-font text-gray-900 mb-4">Donativos</h1>
 

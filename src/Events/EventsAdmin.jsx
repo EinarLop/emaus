@@ -1,6 +1,8 @@
 const EventsAdmin = () => {
     return (
-        <> </>
+        <>
+            Eventos admin
+        </>
     );
 }
 
