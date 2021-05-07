@@ -1,7 +1,30 @@
 import Slider from "../Components/Slider"
 import BlogCard from "../Components/BlogCard"
+import BlogCardAdmin from "../Components/BlogCardAdmin"
+import { useState } from "react"
+
+
 
 const Home = () => {
+
+    const [blogs, setBlog] = useState([
+        {
+            title: "OneGiselle",
+            description: "OneD"
+        },
+
+        {
+            title: "Two",
+            description: "TwoD"
+        },
+
+        {
+            title: "Three",
+            description: "ThreeD"
+        },
+
+
+    ])
     return (
         <>
             <section class=" sm:p-8 text-gray-600 body-font p-4  ">
@@ -19,15 +42,30 @@ const Home = () => {
 
                 <div class="flex flex-wrap justify-center mx-auto ">
 
-                    <BlogCard subtitle="ARCHANA" title="Post 1" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et iscing elit, sed do eiusmod tempor incididunt ut labore et iscing elit, sed do eiusm." />
+
+                    {blogs.map((blog, index) => {
+                        return (
 
 
+                            <>
+                                <div>
+                                    <button class="bg-red-500 w-12 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4">X</button>
+                                    <button class="bg-yellow-500 w-12 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mb-4">★</button>
+                                </div>
 
+
+                                <BlogCard subtitle={blog.title} title={index + " Post"} summary={blog.description} />
+                            </>
+                        )
+                    })}
+
+
+                    {/* 
                     <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris laboris l exercitation ullamco laboris  ullamco laboris  ullamco laboris " />
 
 
                     <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris labori labori" />
-
+                    <BlogCardAdmin subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris labori labori" /> */}
                 </div>
             </section>
 

@@ -1,7 +1,7 @@
 const BlogAdmin = () => {
     return (
         <>
-
+            Blog Admin
         </>);
 }
 
