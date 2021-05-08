@@ -176,7 +176,16 @@ Post.updatePost = async (postId, postData) => {
 Post.deletePost = async (postId) => {
     console.log("deletePost id:", postId, typeof(postId));
     try {
-        const res = await db.collection('post').doc(postId).delete();
+        const postRef = await db.collection("post").doc(postId);
+        
+        // Delete event image
+        const imageUrl = (await postRef.get()).data().image;
+        if (imageUrl !== "") {
+          let delImg = await Post.deleteImage(postId, imageUrl);
+          console.log(imageUrl,"deleted:\n",delImg);
+        }
+        let res = await postRef.delete();
+        console.log("deletePost returned:", res);
         let result = {
             message: "El post se borró exitosamente",
             ok: true,
