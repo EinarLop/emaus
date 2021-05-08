@@ -34,7 +34,8 @@ const Blog = () => {
                                 {postList.map((p, i) => (<BlogCard key={i} postInfo={p} />))}
                             </div>
                             : (<p>No hay eventos planeados</p>)
-                        )}
+                        )
+                }
             </div>
 
         </>

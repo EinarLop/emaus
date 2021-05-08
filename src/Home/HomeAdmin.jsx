@@ -1,6 +1,6 @@
 import Slider from "../Components/Slider"
 import BlogCard from "../Components/BlogCard"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Page from '../firebase/pages'
 
 const HomeAdmin = () => {
@@ -29,6 +29,16 @@ const HomeAdmin = () => {
         const res = await Page.updateHome(content);
         console.log(res);
     }
+
+    useEffect(() => {
+        async function fetchHome() {
+            console.log("Fetching Home page info...");
+            const homeData = await Page.getHome();
+            setContent(homeData);
+        }
+    
+        fetchHome();
+    })
 
     return (
         <>

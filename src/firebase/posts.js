@@ -99,6 +99,33 @@ Post.getOnePost = async (postId) => {
     }
 }
 
+Post.getFavoritePosts = async () => {
+    const postsCollection = db.collection('post')
+    const results = await postsCollection
+    .where('favorite', '==', true)
+    .get();
+
+    const posts = [];
+
+    if (results.empty) {
+    console.log('No hay publicaciones favoritas');
+    return posts;
+    }
+    
+    results.forEach(doc => {
+        let obj = {
+            postId: doc.id,
+            title: doc.data().title,
+            content: doc.data().content,
+            posted: doc.data().posted,
+            favorite: doc.data().favorite,
+            image: doc.data().image,
+        }
+        posts.push(obj);
+    });
+
+    return posts;
+}
 
 // UPDATE
 Post.updatePost = async (postId, postData) => {

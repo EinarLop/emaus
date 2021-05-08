@@ -70,3 +70,4 @@ const EventsAdmin = () => {
 }
 
 export default EventsAdmin;
+
