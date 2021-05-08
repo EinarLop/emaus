@@ -1,8 +1,16 @@
 import { firebase, db} from "./app";
 
+const CONSTANTS = require('./config/config').CONSTANTS;  // page addresses in firestore
 /* ------ UPDATE DE PAGES ------- */
 
 const Page = {};
+
+Page.getHome = async () => {
+    const data = await db.collection('pages').doc('emaus-home-4111').get();
+
+    console.log(data.data());
+    return data.data();
+}
 
 // in every update, pageData is an object, firestore only updates the defined fields.
 

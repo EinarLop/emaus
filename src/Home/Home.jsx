@@ -1,46 +1,80 @@
 import Slider from "../Components/Slider"
 import BlogCard from "../Components/BlogCard"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
-
+import Post from '../firebase/posts'
+import Page from '../firebase/pages'
 
 const Home = () => {
 
-   
+    const [content, setContent] = useState({
+        mainKicker: "Cargando...",
+        mainTitle: "Cargando...",
+        mainDescription: "Cargando...",
+        featuredBlogsTitle:"Cargando...",
+        featuredBlogsDescription:"Cargando...",
+    });
+   const [loading, setLoading] = useState(true);
+   const [postList, setPostList] = useState([]);
+
+   useEffect(() => {
+    async function fetchData() {
+        console.log("Fetching favorite events...");
+        const posts = await Post.getFavoritePosts();
+        setPostList(posts);
+        setLoading(false);
+    }
+
+    async function fetchHome() {
+        console.log("Fetching Home page info...");
+        const homeData = await Page.getHome();
+        setContent(homeData);
+    }
+
+    fetchHome();
+    fetchData();
+    console.log(content);
+   }, [])
 
     return (
         <>
             <section class=" sm:p-8 text-gray-600 body-font p-4  ">
                 <div class="flex flex-col text-center w-full mb-8">
-                    <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">ROOF PARTY POLAROID</h2>
-                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Master Cleanse Reliac Heirloom</h1>
-                    <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag.</p>
+                    <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">
+                        {content.mainKicker}
+                    </h2>
+                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+                        {content.mainTitle}
+                    </h1>
+                    <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
+                        {content.mainDescription}
+                    </p>
                 </div>
                 <Slider />
 
                 <div class="flex flex-col text-center w-full mt-12 mb-8">
-                    <h1 class="sm:text-2xl text-xl font-medium title-font mb-4 text-gray-900">Master Cleanse Reliac Heirloom</h1>
-                    <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag.</p>
+                    <h1 class="sm:text-2xl text-xl font-medium title-font mb-4 text-gray-900">{content.featuredBlogsTitle}</h1>
+                    <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
+                        {content.featuredBlogsDescription}
+                    </p>
                 </div>
 
-                <div class="flex flex-wrap justify-center mx-auto ">
+                <div>
 
+                {
+                    loading ? <p>Cargando Eventos...</p>
+                        :
+                        (postList.length ?
+                            <div  class="flex flex-wrap justify-center mx-auto p-4">
+                                {postList.map((p, i) => (<BlogCard key={i} postInfo={p} />))}
+                            </div>
+                            : (<p>No hay eventos planeados</p>)
+                        )
+                }
 
-
-
-                    
-                    <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris laboris l exercitation ullamco laboris  ullamco laboris  ullamco laboris " />
-
-
-                    <BlogCard subtitle="ARCHANA" title="Hola amixes" summary="Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris labori labori" />
                 </div>
             </section>
-
-
-
-
-
 
         </>
     );

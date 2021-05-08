@@ -4,6 +4,7 @@ import Post from "./firebase/posts";
 import User from "./firebase/users";
 import Event from "./firebase/events";
 import Volunteer from './firebase/volunteers';
+import Page from './firebase/pages';
 
 export default function TestBackend() {
 
@@ -226,10 +227,14 @@ export default function TestBackend() {
         console.dir(res);
     }
 
+    const getHome = async () => {
+        await Page.getHome();
+    }
+
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
             <input type='datetime-local' onChange={printDate}></input>
-            <button onClick={submitEvent}>Do something</button>
+            <button onClick={getHome}>Do something</button>
             <button onClick={handleEventImageUpload}>Upload Event img</button>
             <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>
