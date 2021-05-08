@@ -22,6 +22,12 @@ const BlogAdmin = () => {
             setPostList(posts);
             setLoading(false);
         }
+        async function fetchPage() {
+            console.log("Fetching Blog page info...");
+            const pageData = await Page.getBlog();
+            setContent(pageData);
+        }
+        fetchPage();
         fetchData();
     }, [])
 

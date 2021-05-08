@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react'
 import Post from '../firebase/posts'
 import BlogCard from "../Components/BlogCard"
+import Page from '../firebase/pages'
 
 const Blog = () => {
     const [postList, setPostList] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [content, setContent] = useState({
+        mainTitle: "Cargando...",
+        mainKicker: "Cargando...",
+        mainDescription: "Cargando...",
+    });
 
     useEffect(() => {
         async function fetchData() {
@@ -13,16 +20,29 @@ const Blog = () => {
             setPostList(posts);
             setLoading(false);
         }
+        async function fetchPage() {
+            console.log("Fetching Blog page info...");
+            const pageData = await Page.getBlog();
+            setContent(pageData);
+        }
+        fetchPage();
         fetchData();
     }, [])
+
 
     return (
         <>
             <div class="flex flex-wrap justify-center mx-auto p-4">
                 <div class="flex flex-col text-center w-full mb-4 ">
-                    <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">ROOF PARTY POLAROID</h2>
-                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Master Cleanse Reliac Heirloom</h1>
-                    <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag.</p>
+                    <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">
+                        {content.mainKicker}
+                    </h2>
+                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+                        {content.mainTitle}
+                    </h1>
+                    <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
+                        {content.mainDescription}
+                    </p>
                 </div>
 
                 {/* MIN 200 chars*/}

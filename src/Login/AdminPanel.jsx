@@ -1,16 +1,28 @@
-import { Link } from "react-router-dom";
+import {useState} from 'react'
+import { Link } from "react-router-dom"
+import {Redirect} from 'react-router-dom'
+import useLogin from '../hooks/useLogin'
+import User from '../firebase/users'
 
 const AdminPanel = () => {
-  return (
 
+  const {loginStatus} = useLogin();
+  const [redirect, setRedirect] = useState(false);
+
+  const logOut = async (e) => {
+    console.log("Logging out...");
+    await User.logOut();
+    setRedirect(true);
+  }
+
+  return (
     <>
+      {(redirect && <Redirect to="/admin/login"/>)}
       <div class="flex flex-col text-center w-full mb-4 px-8">
         <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">COMUNIDAD EMAÚS A.C</h2>
         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Panel administrativo </h1>
         <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag.</p>
       </div>
-
-
       <section class="text-gray-600 body-font">
         <div class="container px-5 py-4 mx-auto">
           <div class="flex justify-center flex-wrap">
@@ -49,6 +61,7 @@ const AdminPanel = () => {
           </div>
         </div>
       </section>
+      <button onClick={logOut}>CERRAR SESIÓN</button>
     </>
   )
 }

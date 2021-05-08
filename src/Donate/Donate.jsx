@@ -18,7 +18,7 @@ const Donate = () => {
         email: "Cargando...",
         telephone: "Cargando...",
         registerVol: "Cargando...",
-        officialAddress: "Cargando...",
+        officialAddress: "Carr. Xochimilco Topilejo No. 33 Col. San Miguel Topilejo Alcaldía Tlalpan CDMX  C.P. 14500",
     })
 
     useEffect(()=> {
@@ -127,7 +127,7 @@ const Donate = () => {
                                 <p class="leading-relaxed text-base">
                                     {content.voluntariado2Desc}
                                 </p>
-                                <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                                <a class="mt-3 text-indigo-500 inline-flex items-center">Saber Más
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                                     </svg>
@@ -142,9 +142,11 @@ const Donate = () => {
                                 </svg>
                             </div>
                             <div class="flex-grow">
-                                <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Voluntariado 3</h2>
-                                <p class="leading-relaxed text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                                <h2 class="text-gray-900 text-lg title-font font-medium mb-3">{content.voluntariado3Title}</h2>
+                                <p class="leading-relaxed text-base">
+                                    {content.voluntariado3Desc}
+                                </p>
+                                <a class="mt-3 text-indigo-500 inline-flex items-center">Saber Más
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                                     </svg>
@@ -167,11 +169,7 @@ const Donate = () => {
                         <div class="bg-white relative flex flex-wrap py-6 rounded shadow-md">
                             <div class="lg:w-1/2 px-6">
                                 <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">DIRECCIÓN</h2>
-                                <p class="mt-1">Carr. Xochimilco Topilejo No. 33
-
-                                Col. San Miguel Topilejo
-
-Alcaldía Tlalpan CDMX  C.P. 14500</p>
+                                <p class="mt-1">{content.officialAddress}</p>
                             </div>
                             <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                                 <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">EMAIL</h2>
@@ -187,9 +185,7 @@ Alcaldía Tlalpan CDMX  C.P. 14500</p>
                     <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
                         <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Registrate</h2>
                         <p class="leading-relaxed mb-5 text-gray-600">
-                            Te invitamos a que nos apoyes como voluntario y te explicamos en qué ámbitos puedes colaborar.
-
-
+                            {content.registerVol}
                         </p>
                         <div class="relative mb-4">
                             <label for="name" class="leading-7 text-sm text-gray-600">Nombre</label>
@@ -200,11 +196,13 @@ Alcaldía Tlalpan CDMX  C.P. 14500</p>
                             <input type="email" id="email" name="email" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
                         </div>
                         <div class="relative mb-4">
-                            <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
+                            <label for="message" class="leading-7 text-sm text-gray-600">Notas Adicionales</label>
                             <textarea id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
                         </div>
                         <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Contáctanos</button>
-                        <p class="text-xs text-gray-500 mt-3">Chicharrones blog helvetica normcore iceland tousled brook viral artisan.</p>
+                        <p class="text-xs text-gray-500 mt-3">
+                            ¡Revisaremos tu solicitud y te contactaremos!
+                        </p>
                     </div>
                 </div>
             </section>

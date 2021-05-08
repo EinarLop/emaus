@@ -6,25 +6,13 @@ import Event from "./firebase/events";
 import Volunteer from './firebase/volunteers';
 import Page from './firebase/pages';
 
+import useLogin from './hooks/useLogin'
+
 export default function TestBackend() {
 
-    const [loginStatus, setLoginStatus] = useState();
     const [userDate, setUserDate] = useState();
-    useEffect(() => {
-        // Set up an auth observer
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-              // User is signed in.
-              console.log("Curr user", user.email);
-              setLoginStatus(true);
-            } else {
-              // No user is signed in.
-              console.log("No user");
-              setLoginStatus(false);
-            }
-        });
-    }, [])
-
+    
+    const {loginStatus} = useLogin();
 
     // Volunteer API ************
     const submitVolunteer = async (e) => {
@@ -230,6 +218,8 @@ export default function TestBackend() {
     const getHome = async () => {
         await Page.getHome();
     }
+
+    console.log("Login status:", loginStatus);
 
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>

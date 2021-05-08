@@ -1,5 +1,7 @@
 import {useState} from 'react'
 import User from '../firebase/users'
+import {Redirect} from 'react-router-dom'
+import useLogin from '../hooks/useLogin'
 
 const Login = () => {
 
@@ -8,23 +10,24 @@ const Login = () => {
     pass: '',
   })
 
-  const onLogin = async () => {
-    console.log("Called onLogin:");
-    console.dir(state);
+  const {loginStatus} = useLogin();
 
+  const onLogin = async () => {
+    console.log("Logging in...");
     const user = state.user;
     const pass = state.pass;
 
     if (user.trim()==='' || pass.trim()==='') {
       // feedback message: Favor de llenar los campos
+      console.log("Favor de llenar los campos");
       return;
     }
     if (likeEmail(user)) {
-      console.log("Email")
+      console.log("Email", user);
       let res = await User.loginUser(user, pass);
       console.log(res)
     } else {
-      console.log("Username")
+      console.log("Username", user);
       let res = await User.loginWithUsername(user, pass);
       console.log(res)
     }
@@ -42,8 +45,9 @@ const Login = () => {
   }
 
   return (
+    <>
+    {(loginStatus && <Redirect to="/admin/panel"/>)}
     <section class="text-gray-600 body-font">
-
       <div class="flex flex-col text-center w-full mb-2">
         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Inicio de sesión administrador</h1>
         <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Inicia sesión para administrar el contenido del sitio web</p>
@@ -71,6 +75,7 @@ const Login = () => {
         </div>
       </div>
     </section >
+    </>
   )
 }
 

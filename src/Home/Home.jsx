@@ -34,7 +34,6 @@ const Home = () => {
 
     fetchHome();
     fetchData();
-    console.log(content);
    }, [])
 
     return (
