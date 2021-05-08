@@ -38,7 +38,7 @@ const HomeAdmin = () => {
         }
     
         fetchHome();
-    })
+    }, []);
 
     return (
         <>

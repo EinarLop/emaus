@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Page from '../firebase/pages'
 const DonateAdmin = () => {
 
@@ -46,6 +46,15 @@ const DonateAdmin = () => {
         console.log(res);
     }
 
+    useEffect(()=> {
+        async function fetchPage() {
+            console.log("Fetching Donations page info...");
+            const pageData = await Page.getDonations();
+            setContent(pageData);
+        }
+        fetchPage();
+    }, [])
+
     return (
         <>
 
@@ -62,7 +71,9 @@ const DonateAdmin = () => {
                 <div class="container px-5 py-5 mx-auto">
                     <div class="text-center mb-4">
                         <h1 class="sm:text-2xl text-2xl font-medium title-font text-gray-900 mb-4">Métodos electrónicos de donación</h1>
-                        <p contenteditable="True" onBlur={handleOnChange} align="electronicDescription" class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500 tracking-widest title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.electronicDescription}</p>
+                        <p contenteditable="True" onBlur={handleOnChange} align="electronicDescription" class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500 tracking-widest title-font mb-1 focus:bg-blue-100 focus:outline-none">
+                            {content.electronicDescription}
+                        </p>
 
                     </div>
                 </div>

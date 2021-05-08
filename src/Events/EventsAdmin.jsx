@@ -15,6 +15,12 @@ const EventsAdmin = () => {
             setEventList(events);
             setLoading(false);
         }
+        async function fetchPage() {
+            console.log("Fetching Events page info...");
+            const pageData = await Page.getEvents();
+            setContent(pageData);
+        }
+        fetchPage();  
         fetchData();
     }, [])
 

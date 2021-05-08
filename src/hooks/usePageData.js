@@ -1,0 +1,1 @@
+/* Hook para hacer get de los datos de una página */

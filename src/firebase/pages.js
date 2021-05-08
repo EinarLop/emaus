@@ -1,18 +1,39 @@
 import { firebase, db} from "./app";
 
 const CONSTANTS = require('./config/config').CONSTANTS;  // page addresses in firestore
-/* ------ UPDATE DE PAGES ------- */
+/* ------ READ, UPDATE DE PAGES ------- */
 
 const Page = {};
 
 Page.getHome = async () => {
-    const data = await db.collection('pages').doc('emaus-home-4111').get();
+    const data = await db.collection('pages').doc(CONSTANTS.HOME).get();
 
     console.log(data.data());
     return data.data();
 }
 
-// in every update, pageData is an object, firestore only updates the defined fields.
+Page.getDonations = async () => {
+    const data = await db.collection('pages').doc(CONSTANTS.DONATE).get();
+
+    console.log(data.data());
+    return data.data();
+}
+
+Page.getEvents = async () => {
+    const data = await db.collection('pages').doc(CONSTANTS.EVENTS).get();
+
+    console.log(data.data());
+    return data.data();
+}
+
+Page.getBlog = async () => {
+    const data = await db.collection('pages').doc(CONSTANTS.BLOG).get();
+
+    console.log(data.data());
+    return data.data();
+}
+
+// Firestore only updates the defined fields of the passed object.
 
 Page.updateHome = async (page) => {
     // page is an object containing the editable fields of home page

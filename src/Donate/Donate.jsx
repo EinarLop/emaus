@@ -1,4 +1,34 @@
+import {useState, useEffect} from 'react'
+import Page from '../firebase/pages'
+
 const Donate = () => {
+
+    const [content, setContent] = useState({
+        electronicDescription: "Cargando...",
+        traditionalDescription: "Cargando...",
+        clabeNumber: "Cargando...",
+        disclaimerDescription: "Cargando...",
+        officialData: "Cargando...",
+        voluntariado1Title: "Cargando...",
+        voluntariado1Desc: "Cargando...",
+        voluntariado2Title: "Cargando...",
+        voluntariado2Desc: "Cargando...",
+        voluntariado3Title: "Cargando...",
+        voluntariado3Desc: "Cargando...",
+        email: "Cargando...",
+        telephone: "Cargando...",
+        registerVol: "Cargando...",
+        officialAddress: "Cargando...",
+    })
+
+    useEffect(()=> {
+        async function fetchPage() {
+            console.log("Fetching Donations page info...");
+            const pageData = await Page.getDonations();
+            setContent(pageData);
+        }
+        fetchPage();
+    }, [])
 
     const iframeStyle = {
         width: "100%",
@@ -8,15 +38,10 @@ const Donate = () => {
         marginwidth: "0",
         title: "map",
         scrolling: "no",
-
     }
 
     return (
-
-
         <>
-
-
             <div class="text-center mb-4 px-4">
                 <h1 class="sm:text-4xl text-3xl font-medium title-font text-gray-900 mb-4">Donativos</h1>
 
@@ -25,7 +50,7 @@ const Donate = () => {
                 <div class="container px-5 py-5 mx-auto">
                     <div class="text-center mb-4">
                         <h1 class="sm:text-2xl text-2xl font-medium title-font text-gray-900 mb-4">Métodos electrónicos de donación</h1>
-                        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi pug.</p>
+                        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">{content.electronicDescription}</p>
 
                     </div>
                 </div>
@@ -38,15 +63,20 @@ const Donate = () => {
             <section class="text-gray-600  mt-4 mb-8">
                 <div class="container px-5 py-5 mx-auto">
                     <div class="text-center mb-4">
-                        <h1 class="sm:text-2xl text-2xl font-medium title-font text-gray-900 mb-4 mt-4">Métodos tradicionales de doación</h1>
+                        <h1 class="sm:text-2xl text-2xl font-medium title-font text-gray-900 mb-4 mt-4">
+                            {content.traditionalDescription}
+                        </h1>
 
-                        <p class="text-xl leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">  CUENTA BBVA Bancomer:
-                         0157923031 </p>
+                        <p class="text-xl leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
+                            CUENTA BBVA Bancomer: 0157923031 
+                        </p>
                         <p class="text-xl leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s mb-4">   </p>
-                        <p class="text-xl leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s mb-4">   Cta. CLABE: 012180001579230315</p>
-                        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s mb-4"> Si requieres recibo deducible de impuestos, solicítalo comunicándote con nosotros.  </p>
+                        <p class="text-xl leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s mb-4">   {content.clabeNumber}</p>
+                        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s mb-4"> {content.disclaimerDescription}  </p>
                         <p class="text-lg leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s"> Nuestros datos oficiales: </p>
-                        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s"> CLUNI: CEM02062809015 -- RFC.: CEM0206286W0 </p>
+                        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s"> 
+                            {content.officialData}
+                        </p>
 
 
                     </div>
@@ -69,9 +99,13 @@ const Donate = () => {
                                 </svg>
                             </div>
                             <div class="flex-grow">
-                                <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Voluntariado 1</h2>
-                                <p class="leading-relaxed text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                                <h2 class="text-gray-900 text-lg title-font font-medium mb-3">
+                                    {content.voluntariado1Title}
+                                </h2>
+                                <p class="leading-relaxed text-base">
+                                    {content.voluntariado1Desc}
+                                </p>
+                                <a class="mt-3 text-indigo-500 inline-flex items-center">Saber Más
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                                     </svg>
@@ -87,8 +121,12 @@ const Donate = () => {
                                 </svg>
                             </div>
                             <div class="flex-grow">
-                                <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Voluntariado 2</h2>
-                                <p class="leading-relaxed text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <h2 class="text-gray-900 text-lg title-font font-medium mb-3">
+                                    {content.voluntariado2Title}
+                                </h2>
+                                <p class="leading-relaxed text-base">
+                                    {content.voluntariado2Desc}
+                                </p>
                                 <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                         <path d="M5 12h14M12 5l7 7-7 7"></path>
