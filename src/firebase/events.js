@@ -171,6 +171,7 @@ Event.deleteEvent = async (eventId) => {
     }
 
     let res = await eventRef.delete();
+    console.log("deleteEvent returned:", res);
 
     let result = {
       message: "El evento fue eliminado exitosamente",
