@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import Post from '../firebase/posts'
 import BlogCard from "../Components/BlogCard"
 import { Link } from "react-router-dom";
 import BlogCardAdmin from "../Components/BlogCardAdmin"
 import Page from '../firebase/pages'
+import Post from '../firebase/posts'
 
 const BlogAdmin = () => {
     const [content, setContent] = useState({
@@ -39,44 +39,45 @@ const BlogAdmin = () => {
     }
 
     const handleOnSubmit = async () => {
-        // async / await
+        // Updates Page Content
         const res = await Page.updateBlog(content);
         console.log(res);
     }
 
 
-/////////////////////////Fav and delete blog/////////////////////////
+    /////////////////////////Fav and delete blog/////////////////////////
 
-    
-
-    const onDelete = (index) => {
+    const onDelete = async (index, postId) => {
         console.log("Deleting comment", index);
+        let res = await Post.deletePost(postId);
+        console.log(res);
         let newBlogs = postList.filter((blog, blog_index) => blog_index !== index);
         setPostList(newBlogs);
     }
 
-
-
-    const setFav = (index) => {
+    const setFav = async (index, postId) => {
+        // Call Post.update()
         let newBlogs = [...postList]
-        console.log(newBlogs[index])
-        newBlogs[index].favorite = !newBlogs[index].favorite
+        console.log(newBlogs[index], "favorite: ", newBlogs[index].favorite);
 
+        let value = !newBlogs[index].favorite;
+        newBlogs[index].favorite = value;
+        let res = await Post.updatePost(postId, { favorite: value });
+        console.log(res);
         setPostList(newBlogs)
-      
     }
 
-/////////////////////////Fav and delete blog/////////////////////////
+    /////////////////////////Fav and delete blog/////////////////////////
     return (
         <>
-        <div class="bg-blue-300 flex flex-col text-center w-full mb-4 p-4">
+            <div class="bg-blue-300 flex flex-col text-center w-full mb-4 p-4">
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de Página de Inicio</h1>
                 <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Usted se encuentra en modo de edición. Escriba sobre las entradas de texto y presione guardar cambios cuando termine para actualizar el contenido.</p>
                 <div class="w-full flex justify-center my-8">
- 
-<button class="text-white bg-indigo-500 border-0 py-4 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"> <Link to="/admin/crear/blog"> Crear entrada de blog </Link> </button>
- 
-</div>
+
+                    <button class="text-white bg-indigo-500 border-0 py-4 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"> <Link to="/admin/crear/blog"> Crear entrada de blog </Link> </button>
+
+                </div>
             </div>
             <div class="flex flex-wrap justify-center mx-auto p-4">
                 <div class="flex flex-col text-center w-full mb-4 ">
@@ -93,19 +94,24 @@ const BlogAdmin = () => {
                         (postList.length ?
                             // <div class="flex flex-wrap justify-center mx-auto p-4">
                             <div class="flex flex-wrap justify-center w-screen p-4">
-                                {postList.map((blog, index) => (<BlogCardAdmin setFav={() => setFav(index)} key={index} fav={blog.favorite} delete={() => onDelete(index)} subtitle={String(blog.posted) } title={blog.title} summary={blog.content}  img ={blog.image}
-                                />))}
+                                {postList.map((post, index) => (
+                                    <BlogCardAdmin
+                                        setFav={() => setFav(index, Post.id)}
+                                        key={index}
+                                        delete={() => onDelete(index, post.id)}
+                                        postInfo={post}
+                                    />))}
                             </div>
                             : (<p>No hay eventos planeados</p>)
                         )}
             </div>
 
 
-            
-        
+
+
             <div class="w-full flex justify-center my-20">
                 <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" onClick={handleOnSubmit}>Guardar cambios</button>
-            </div>                
+            </div>
         </>
     );
 }
