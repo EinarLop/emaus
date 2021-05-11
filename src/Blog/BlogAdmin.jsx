@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import Post from '../firebase/posts'
 import BlogCard from "../Components/BlogCard"
 import { Link } from "react-router-dom";
 import BlogCardAdmin from "../Components/BlogCardAdmin"
 import Page from '../firebase/pages'
+import Post from '../firebase/posts'
+
 
 const BlogAdmin = () => {
     const [content, setContent] = useState({
@@ -42,6 +43,7 @@ const BlogAdmin = () => {
         // async / await
         const res = await Page.updateBlog(content);
         console.log(res);
+        // mostrar "Cambios guardados con éxito"
     }
 
 
@@ -49,21 +51,27 @@ const BlogAdmin = () => {
 
     
 
-    const onDelete = (index) => {
+    const onDelete = async (index, postId) => {
         console.log("Deleting comment", index);
         let newBlogs = postList.filter((blog, blog_index) => blog_index !== index);
         setPostList(newBlogs);
+
+        let res = await Post.deletePost(postId);
+        console.log("Deleted from firestore result:", res);
     }
 
-
-
-    const setFav = (index) => {
+    const setFav = async (index, postId) => {
+        console.log("Toggle fav clicked", postId);
         let newBlogs = [...postList]
-        console.log(newBlogs[index])
-        newBlogs[index].favorite = !newBlogs[index].favorite
+        console.log("Previous value: ", newBlogs[index].favorite);
 
+        const value = !newBlogs[index].favorite;
+        newBlogs[index].favorite = value;
+        console.log("New value:", value);
+
+        let res = await Post.updatePost(postId, {favorite: value});
+        console.log("Update favorite result:", res);
         setPostList(newBlogs)
-      
     }
 
 /////////////////////////Fav and delete blog/////////////////////////
@@ -93,7 +101,12 @@ const BlogAdmin = () => {
                         (postList.length ?
                             // <div class="flex flex-wrap justify-center mx-auto p-4">
                             <div class="flex flex-wrap justify-center w-screen p-4">
-                                {postList.map((blog, index) => (<BlogCardAdmin setFav={() => setFav(index)} key={index} fav={blog.favorite} delete={() => onDelete(index)} subtitle={String(blog.posted) } title={blog.title} summary={blog.content}  img ={blog.image}
+                                {postList.map((post, index) => (
+                                <BlogCardAdmin 
+                                    setFav={() => setFav(index, post.postId)} 
+                                    key={index}
+                                    delete={() => onDelete(index, post.postId)} 
+                                    postInfo={post}
                                 />))}
                             </div>
                             : (<p>No hay eventos planeados</p>)
