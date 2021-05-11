@@ -15,6 +15,7 @@ import DonateAdmin from "./Donate/DonateAdmin";
 import BlogAdmin from "./Blog/BlogAdmin";
 import EventsAdmin from "./Events/EventsAdmin";
 import Login from "./Login/Login";
+import VolunteerAdmin from "./Donate/VolunteerAdmin";
 ////////////////Admin////////////////////////
 
 import TestBackend from "./TestBackend";
@@ -29,7 +30,6 @@ function App() {
         <Route exact path="/blog" component={Blog} />
         <Route exact path="/donativos" component={Donate} />
         <Route exact path="/eventos" component={Events} />
-      
 
         <Route exact path="/blogpost" component={BlogPost} />
         <Route exact path="/asayo" component={TestBackend} />
@@ -42,6 +42,7 @@ function App() {
         <Route exact path="/admin/blog" component={BlogAdmin} />
         <Route exact path="/admin/eventos" component={EventsAdmin} />
         <Route exact path="/admin/crear/blog" component={BlogCreate} />
+        <Route exact path="/admin/voluntarios" component={VolunteerAdmin} />
         {/* ////////////////////Admin/////////////////// */}
       </Router>
     </>

@@ -14,14 +14,12 @@ const BlogCardAdmin = (props) => {
                         "bg-yellow-500 w-12 focus:outline-none hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mb-4" 
                         : "bg-gray-500 w-12 focus:outline-none hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded mb-4";
 
-
   const textStyle = {
     overflow: "hidden",
     display: "-webkit-box",
     WebkitLineClamp: 5,
     WebkitBoxOrient: "vertical"
   }
-
 
   return (
     <>

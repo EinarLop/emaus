@@ -1,5 +1,6 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import Page from '../firebase/pages'
+import Volunteer from '../firebase/volunteers'
 
 const Donate = () => {
 
@@ -21,7 +22,14 @@ const Donate = () => {
         officialAddress: "Carr. Xochimilco Topilejo No. 33 Col. San Miguel Topilejo Alcaldía Tlalpan CDMX  C.P. 14500",
     })
 
-    useEffect(()=> {
+    const [volunteer, setVolunteer] = useState({
+        name: "",
+        phone: "",
+        email: "",
+        note: "",
+    })
+
+    useEffect(() => {
         async function fetchPage() {
             console.log("Fetching Donations page info...");
             const pageData = await Page.getDonations();
@@ -29,6 +37,29 @@ const Donate = () => {
         }
         fetchPage();
     }, [])
+
+    const handleOnChange = (e) => {
+        const temp = {
+            ...volunteer,
+            [e.target.name]: e.target.value,
+        }
+        console.log(e.target.name + ": " + e.target.value);
+        setVolunteer(temp);
+    }
+
+    const submitVolunteer = async () => {
+        const currentVolunteer = volunteer;
+        let res = await Volunteer.registerOne(currentVolunteer);
+        console.log(res);
+
+        let form = {
+            name: "",
+            phone: "",
+            email: "",
+            note: "",
+        }
+        setVolunteer(form);
+    }
 
     const iframeStyle = {
         width: "100%",
@@ -68,13 +99,13 @@ const Donate = () => {
                         </h1>
 
                         <p class="text-xl leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
-                            CUENTA BBVA Bancomer: 0157923031 
+                            CUENTA BBVA Bancomer: 0157923031
                         </p>
                         <p class="text-xl leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s mb-4">   </p>
                         <p class="text-xl leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s mb-4">   {content.clabeNumber}</p>
                         <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s mb-4"> {content.disclaimerDescription}  </p>
                         <p class="text-lg leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s"> Nuestros datos oficiales: </p>
-                        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s"> 
+                        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
                             {content.officialData}
                         </p>
 
@@ -91,7 +122,7 @@ const Donate = () => {
 
             <section section class="text-gray-600 body-font" >
                 <div class="container px-5 mb-16 mx-auto">
-                    <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
+                    <div class="flex flex-wrap justify-center sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
                         <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
                             <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
@@ -189,17 +220,30 @@ const Donate = () => {
                         </p>
                         <div class="relative mb-4">
                             <label for="name" class="leading-7 text-sm text-gray-600">Nombre</label>
-                            <input type="text" id="name" name="name" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                            <input type="text" id="name" name="name" value={volunteer.name} onChange={handleOnChange}
+                                class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
                         </div>
                         <div class="relative mb-4">
+                            <label for="phone" class="leading-7 text-sm text-gray-600">Phone</label>
+                            <input type="tel" name="phone" value={volunteer.phone} onChange={handleOnChange}
+                                class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" pattern="[0-9]{3} [0-9]{3} [0-9]{4}" maxlength="10" title="Ten digits code" required />
+                        </div>
+                        <div class="relative mb-4">
+
                             <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
-                            <input type="email" id="email" name="email" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                            <input type="email" id="email" name="email" value={volunteer.email} onChange={handleOnChange}
+                                class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+
                         </div>
                         <div class="relative mb-4">
-                            <label for="message" class="leading-7 text-sm text-gray-600">Notas Adicionales</label>
-                            <textarea id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+                            <label for="note" class="leading-7 text-sm text-gray-600">Notas Adicionales</label>
+                            <textarea id="note" name="note" value={volunteer.note} onChange={handleOnChange}
+                                class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
                         </div>
-                        <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Contáctanos</button>
+                        <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                            onClick={submitVolunteer}>
+                            Contáctanos
+                        </button>
                         <p class="text-xs text-gray-500 mt-3">
                             ¡Revisaremos tu solicitud y te contactaremos!
                         </p>
