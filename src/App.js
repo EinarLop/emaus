@@ -42,7 +42,7 @@ function App() {
         <Route exact path="/admin/blog" component={BlogAdmin} />
         <Route exact path="/admin/eventos" component={EventsAdmin} />
         <Route exact path="/admin/crear/blog" component={BlogCreate} />
-        <Route exact path="/admin/voluntariado" component={VolunteerAdmin} />
+        <Route exact path="/admin/voluntarios" component={VolunteerAdmin} />
         {/* ////////////////////Admin/////////////////// */}
       </Router>
     </>

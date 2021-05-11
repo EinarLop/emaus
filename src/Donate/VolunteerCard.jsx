@@ -1,11 +1,15 @@
 const VolunteerCard = (props) => {
+
+  const date = props.date.toDate()
+  console.log(date);
+  const mm = date.toLocaleString('es-ES', { month: 'long' });
+  const dd = date.getDate();
+  const yyyy = date.getFullYear();
+
   return (
 
 
-
-
     <div class="h-full bg-gray-100 p-8 rounded my-12">
-
 
       <div class="flex flex-col">
         <div class="flex justify-between mb-2.5 align-center">
@@ -13,7 +17,7 @@ const VolunteerCard = (props) => {
           <button onClick={props.delete} class="focus:outline-none self-center bg-red-500 w-12 mh-2 mh-12 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">X</button>
 
         </div>
-        <p class="title-font text-gray-500 mb-1.5  ml-1 italic"> {props.date}</p>
+        <p class="title-font text-gray-500 mb-1.5  ml-1 italic"> {mm + " " + dd + " " + yyyy}</p>
         <span class="text-gray-500 mb-1.5 text-md"> <svg class="w-6 mr-2 fill-current text-gray-500  inline-block" viewBox="0 0 20 20">
           <path d="M17.388,4.751H2.613c-0.213,0-0.389,0.175-0.389,0.389v9.72c0,0.216,0.175,0.389,0.389,0.389h14.775c0.214,0,0.389-0.173,0.389-0.389v-9.72C17.776,4.926,17.602,4.751,17.388,4.751 M16.448,5.53L10,11.984L3.552,5.53H16.448zM3.002,6.081l3.921,3.925l-3.921,3.925V6.081z M3.56,14.471l3.914-3.916l2.253,2.253c0.153,0.153,0.395,0.153,0.548,0l2.253-2.253l3.913,3.916H3.56z M16.999,13.931l-3.921-3.925l3.921-3.925V13.931z"></path>
         </svg>{props.mail}</span>

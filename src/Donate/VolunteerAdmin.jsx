@@ -1,36 +1,20 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import VolunteerCard from "./VolunteerCard"
-
+import Volunteer from '../firebase/volunteers'
 
 const VolunteerAdmin = () => {
 
+  const [volunteers, setVolunteers] = useState([])
 
+  useEffect(() => {
+    async function fetchVolunteers() {
+      const data = await Volunteer.getAllVolunteers();
+      console.log(data);
+      setVolunteers(data);
+    }
 
-
-  const [volunteers, setVolunteers] = useState(
-    [
-      {
-        name: "one",
-        phone: "111111111",
-        mail: "one@gmail.com",
-        note: "I am number one bitches",
-        date: "10/10/2020"
-      },
-
-      {
-        name: "two",
-        phone: "2222222222",
-        mail: "two@gmail.com",
-        note: "I am number tow bitches",
-        date: "10/10/2020"
-      }
-    ]
-  )
-
-
-
-
-
+    fetchVolunteers();
+  })
 
   const onDelete = (index) => {
     console.log("Deleting comment", index);
@@ -49,24 +33,21 @@ const VolunteerAdmin = () => {
         <h1 class="text-3xl font-medium title-font text-gray-900  text-center">Aplicaciones voluntariado</h1>
 
 
-        <div class="p-4 md:w-1/2 w-full">
+        <div class="p-4 max-w-screen-lg w-full">
 
-
-          {volunteers.map((volunteer, index) => {
+          {volunteers.length ? volunteers.map((volunteer, index) => {
             return (
-
               <VolunteerCard
                 name={volunteer.name}
                 date={volunteer.date}
                 mail={volunteer.mail}
                 phone={volunteer.phone}
                 note={volunteer.note}
-                delete={() => onDelete(index)}
-
+                delete={() => onDelete(index)
+                }
               />
             )
-
-          })}
+          }) : <p>No volunteers try again later</p>}
 
 
         </div>
