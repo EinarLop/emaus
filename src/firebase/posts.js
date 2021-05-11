@@ -193,6 +193,7 @@ Post.deletePost = async (postId) => {
         return result;
 
     } catch (err) {
+        console.log(err.message);
         let result = {
             message: "Error al buscar Post con id"  + postId,
             ok: false,

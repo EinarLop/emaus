@@ -5,6 +5,7 @@ import BlogCardAdmin from "../Components/BlogCardAdmin"
 import Page from '../firebase/pages'
 import Post from '../firebase/posts'
 
+
 const BlogAdmin = () => {
     const [content, setContent] = useState({
         mainTitle: "Titulo",
@@ -42,6 +43,7 @@ const BlogAdmin = () => {
         // Updates Page Content
         const res = await Page.updateBlog(content);
         console.log(res);
+        // mostrar "Cambios guardados con éxito"
     }
 
 
@@ -53,17 +55,21 @@ const BlogAdmin = () => {
         console.log(res);
         let newBlogs = postList.filter((blog, blog_index) => blog_index !== index);
         setPostList(newBlogs);
+        let res = await Post.deletePost(postId);
+        console.log("Deleted from firestore result:", res);
     }
 
     const setFav = async (index, postId) => {
-        // Call Post.update()
+        console.log("Toggle fav clicked", postId);
         let newBlogs = [...postList]
-        console.log(newBlogs[index], "favorite: ", newBlogs[index].favorite);
+        console.log("Previous value: ", newBlogs[index].favorite);
 
-        let value = !newBlogs[index].favorite;
+        const value = !newBlogs[index].favorite;
         newBlogs[index].favorite = value;
-        let res = await Post.updatePost(postId, { favorite: value });
-        console.log(res);
+        console.log("New value:", value);
+
+        let res = await Post.updatePost(postId, {favorite: value});
+        console.log("Update favorite result:", res);
         setPostList(newBlogs)
     }
 
@@ -95,12 +101,13 @@ const BlogAdmin = () => {
                             // <div class="flex flex-wrap justify-center mx-auto p-4">
                             <div class="flex flex-wrap justify-center w-screen p-4">
                                 {postList.map((post, index) => (
-                                    <BlogCardAdmin
-                                        setFav={() => setFav(index, Post.id)}
-                                        key={index}
-                                        delete={() => onDelete(index, post.id)}
-                                        postInfo={post}
-                                    />))}
+      
+                                <BlogCardAdmin 
+                                    setFav={() => setFav(index, post.postId)} 
+                                    key={index}
+                                    delete={() => onDelete(index, post.postId)} 
+                                    postInfo={post}
+                                />))}
                             </div>
                             : (<p>No hay eventos planeados</p>)
                         )}

@@ -113,6 +113,11 @@ export default function TestBackend() {
         console.log(posts);
     };
 
+    const deleteAPost = async() => {
+        let res = await Post.deletePost('6');
+        console.log(res);
+    }
+
     const handlePostImageUpload = async (e) => {
         const imageFile = e.target.files[0];    // Blob
         console.log('originalFile instanceof Blob', imageFile instanceof Blob); // true
@@ -224,7 +229,7 @@ export default function TestBackend() {
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
             <input type='datetime-local' onChange={printDate}></input>
-            <button onClick={getHome}>Do something</button>
+            <button onClick={deleteAPost}>Do something</button>
             <button onClick={handleEventImageUpload}>Upload Event img</button>
             <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>
