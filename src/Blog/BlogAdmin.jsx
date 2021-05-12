@@ -51,7 +51,6 @@ const BlogAdmin = () => {
 
     const onDelete = async (index, postId) => {
         console.log("Deleting comment", index);
-        let res = await Post.deletePost(postId);
         console.log(res);
         let newBlogs = postList.filter((blog, blog_index) => blog_index !== index);
         setPostList(newBlogs);
@@ -68,7 +67,7 @@ const BlogAdmin = () => {
         newBlogs[index].favorite = value;
         console.log("New value:", value);
 
-        let res = await Post.updatePost(postId, {favorite: value});
+        let res = await Post.updatePost(postId, { favorite: value });
         console.log("Update favorite result:", res);
         setPostList(newBlogs)
     }
@@ -101,13 +100,13 @@ const BlogAdmin = () => {
                             // <div class="flex flex-wrap justify-center mx-auto p-4">
                             <div class="flex flex-wrap justify-center w-screen p-4">
                                 {postList.map((post, index) => (
-      
-                                <BlogCardAdmin 
-                                    setFav={() => setFav(index, post.postId)} 
-                                    key={index}
-                                    delete={() => onDelete(index, post.postId)} 
-                                    postInfo={post}
-                                />))}
+
+                                    <BlogCardAdmin
+                                        setFav={() => setFav(index, post.postId)}
+                                        key={index}
+                                        delete={() => onDelete(index, post.postId)}
+                                        postInfo={post}
+                                    />))}
                             </div>
                             : (<p>No hay eventos planeados</p>)
                         )}
