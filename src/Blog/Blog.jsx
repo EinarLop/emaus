@@ -51,7 +51,7 @@ const Blog = () => {
                         :
                         (postList.length ?
                             <div class="flex flex-wrap justify-center mx-auto p-4">
-                                {postList.map((p, i) => (<BlogCard key={i} postInfo={p} />))}
+                                {postList.map((p, i) => (<BlogCard id={p.postId} key={i} postInfo={p} />))}
                             </div>
                             : (<p>No hay eventos planeados</p>)
                         )

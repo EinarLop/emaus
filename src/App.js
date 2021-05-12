@@ -31,7 +31,7 @@ function App() {
         <Route exact path="/donativos" component={Donate} />
         <Route exact path="/eventos" component={Events} />
 
-        <Route exact path="/blogpost" component={BlogPost} />
+        <Route exact path="/blogpost/:id" component={BlogPost} />
         <Route exact path="/asayo" component={TestBackend} />
 
         {/* ////////////////////Admin/////////////////// */}
