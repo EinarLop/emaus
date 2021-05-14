@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Post from "../firebase/posts";
 
 const BlogCardAdmin = (props) => {
@@ -22,7 +23,8 @@ const BlogCardAdmin = (props) => {
 
   return (
     <>
-      <div class=" xl:w-1/4 md:w-1/2 p-0 sm:p-4 sm:py-4 py-4  max-w-sm ">
+
+      <div class=" md:w-1/2 p-0 sm:p-4 sm:py-4 py-4  max-w-sm ">
         <div class=" bg-gray-100 p-6 rounded-lg">
           <div class="flex justify-between">
             <button
@@ -50,9 +52,8 @@ const BlogCardAdmin = (props) => {
           <p class="leading-relaxed text-base" style={textStyle}>
             {content}
           </p>
-          <a class="text-blue-500 inline-flex items-center md:mb-2 lg:mb-0 my-4">
-            Leer Más
-          </a>
+          <Link to={"/blogpost/" + postId} class="text-blue-500 inline-flex items-center md:mb-2 lg:mb-0 my-4">Leer Más
+                    </Link>
         </div>
       </div>
     </>

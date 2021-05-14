@@ -14,12 +14,14 @@ const VolunteerAdmin = () => {
     }
 
     fetchVolunteers();
-  })
+  }, [])
 
-  const onDelete = (index) => {
+  const onDelete = async (index, volunteerId) => {
     console.log("Deleting comment", index);
     let newVolunteers = volunteers.filter((volunteer, volunteer_index) => volunteer_index !== index);
     setVolunteers(newVolunteers);
+    let res = await Volunteer.deleteVolunteer(volunteerId);
+    console.log(res);
   }
 
 
@@ -33,21 +35,18 @@ const VolunteerAdmin = () => {
         <h1 class="text-3xl font-medium title-font text-gray-900  text-center">Aplicaciones voluntariado</h1>
 
 
-        <div class="p-4 max-w-screen-lg w-full">
+        <div class="p-4 max-w-screen-lg w-full mx-auto">
 
           {volunteers.length ? volunteers.map((volunteer, index) => {
             return (
               <VolunteerCard
-                name={volunteer.name}
                 date={volunteer.date}
-                mail={volunteer.mail}
-                phone={volunteer.phone}
-                note={volunteer.note}
-                delete={() => onDelete(index)
+                volunteerInfo={volunteer}
+                delete={() => onDelete(index, volunteer.volunteerId)
                 }
               />
             )
-          }) : <p>No volunteers try again later</p>}
+          }) : <p>Por el momento no hay registros de voluntarios.</p>}
 
 
         </div>

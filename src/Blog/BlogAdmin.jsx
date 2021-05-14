@@ -51,7 +51,7 @@ const BlogAdmin = () => {
 
     const onDelete = async (index, postId) => {
         console.log("Deleting comment", index);
-        console.log(res);
+
         let newBlogs = postList.filter((blog, blog_index) => blog_index !== index);
         setPostList(newBlogs);
         let res = await Post.deletePost(postId);
@@ -76,7 +76,7 @@ const BlogAdmin = () => {
     return (
         <>
             <div class="bg-blue-300 flex flex-col text-center w-full mb-4 p-4">
-                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de Página de Inicio</h1>
+                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de la página de blog</h1>
                 <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Usted se encuentra en modo de edición. Escriba sobre las entradas de texto y presione guardar cambios cuando termine para actualizar el contenido.</p>
                 <div class="w-full flex justify-center my-8">
 
@@ -94,7 +94,7 @@ const BlogAdmin = () => {
 
                 {/* MIN 200 chars*/}
                 {
-                    loading ? <p>Cargando Eventos...</p>
+                    loading ? <p>Cargando Blogs...</p>
                         :
                         (postList.length ?
                             // <div class="flex flex-wrap justify-center mx-auto p-4">
@@ -102,13 +102,13 @@ const BlogAdmin = () => {
                                 {postList.map((post, index) => (
 
                                     <BlogCardAdmin
-                                        setFav={() => setFav(index, post.postId) }
+                                        setFav={() => setFav(index, post.postId)}
                                         key={index}
                                         delete={() => onDelete(index, post.postId)}
                                         postInfo={post}
                                     />))}
                             </div>
-                            : (<p>No hay eventos planeados</p>)
+                            : (<p>No hay blogs publicados</p>)
                         )}
             </div>
 

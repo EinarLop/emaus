@@ -7,7 +7,7 @@ const BlogCreate = () => {
   const [preview, setPreview] = useState();
   // array for local URL Objects for previewing an image
   const [uploadMsg, setUploadMsg] = useState();
-  const [feedbackMsg , setFeedbackMsg] = useState();
+  const [feedbackMsg, setFeedbackMsg] = useState();
   const [file, setFile] = useState();
 
   const [blog, setBlog] = useState({
@@ -22,7 +22,7 @@ const BlogCreate = () => {
     // adds the selected file to the files array for preloading
     e.preventDefault();
     let f = e.target.file.files[0];
-    
+
     if (f != null) {
       let fpreview = URL.createObjectURL(f);
 
@@ -34,14 +34,13 @@ const BlogCreate = () => {
       e.target.file.value = null; // reset the input
     }
   };
- 
+
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value);
     const newBlog = {
       ...blog,
       [e.target.name]: e.target.value,
     }
-
     setBlog(newBlog);
   }
 
@@ -53,43 +52,41 @@ const BlogCreate = () => {
     const description = blog.description;
 
 
-    if (title.trim()==='' || description.trim()==='') {
+    if (title.trim() === '' || description.trim() === '') {
       // feedback message: Favor de llenar los campos
       setFeedbackMsg("Tu titulo o descripción esta muy corto")
       return;
     }
 
-    if (title.length>100){
+    if (title.length > 100) {
       setFeedbackMsg("Tu título excede los caracteres bro")
       return;
     }
-    
-    if(description.length> 800) {
+
+    if (description.length > 800) {
       setFeedbackMsg("El texto debe ser menor a 800 caracteres");
       return;
     }
 
-    if(file === null){
+    if (file === null) {
       setFeedbackMsg("Debes de incluir una imagen jiji")
       return;
     }
 
     setFeedbackMsg("Todo good 10/10"); // all ok
-    
+
     const cleanBlogPost = {
       title: title,
       content: description,
-      favorite: false, 
+      favorite: false,
     }
-
-     
 
     const response = await Post.createNewPost(cleanBlogPost);
     console.log(response); //Printear mensjae de exito
-    
-    if(response.ok){
-    const responseImg = await Post.addImageToPost(response.id, file);
-    console.log(responseImg);
+
+    if (response.ok) {
+      const responseImg = await Post.addImageToPost(response.id, file);
+      console.log(responseImg);
     }
   }
 
@@ -119,7 +116,7 @@ const BlogCreate = () => {
                     type="text"
                     id="title"
                     name="title"
-                    onChange = {handleChange}
+                    onChange={handleChange}
                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                 </div>
@@ -132,7 +129,7 @@ const BlogCreate = () => {
                   <textarea
                     id="description"
                     name="description"
-                    onChange = {handleChange}
+                    onChange={handleChange}
                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
                   ></textarea>
                 </div>
@@ -168,29 +165,21 @@ const BlogCreate = () => {
                   type="
                   submit"
                 >
-                  Preview
+                  Vista Previa
                   </button>
-
                 {/* Preview button */}
-
-
-
               </form>
               <div class="flex-column w-full items-center border-2 p-2 mb-10">
                 <p > Imagenes seleccionadas</p>
-
-                
-                  <img class="mx-auto my-4" src={preview} />
-              
+                <img class="mx-auto my-4" src={preview} />
               </div>
               <div class="p-2 w-full max-w-sm mx-auto">
-                <button 
-                onClick={onSubmit}
-                class="w-full  text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                <button
+                  onClick={onSubmit}
+                  class="w-full  text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                   Crear entrada
                 </button>
               </div>
-
             </div>
           </div>
         </div>
