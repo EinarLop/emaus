@@ -102,7 +102,7 @@ const BlogAdmin = () => {
                                 {postList.map((post, index) => (
 
                                     <BlogCardAdmin
-                                        setFav={() => setFav(index, post.postId)}
+                                        setFav={() => setFav(index, post.postId) }
                                         key={index}
                                         delete={() => onDelete(index, post.postId)}
                                         postInfo={post}
