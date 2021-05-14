@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import EventCard from "../Components/EventCard.jsx"
 import Event from '../firebase/events'
 import Page from '../firebase/pages'
+import EventCardAdmin from "../Components/EventCardAdmin"
 
 const EventsAdmin = () => {
 
@@ -47,6 +48,19 @@ const EventsAdmin = () => {
         console.log(res);
     }
 
+    ////////////////////////// Delete Event ////////////////////////////
+    const onDelete = async (index, eventId) => {
+        console.log("Deleting event", index);
+        console.log("Deleting event eventId", eventId);
+        let newEvents = eventList.filter((event, event_index) => event_index !== index);
+        setEventList(newEvents);
+        let res = await Event.deleteEvent(eventId);
+        console.log("Deleted from firestore result:", res);
+    }
+
+
+    ////////////////////////// Delete Event ////////////////////////////
+
     return (
         <>
             <div class=" container px-5 py-16 md:py-12   flex flex-wrap justify-center mx-auto">
@@ -61,7 +75,7 @@ const EventsAdmin = () => {
                     :
                     (eventList.length ?
                         <div>
-                            {eventList.map((e, i) => (<EventCard key={i} eventInfo={e} />))}
+                            {eventList.map((e, i) => (<EventCardAdmin key={i} delete={() => onDelete(i, e.eventId)} eventInfo={e} />))}
                         </div>
                         : (<p>No hay eventos planeados</p>)
                     )}
