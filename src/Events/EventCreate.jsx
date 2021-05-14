@@ -1,7 +1,5 @@
 const EventCreate = () => {
-    return (
-        <></>
-    );
-}
+  return <></>;
+};
 
 export default EventCreate;

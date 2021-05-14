@@ -4,7 +4,7 @@ import { firebase, db, storage } from "./app";
 const Event = {};
 
 // CREATE
-Event.creatNewEvent = async (clientData) => {
+Event.createNewEvent = async (clientData) => {
   // Sanity checks
   const validation = validateClientData(clientData);
   if (!validation.ok) {
@@ -60,8 +60,6 @@ Event.creatNewEvent = async (clientData) => {
   }
 };
 
-
-
 // GET EVENTS
 Event.getAllEvents = async () => {
   try {
@@ -76,15 +74,14 @@ Event.getAllEvents = async () => {
         content: doc.data().content,
         date: doc.data().date.toDate(),
         image: doc.data().image,
-        type: doc.data().type,   // category: efeméride, cultural, cumpleaños, religiosa, recreativa
+        type: doc.data().type, // category: efeméride, cultural, cumpleaños, religiosa, recreativa
       };
       events.push(obj);
     });
 
     console.log("Fetched events succesfully");
-    console.log("Events type:", typeof(events));
+    console.log("Events type:", typeof events);
     return events;
-
   } catch (err) {
     console.error(err);
     return err;
@@ -118,7 +115,6 @@ Event.getOneEvent = async (eventId) => {
     return result;
   }
 };
-
 
 // UPDATE
 Event.updateEvent = async (eventId, eventData) => {
@@ -154,20 +150,18 @@ Event.updateEvent = async (eventId, eventData) => {
   }
 };
 
-
 // DELETE
 Event.deleteEvent = async (eventId) => {
   console.log("delete Event id:", eventId, typeof eventId);
- 
 
   try {
     const eventRef = await db.collection("event").doc(eventId);
-        
+
     // Delete event image
     const imageUrl = (await eventRef.get()).data().image;
-    if (imageUrl !== '') {
+    if (imageUrl !== "") {
       let delImg = await Event.deleteImage(eventId, imageUrl);
-      console.log(imageUrl,"deleted:\n",delImg);
+      console.log(imageUrl, "deleted:\n", delImg);
     }
 
     let res = await eventRef.delete();
@@ -178,7 +172,6 @@ Event.deleteEvent = async (eventId) => {
       ok: true,
     };
     return result;
-    
   } catch (err) {
     let result = {
       message: "Error al buscar Evento con id" + eventId,
@@ -187,7 +180,6 @@ Event.deleteEvent = async (eventId) => {
     return result;
   }
 };
-
 
 // EVENT IMAGE MANAGEMENT
 Event.uploadImage = async (eventId, imageFile) => {
@@ -276,8 +268,6 @@ Event.deleteImage = async (eventId, fileUrl) => {
   }
 };
 
-
-
 const validateClientData = (data) => {
   if (!data) {
     let result = {
@@ -320,6 +310,7 @@ const validateClientData = (data) => {
   }
 };
 
-Event.defaultImage = 'https://firebasestorage.googleapis.com/v0/b/emaus-49818.appspot.com/o/default%2FEmaus_Default.jpg?alt=media&token=5ba32091-4e93-4262-a325-f3a5f3dc9a34';
+Event.defaultImage =
+  "https://firebasestorage.googleapis.com/v0/b/emaus-49818.appspot.com/o/default%2FEmaus_Default.jpg?alt=media&token=5ba32091-4e93-4262-a325-f3a5f3dc9a34";
 
 export default Event;

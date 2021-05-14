@@ -19,6 +19,7 @@ import VolunteerAdmin from "./Donate/VolunteerAdmin";
 ////////////////Admin////////////////////////
 
 import TestBackend from "./TestBackend";
+import EventPost from "./Events/EventPost";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/eventos" component={Events} />
 
         <Route exact path="/blogpost/:id" component={BlogPost} />
+        <Route exact path="/eventos/:id" component={EventPost} />
         <Route exact path="/asayo" component={TestBackend} />
 
         {/* ////////////////////Admin/////////////////// */}
