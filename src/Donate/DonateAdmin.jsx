@@ -46,7 +46,7 @@ const DonateAdmin = () => {
         console.log(res);
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         async function fetchPage() {
             console.log("Fetching Donations page info...");
             const pageData = await Page.getDonations();
@@ -59,7 +59,7 @@ const DonateAdmin = () => {
         <>
 
             <div class="bg-blue-300 flex flex-col text-center w-full mb-4 p-4">
-                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de la página principal</h1>
+                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de la página donativos</h1>
                 <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Usted se encuentra en modo de edición. Escriba sobre las entradas de texto y presione guardar cambios cuando termine para actualizar el contenido.</p>
             </div>
 
@@ -207,7 +207,7 @@ const DonateAdmin = () => {
             </section>
 
             <div class="w-full flex justify-center my-20">
-            <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" onClick={handleOnSubmit}>Guardar cambios</button>
+                <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" onClick={handleOnSubmit}>Guardar cambios</button>
             </div>
         </>
     );

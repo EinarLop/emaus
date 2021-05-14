@@ -6,6 +6,7 @@ import Donate from "./Donate/Donate";
 import Blog from "./Blog/Blog";
 import Events from "./Events/Events";
 import BlogCreate from "./Blog/BlogCreate";
+import EventCreate from "./Events/EventCreate";
 
 import BlogPost from "./Blog/BlogPost";
 ////////////////Admin////////////////////////
@@ -44,6 +45,7 @@ function App() {
         <Route exact path="/admin/blog" component={BlogAdmin} />
         <Route exact path="/admin/eventos" component={EventsAdmin} />
         <Route exact path="/admin/crear/blog" component={BlogCreate} />
+        <Route exact path="/admin/crear/evento" component={EventCreate} />
         <Route exact path="/admin/voluntarios" component={VolunteerAdmin} />
         {/* ////////////////////Admin/////////////////// */}
       </Router>

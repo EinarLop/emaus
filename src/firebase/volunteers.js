@@ -57,7 +57,7 @@ Volunteer.getAllVolunteers = async () => {
         volunteerId: doc.id,
         name: doc.data().name,
         phone: doc.data().phone,
-        email: doc.data().mail,
+        email: doc.data().email,
         note: doc.data().note,
         date: doc.data().date,
       };

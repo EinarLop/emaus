@@ -43,7 +43,6 @@ const Donate = () => {
             ...volunteer,
             [e.target.name]: e.target.value,
         }
-        console.log(e.target.name + ": " + e.target.value);
         setVolunteer(temp);
     }
 

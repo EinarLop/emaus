@@ -31,6 +31,7 @@ Event.createNewEvent = async (clientData) => {
     // define new event object
     console.log("Date to be sent to Firebase:", clientData.date); // toma en cuenta Timezone de MX
     console.log(typeof clientData.date);
+    console.log(clientData);
     const event = {
       title: clientData.title,
       content: clientData.content,
@@ -206,6 +207,8 @@ Event.uploadImage = async (eventId, imageFile) => {
 };
 
 Event.addImageToEvent = async (eventId, imageFile) => {
+  console.log("imageFile:", imageFile);
+  if (!imageFile) return;
   // Get blogpost data
   try {
     const postRef = await db.collection("event").doc(eventId); // create a reference or pointer to db
