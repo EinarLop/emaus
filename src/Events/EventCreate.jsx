@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Event from '../firebase/events';
 import { Redirect } from 'react-router-dom'
 
@@ -6,10 +6,11 @@ const EventCreate = () => {
   const [preview, setPreview] = useState();
   // array for local URL Objects for previewing an image
   const [uploadMsg, setUploadMsg] = useState();
-  const [feedbackMsg, setFeedbackMsg] = useState();
+  const [feedbackMsg, setFeedbackMsg] = useState(); 
   const [file, setFile] = useState();
   const [msg, setMsg] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   const [event, setEvent] = useState({
     title: '',
@@ -19,19 +20,25 @@ const EventCreate = () => {
 
   const checkFileSize = (size) => {
     if (size > 2000000) {
-      setMsg("El tamaño de la imagen excede los 2MB, por favor seleccione otra")
-      return false
+      let msg = <p style={{color: '#22ff'}}>El tamaño de la imagen excede los 2MB, por favor seleccione otra</p>
+      setMsg(msg);
+      return false;
     }
 
     else {
-      setMsg("")
-      return true
+      setMsg("");
+      return true;
     }
   }
 
   const onDeleteFile = () => {
     setPreview()
   }
+
+  useEffect(() => {
+    console.log("Reset user msg");
+    setMsg("");
+  }, [file, event])
 
   const onFileSubmit = (e) => {
 
@@ -52,14 +59,6 @@ const EventCreate = () => {
     }
   };
 
-  const handleRedirect = () => {
-    console.log("Redirecting...");
-
-    let msg = <p styles={{ color: 'green' }}>¡Evento creado exitosamente!</p>
-    setMsg(msg);
-    setTimeout(() => setRedirect(true), 2000);
-  }
-
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value);
     const newEvent = {
@@ -76,34 +75,40 @@ const EventCreate = () => {
     const title = event.title;
     const description = event.description;
     const date = event.date;
+    let msg = <p>Guardando Evento...</p>
+    setMsg(msg);
+    setShowButton(false);
 
     if (title.trim() === '' || description.trim() === '') {
       // feedback message: Favor de llenar los campos
-      setFeedbackMsg("Tu titulo o descripción esta muy corto")
+      msg = <p styles={{ color: '#ff0033' }}>Por favor incluye título y descripción</p>
+      setMsg(msg);      
       return;
     }
 
     if (title.length > 100) {
-      setFeedbackMsg("Tu título excede los caracteres bro")
+      msg = <p styles={{ color: ' #ff0033' }}>El título debe ser menor a 100 carateres.</p>
+      setMsg(msg);
       return;
     }
 
     if (description.length > 800) {
-      setFeedbackMsg("El texto debe ser menor a 800 caracteres");
+      msg = <p styles={{ color: ' #ff0033' }}>El texto debe ser menor a 800 caracteres</p>
+      setMsg(msg);
       return;
     }
 
     if (file === null) {
-      setFeedbackMsg("Debes de incluir una imagen jiji")
+      msg = <p styles={{ color: ' #ff0033' }}>Incluye una imagen para tu publicación</p>
+      setMsg(msg);
       return;
     }
 
     if (date.trim() === '') {
-      setFeedbackMsg("Debes de especificar una fecha y hora");
+      msg = <p styles={{ color: ' #ff0033' }}>Especifica una fecha y hora para el evento.</p>
+      setMsg(msg);
       return;
     }
-
-    setFeedbackMsg("Todo good 10/10"); // all ok
 
     let currDate = new Date(date);
 
@@ -122,10 +127,19 @@ const EventCreate = () => {
       const responseImg = await Event.addImageToEvent(response.id, file);
       console.log(responseImg);
       handleRedirect();
+    } else {
+      setMsg(response.message);
+      setShowButton(true);
     }
   }
 
+  const handleRedirect = () => {
+    console.log("Redirecting...");
 
+    let msg = <p styles={{ fontSize: '24px', color: '#9ccc65' }}>¡Publicación creada exitosamente!</p>
+    setMsg(msg);
+    setTimeout(() => setRedirect(true), 2000);
+  }
 
   return (
     <>
@@ -230,11 +244,13 @@ const EventCreate = () => {
                 {msg}
               </div>
               <div class="p-2 w-full max-w-sm mx-auto">
-                <button
-                  onClick={onSubmit}
-                  class="w-full  text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                  Crear entrada
-                </button>
+                {showButton && (
+                  <button
+                    onClick={onSubmit}
+                    class="w-full  text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    Crear evento
+                  </button>
+                )}
               </div>
             </div>
           </div>

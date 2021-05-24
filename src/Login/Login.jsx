@@ -9,11 +9,14 @@ const Login = () => {
     user: '',
     pass: '',
   })
-
+  const [msg, setMsg] = useState("");
+  const [showButton, setShowButton] = useState(true);
   const { loginStatus } = useLogin();
 
   const onLogin = async () => {
     console.log("Logging in...");
+    setMsg("Iniciando sesión, espera...");
+    setShowButton(false);
     const user = state.user;
     const pass = state.pass;
 
@@ -22,15 +25,25 @@ const Login = () => {
       console.log("Favor de llenar los campos");
       return;
     }
+
     if (likeEmail(user)) {
       console.log("Email", user);
       let res = await User.loginUser(user, pass);
       console.log(res)
+      if (!res.ok) {
+        setMsg(res.message);
+        setShowButton(true);
+      }
     } else {
       console.log("Username", user);
       let res = await User.loginWithUsername(user, pass);
       console.log(res)
+      if (!res.ok) {
+        setMsg(res.message);
+        setShowButton(true);
+      }
     }
+
     //setTimeout(()=>{User.logOut()}, 3000);
   }
 
@@ -67,10 +80,15 @@ const Login = () => {
                 placeholder=""
                 class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
             </div>
-            <button onClick={onLogin}
-              class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-              Iniciar sesión
-          </button>
+            <div class="p-2 w-full max-w-sm mx-auto">
+                {msg}
+            </div>
+            {showButton && (
+              <button onClick={onLogin}
+                class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                Iniciar sesión
+              </button>
+            )}
             <p class="text-xs text-gray-500 mt-3">¿Olvidaste la contraseña? Envía un correo a A01376748@itesm.mx para reestablecerla.</p>
           </div>
         </div>

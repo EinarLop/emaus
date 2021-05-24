@@ -10,6 +10,7 @@ const BlogCreate = () => {
   const [file, setFile] = useState();
   const [msg, setMsg] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [showButton, setShowButton] = useState(true);
 
   const [blog, setBlog] = useState({
     title: '',
@@ -18,7 +19,8 @@ const BlogCreate = () => {
 
   const checkFileSize = (size) => {
     if (size > 2000000) {
-      setMsg("El tamaño de la imagen excede los 2MB, por favor seleccione otra")
+      let msg = <p style={{color: '#22ff'}}>El tamaño de la imagen excede los 2MB, por favor seleccione otra</p>
+      setMsg(msg)
       return false
     }
 
@@ -71,6 +73,7 @@ const BlogCreate = () => {
     const description = blog.description;
     let msg = <p>Subiendo publicación...</p>
     setMsg(msg);
+    setShowButton(false);
 
     if (title.trim() === '' || description.trim() === '') {
       // feedback message: Favor de llenar los campos
@@ -109,8 +112,10 @@ const BlogCreate = () => {
     if (response.ok) {
       const responseImg = await Post.addImageToPost(response.id, file);
       console.log(responseImg);
-      // change created -> true;
       handleRedirect();
+    } else {
+      setMsg(response.message);
+      setShowButton(true);
     }
   }
 
@@ -120,6 +125,7 @@ const BlogCreate = () => {
     setMsg(msg);
     setTimeout(() => setRedirect(true), 2000);
   }
+
 
   return (
     <>
@@ -207,11 +213,13 @@ const BlogCreate = () => {
                 {msg}
               </div>
               <div class="p-2 w-full max-w-sm mx-auto">
-                <button
-                  onClick={onSubmit}
-                  class="w-full  text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                  Crear entrada
-                </button>
+                {showButton && (
+                  <button
+                    onClick={onSubmit}
+                    class="w-full  text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    Crear entrada
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -18,6 +18,8 @@ const AdminPanel = () => {
   return (
     <>
       {(redirect && <Redirect to="/admin/login" />)}
+      {loginStatus ? (
+      <>
       <div class="flex flex-col text-center w-full mb-4 px-8">
         <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">COMUNIDAD EMAÚS A.C</h2>
         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Panel administrativo </h1>
@@ -30,18 +32,18 @@ const AdminPanel = () => {
               <button class=" mx-auto w-full h-full text-xl text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">
                 <Link
                   to="/admin/inicio"
-                > Editar contenido página  Inicio
+                > Editar contenido página Inicio
               </Link>
               </button>
             </div>
             <div class="p-4 h-64 w-full sm:w-full md:w-1/4">
               <button class=" mx-auto w-full h-full text-xl  text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg">
-
+                <Link
+                  to="/admin/donativos"
+                > Editar contenido página Apóyanos
+                </Link>
               </button>
-              <Link
-                to="/admin/donativos"
-              > Editar contenido página Apóyanos
-              </Link>
+
             </div>
             <div class="p-4 h-64 w-full sm:w-full md:w-1/4">
               <button class=" mx-auto w-full h-full text-xl  text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg">
@@ -59,12 +61,27 @@ const AdminPanel = () => {
               </Link>
               </button>
             </div>
+            <div class="p-4 h-64 w-full sm:w-full md:w-1/4">
+              <button class=" mx-auto w-full h-full text-xl  text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-lg">
+                <Link
+                  to="/admin/voluntarios"
+                > Registros a voluntariado
+              </Link>
+              </button>
+            </div>
           </div>
         </div>
       </section>
       <div class="p-4 h-30 sm:w-full md:w-1/4 mx-auto">
         <button class=" mx-auto w-full h-full text-xl  text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg" onClick={logOut}>CERRAR SESIÓN</button>
       </div>
+      </>
+      ) :
+      (
+        <div style={{display: 'flex', justifyContent:'center'}}>
+          <h1 style={{textAlign:'center'}}>404 Ruta no encontrada</h1>
+        </div>
+      )}
     </>
   )
 }
