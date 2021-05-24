@@ -4,11 +4,13 @@ import Event from '../firebase/events'
 import Page from '../firebase/pages'
 import EventCardAdmin from "../Components/EventCardAdmin"
 import { Link } from "react-router-dom";
+import { Redirect } from 'react-router-dom'
 
 const EventsAdmin = () => {
 
     const [eventList, setEventList] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [msg, setMsg] = useState("");
 
     useEffect(() => {
         async function fetchData() {
@@ -32,6 +34,17 @@ const EventsAdmin = () => {
         mainDescription: "Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag",
     })
 
+    const handleRedirect = () => {
+        console.log("Redirecting...");
+
+        let msg = <p styles={{ color: 'green' }}>¡Pagina actualizada correctamente!</p>
+        setMsg(msg);
+        setTimeout(() => refreshPage(), 2000);
+    }
+
+    const refreshPage = () => {
+        window.location.reload();
+    }
 
     const handleOnChange = (event) => {
         console.log(event.target.textContent);
@@ -47,6 +60,7 @@ const EventsAdmin = () => {
         // async / await
         const res = await Page.updateEvents(content);
         console.log(res);
+        handleRedirect()
     }
 
     ////////////////////////// Delete Event ////////////////////////////
@@ -90,7 +104,9 @@ const EventsAdmin = () => {
                         </div>
                         : (<p>No hay eventos planeados</p>)
                     )}
-
+            <div class="p-2 w-full max-w-sm mx-auto">
+                {msg}
+            </div>
             <div class="w-full flex justify-center my-20">
                 <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" onClick={handleOnSubmit}>Guardar cambios</button>
             </div>

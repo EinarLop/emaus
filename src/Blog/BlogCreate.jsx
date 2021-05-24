@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Post from '../firebase/posts'
-
-
+import { Redirect } from 'react-router-dom'
 
 const BlogCreate = () => {
   const [preview, setPreview] = useState();
@@ -9,28 +8,49 @@ const BlogCreate = () => {
   const [uploadMsg, setUploadMsg] = useState();
   const [feedbackMsg, setFeedbackMsg] = useState();
   const [file, setFile] = useState();
+  const [msg, setMsg] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
   const [blog, setBlog] = useState({
     title: '',
     description: '',
   })
 
+  const checkFileSize = (size) => {
+    if (size > 2000000) {
+      setMsg("El tamaño de la imagen excede los 2MB, por favor seleccione otra")
+      return false
+    }
 
+    else {
+      setMsg("")
+      return true
+    }
+  }
+
+  const onDeleteFile = () => {
+    setPreview()
+  }
+
+  useEffect(() => {
+    console.log("Reset user msg");
+    setMsg("");
+  }, [file, blog])
 
   const onFileSubmit = (e) => {
-
     // adds the selected file to the files array for preloading
     e.preventDefault();
     let f = e.target.file.files[0];
-
-    if (f != null) {
+    console.log(f.size)
+    let fileSize = checkFileSize(f.size)
+    if (f != null && fileSize) {
       let fpreview = URL.createObjectURL(f);
 
       setPreview(fpreview);
 
       console.log("Added", f);
       setFile(f);
-      setUploadMsg(<p style={{ color: "#9ccc65" }}>Added file: {f.name}</p>);
+      setUploadMsg(<p style={{ color: "#9ccc65" }}>Se añadió archivo: {f.name}</p>);
       e.target.file.value = null; // reset the input
     }
   };
@@ -45,35 +65,37 @@ const BlogCreate = () => {
   }
 
   const onSubmit = async () => {
-    console.log("Called onSubmit:");
     console.dir(blog);
 
     const title = blog.title;
     const description = blog.description;
-
+    let msg = <p>Subiendo publicación...</p>
+    setMsg(msg);
 
     if (title.trim() === '' || description.trim() === '') {
       // feedback message: Favor de llenar los campos
-      setFeedbackMsg("Tu titulo o descripción esta muy corto")
+      msg = <p styles={{ color: '#ff0033' }}>Por favor incluye título y descripción</p>
+      setMsg(msg);
       return;
     }
 
     if (title.length > 100) {
-      setFeedbackMsg("Tu título excede los caracteres bro")
+      msg = <p styles={{ color: ' #ff0033' }}>El título debe ser menor a 100 carateres.</p>
+      setMsg(msg);
       return;
     }
 
     if (description.length > 800) {
-      setFeedbackMsg("El texto debe ser menor a 800 caracteres");
+      msg = <p styles={{ color: ' #ff0033' }}>El texto debe ser menor a 800 caracteres</p>
+      setMsg(msg);
       return;
     }
 
     if (file === null) {
-      setFeedbackMsg("Debes de incluir una imagen jiji")
+      msg = <p styles={{ color: ' #ff0033' }}>Incluye una imagen para tu publicación</p>
+      setMsg(msg);
       return;
     }
-
-    setFeedbackMsg("Todo good 10/10"); // all ok
 
     const cleanBlogPost = {
       title: title,
@@ -87,13 +109,21 @@ const BlogCreate = () => {
     if (response.ok) {
       const responseImg = await Post.addImageToPost(response.id, file);
       console.log(responseImg);
+      // change created -> true;
+      handleRedirect();
     }
   }
 
-
+  const handleRedirect = () => {
+    console.log("Redirecting...");
+    let msg = <p styles={{ fontSize: '24px', color: '#9ccc65' }}>¡Publicación creada exitosamente!</p>
+    setMsg(msg);
+    setTimeout(() => setRedirect(true), 2000);
+  }
 
   return (
     <>
+      {(redirect && <Redirect to="/admin/blog" />)}
       <section class="text-gray-600 body-font relative">
         <div class="container px-5 py-6 mx-auto">
           <div class="flex flex-col text-center w-full mb-12">
@@ -171,7 +201,10 @@ const BlogCreate = () => {
               </form>
               <div class="flex-column w-full items-center border-2 p-2 mb-10">
                 <p > Imagenes seleccionadas</p>
-                <img class="mx-auto my-4" src={preview} />
+                <img class="mx-auto my-4 border-4 hover:border-red-500" src={preview} onClick={onDeleteFile} />
+              </div>
+              <div class="p-2 w-full text-center max-w-sm mx-auto">
+                {msg}
               </div>
               <div class="p-2 w-full max-w-sm mx-auto">
                 <button
@@ -183,7 +216,7 @@ const BlogCreate = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
     </>
   );
 };

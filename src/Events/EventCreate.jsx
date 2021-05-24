@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Event from '../firebase/events';
+import { Redirect } from 'react-router-dom'
 
 const EventCreate = () => {
   const [preview, setPreview] = useState();
@@ -7,6 +8,8 @@ const EventCreate = () => {
   const [uploadMsg, setUploadMsg] = useState();
   const [feedbackMsg, setFeedbackMsg] = useState();
   const [file, setFile] = useState();
+  const [msg, setMsg] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
   const [event, setEvent] = useState({
     title: '',
@@ -14,13 +17,30 @@ const EventCreate = () => {
     date: "",
   })
 
+  const checkFileSize = (size) => {
+    if (size > 2000000) {
+      setMsg("El tamaño de la imagen excede los 2MB, por favor seleccione otra")
+      return false
+    }
+
+    else {
+      setMsg("")
+      return true
+    }
+  }
+
+  const onDeleteFile = () => {
+    setPreview()
+  }
+
   const onFileSubmit = (e) => {
 
     // adds the selected file to the files array for preloading
     e.preventDefault();
     let f = e.target.file.files[0];
+    let fileSize = checkFileSize(f.size)
 
-    if (f != null) {
+    if (f != null && fileSize) {
       let fpreview = URL.createObjectURL(f);
 
       setPreview(fpreview);
@@ -31,6 +51,14 @@ const EventCreate = () => {
       e.target.file.value = null; // reset the input
     }
   };
+
+  const handleRedirect = () => {
+    console.log("Redirecting...");
+
+    let msg = <p styles={{ color: 'green' }}>¡Evento creado exitosamente!</p>
+    setMsg(msg);
+    setTimeout(() => setRedirect(true), 2000);
+  }
 
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value);
@@ -93,6 +121,7 @@ const EventCreate = () => {
     if (response.ok) {
       const responseImg = await Event.addImageToEvent(response.id, file);
       console.log(responseImg);
+      handleRedirect();
     }
   }
 
@@ -100,6 +129,7 @@ const EventCreate = () => {
 
   return (
     <>
+      {(redirect && <Redirect to="/admin/eventos" />)}
       <section class="text-gray-600 body-font relative">
         <div class="container px-5 py-6 mx-auto">
           <div class="flex flex-col text-center w-full mb-12">
@@ -193,7 +223,11 @@ const EventCreate = () => {
               </form>
               <div class="flex-column w-full items-center border-2 p-2 mb-10">
                 <p > Imagenes seleccionadas</p>
-                <img class="mx-auto my-4" src={preview} />
+                <img class="mx-auto my-4 border-4 hover:border-red-500" src={preview} onClick={onDeleteFile} />
+
+              </div>
+              <div class="p-2 w-full max-w-sm mx-auto">
+                {msg}
               </div>
               <div class="p-2 w-full max-w-sm mx-auto">
                 <button

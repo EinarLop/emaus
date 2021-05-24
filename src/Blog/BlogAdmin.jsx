@@ -15,6 +15,7 @@ const BlogAdmin = () => {
 
     const [postList, setPostList] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [msg, setMsg] = useState("");
 
     useEffect(() => {
         async function fetchData() {
@@ -39,11 +40,24 @@ const BlogAdmin = () => {
         });
     }
 
+    const handleRedirect = () => {
+        console.log("Redirecting...");
+
+        let msg = <p styles={{ color: 'green' }}>¡Pagina actualizada correctamente!</p>
+        setMsg(msg);
+        setTimeout(() => refreshPage(), 2000);
+    }
+
+    const refreshPage = () => {
+        window.location.reload();
+    }
+
     const handleOnSubmit = async () => {
         // Updates Page Content
         const res = await Page.updateBlog(content);
         console.log(res);
         // mostrar "Cambios guardados con éxito"
+        handleRedirect();
     }
 
 
@@ -114,7 +128,9 @@ const BlogAdmin = () => {
 
 
 
-
+            <div class="p-2 w-full max-w-sm mx-auto">
+                {msg}
+            </div>
             <div class="w-full flex justify-center my-20">
                 <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" onClick={handleOnSubmit}>Guardar cambios</button>
             </div>
