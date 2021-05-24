@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react"
 import Page from '../firebase/pages'
+import { Redirect } from 'react-router-dom'
+import { TiGroup } from "react-icons/ti"
+import { RiTShirt2Fill } from "react-icons/ri"
+import { RiStethoscopeFill } from "react-icons/ri"
 const DonateAdmin = () => {
-
+    const [msg, setMsg] = useState("");
     const iframeStyle = {
         width: "100%",
         height: "100%",
@@ -32,7 +36,18 @@ const DonateAdmin = () => {
         officialAddress: "Carr. Xochimilco Topilejo No. 33 Col. San Miguel Topilejo Alcaldía Tlalpan CDMX C.P. 14500"
     })
 
+    const handleRedirect = () => {
+        console.log("Redirecting...");
 
+        let msg = <p styles={{ color: 'green' }}>¡Pagina actualizada correctamente!</p>
+        setMsg(msg);
+        setTimeout(() => refreshPage(), 2000);
+    }
+
+    const refreshPage = () => {
+        window.location.reload();
+    }
+    
     const handleOnChange = (event) => {
         setContent({
             ...content,
@@ -44,6 +59,7 @@ const DonateAdmin = () => {
         // async / await
         const res = await Page.updateDonations(content);
         console.log(res);
+        handleRedirect()
     }
 
     useEffect(() => {
@@ -110,9 +126,10 @@ const DonateAdmin = () => {
                     <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
                         <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
                             <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
+                                {/* <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
                                     <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                                </svg>
+                                </svg> */}
+                                < TiGroup class="w-12 h-12 " />
                             </div>
                             <div class="flex-grow">
                                 <h2 contenteditable="True" onBlur={handleOnChange} align="voluntariado1Title" class="text-gray-900 text-lg title-font font-medium mb-3 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado1Title}</h2>
@@ -126,11 +143,12 @@ const DonateAdmin = () => {
                         </div>
                         <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
                             <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
+                                {/* <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
                                     <circle cx="6" cy="6" r="3"></circle>
                                     <circle cx="6" cy="18" r="3"></circle>
                                     <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
-                                </svg>
+                                </svg> */}
+                                <RiTShirt2Fill class="w-12 h-12" />
                             </div>
                             <div class="flex-grow">
                                 <h2 contenteditable="True" onBlur={handleOnChange} align="voluntariado2Title" class="text-gray-900 text-lg title-font font-medium mb-3 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado2Title}</h2>
@@ -144,10 +162,11 @@ const DonateAdmin = () => {
                         </div>
                         <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
                             <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
+                                {/* <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
                                     <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
                                     <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
+                                </svg> */}
+                                <RiStethoscopeFill class="w-12 h-12" />
                             </div>
                             <div class="flex-grow">
                                 <h2 contenteditable="True" onBlur={handleOnChange} align="voluntariado3Title" class="text-gray-900 text-lg title-font font-medium mb-3 tracking-widest  title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.voluntariado3Title}</h2>
@@ -205,7 +224,9 @@ const DonateAdmin = () => {
                     </div>
                 </div>
             </section>
-
+            <div class="w-full flex justify-center my-20">
+                {msg}
+            </div>
             <div class="w-full flex justify-center my-20">
                 <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" onClick={handleOnSubmit}>Guardar cambios</button>
             </div>

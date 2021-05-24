@@ -2,8 +2,11 @@ import Slider from "../Components/Slider"
 import BlogCard from "../Components/BlogCard"
 import { useState, useEffect } from "react"
 import Page from '../firebase/pages'
+import { Redirect } from 'react-router-dom'
 
 const HomeAdmin = () => {
+    
+    const [msg, setMsg] = useState("");
 
     const [content, setContent] = useState({
         mainTitle: "Titulo",
@@ -13,6 +16,17 @@ const HomeAdmin = () => {
         featuredBlogsDescription: "Descripción blogs",
     })
 
+    const refreshPage = () => {
+        window.location.reload();
+    }
+
+    const handleRedirect = () => {
+        console.log("Redirecting...");
+
+        let msg = <p styles={{ color: 'green' }}>¡Pagina actualizada correctamente!</p>
+        setMsg(msg);
+        setTimeout(() => refreshPage(), 2000);
+    }
     // Page.updateHome(content);
 
     const handleOnChange = (event) => {
@@ -28,7 +42,9 @@ const HomeAdmin = () => {
         // async / await
         const res = await Page.updateHome(content);
         console.log(res);
+        handleRedirect();
     }
+    
 
     useEffect(() => {
         async function fetchHome() {
@@ -75,7 +91,9 @@ const HomeAdmin = () => {
                 </div> 
 
             </section>
-
+            <div class="w-full flex justify-center my-20">
+                {msg}
+            </div>
             <div class="w-full flex justify-center my-20">
             
             <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" onClick={handleOnSubmit}>Guardar cambios</button>

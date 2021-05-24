@@ -104,7 +104,7 @@ const EventsAdmin = () => {
                         </div>
                         : (<p>No hay eventos planeados</p>)
                     )}
-            <div class="p-2 w-full max-w-sm mx-auto">
+            <div class="w-full flex justify-center my-20">
                 {msg}
             </div>
             <div class="w-full flex justify-center my-20">
