@@ -45,7 +45,6 @@ const Blog = () => {
                     </p>
                 </div>
 
-                {/* MIN 200 chars*/}
                 {
                     loading ? <p>Cargando Eventos...</p>
                         :

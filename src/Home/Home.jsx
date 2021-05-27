@@ -68,7 +68,7 @@ const Home = () => {
                             <div  class="flex flex-wrap justify-center mx-auto p-4">
                                 {postList.map((p, i) => (<BlogCard key={i} postInfo={p} />))}
                             </div>
-                            : (<p>No hay publicaciones destacadas</p>)
+                            : (<p>No hay publicaciones destacadas por el momento.</p>)
                         )
                 }
 
