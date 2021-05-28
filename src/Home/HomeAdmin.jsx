@@ -1,8 +1,6 @@
 import Slider from "../Components/Slider"
-import BlogCard from "../Components/BlogCard"
 import { useState, useEffect } from "react"
 import Page from '../firebase/pages'
-import { Redirect } from 'react-router-dom'
 import useLogin from '../hooks/useLogin'
 
 

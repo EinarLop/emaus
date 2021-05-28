@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import BlogCard from "../Components/BlogCard"
 import { Link } from "react-router-dom";
 import BlogCardAdmin from "../Components/BlogCardAdmin"
 import Page from '../firebase/pages'

@@ -6,7 +6,6 @@ const BlogCreate = () => {
   const [preview, setPreview] = useState();
   // array for local URL Objects for previewing an image
   const [uploadMsg, setUploadMsg] = useState();
-  const [feedbackMsg, setFeedbackMsg] = useState();
   const [file, setFile] = useState();
   const [msg, setMsg] = useState("");
   const [redirect, setRedirect] = useState(false);
@@ -207,7 +206,7 @@ const BlogCreate = () => {
               </form>
               <div class="flex-column w-full items-center border-2 p-2 mb-10">
                 <p > Imagenes seleccionadas</p>
-                <img class="mx-auto my-4 border-4 hover:border-red-500" src={preview} onClick={onDeleteFile} />
+                <img alt="vista previa" class="mx-auto my-4 border-4 hover:border-red-500" src={preview} onClick={onDeleteFile} />
               </div>
               <div class="p-2 w-full text-center max-w-sm mx-auto">
                 {msg}

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import Page from '../firebase/pages'
-import { Redirect } from 'react-router-dom'
 import { TiGroup } from "react-icons/ti"
 import { RiTShirt2Fill } from "react-icons/ri"
 import { RiStethoscopeFill } from "react-icons/ri"
@@ -183,7 +182,7 @@ const DonateAdmin = () => {
                         <div class="container px-5 py-12 mx-auto flex sm:flex-nowrap flex-wrap">
                             <div class="lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
 
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3767.7589658776446!2d-99.13772068477682!3d19.205727252872023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ce06fa6596ea65%3A0x55859f2a00c06a12!2sXochimilco-topilejo%2033%2C%20San%20Miguel%20Topilejo%2C%20Tlalpan%2C%2014500%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses!2smx!4v1618792388699!5m2!1ses!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" class="absolute inset-0" style={iframeStyle} ></iframe>
+                                <iframe title="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3767.7589658776446!2d-99.13772068477682!3d19.205727252872023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ce06fa6596ea65%3A0x55859f2a00c06a12!2sXochimilco-topilejo%2033%2C%20San%20Miguel%20Topilejo%2C%20Tlalpan%2C%2014500%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses!2smx!4v1618792388699!5m2!1ses!2smx" width="600" height="450" allowfullscreen="" loading="lazy" class="absolute inset-0" style={iframeStyle} ></iframe>
                                 <div class="bg-white relative flex flex-wrap py-6 rounded shadow-md">
                                     <div class="lg:w-1/2 px-6">
                                         <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">DIRECCIÓN</h2>

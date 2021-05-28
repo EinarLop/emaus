@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react'
-import EventCard from "../Components/EventCard.jsx"
 import Event from '../firebase/events'
 import Page from '../firebase/pages'
 import EventCardAdmin from "../Components/EventCardAdmin"
 import { Link } from "react-router-dom";
-import { Redirect } from 'react-router-dom'
 import useLogin from '../hooks/useLogin'
 
 
