@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react"
 import VolunteerCard from "./VolunteerCard"
 import Volunteer from '../firebase/volunteers'
+import useLogin from '../hooks/useLogin'
 
 const VolunteerAdmin = () => {
 
+  const { loginStatus } = useLogin();
   const [volunteers, setVolunteers] = useState([])
-
   
-
   useEffect(() => {
     async function fetchVolunteers() {
       const data = await Volunteer.getAllVolunteers();
@@ -29,32 +29,40 @@ const VolunteerAdmin = () => {
 
 
   return (
+    <>
+      {loginStatus ? (
+        <section class="text-gray-600 body-font">
+        <div class="container px-5 py-24 mx-auto">
+
+          <h1 class="text-3xl font-medium title-font text-gray-900  text-center">Aplicaciones voluntariado</h1>
 
 
-    <section class="text-gray-600 body-font">
-      <div class="container px-5 py-24 mx-auto">
+          <div class="p-4 max-w-screen-lg w-full mx-auto">
 
-        <h1 class="text-3xl font-medium title-font text-gray-900  text-center">Aplicaciones voluntariado</h1>
+            {volunteers.length ? volunteers.map((volunteer, index) => {
+              return (
+                <VolunteerCard
+                  date={volunteer.date}
+                  volunteerInfo={volunteer}
+                  delete={() => onDelete(index, volunteer.volunteerId)
+                  }
+                />
+              )
+            }) : <p>Por el momento no hay registros de voluntarios.</p>}
 
 
-        <div class="p-4 max-w-screen-lg w-full mx-auto">
-
-          {volunteers.length ? volunteers.map((volunteer, index) => {
-            return (
-              <VolunteerCard
-                date={volunteer.date}
-                volunteerInfo={volunteer}
-                delete={() => onDelete(index, volunteer.volunteerId)
-                }
-              />
-            )
-          }) : <p>Por el momento no hay registros de voluntarios.</p>}
-
+          </div>
 
         </div>
+      </section>
+      ) : 
+      (
+        <div style={{display: 'flex', justifyContent:'center'}}>
+          <h1 style={{textAlign:'center'}}>404 Ruta no encontrada</h1>
+        </div>
+      )}
+    </>
 
-      </div>
-    </section>
   )
 
 }

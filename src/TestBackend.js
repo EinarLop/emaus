@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import {firebase} from './firebase/app';
 import Post from "./firebase/posts";
 import User from "./firebase/users";
 import Event from "./firebase/events";
@@ -153,8 +152,8 @@ export default function TestBackend() {
     // User API ***********
     const login = async (e) => {
         console.log("logging in...")
-        let email = "archanavermarodriguez@gmail.com";
-        let password = "Toggle123";
+        let email = "";
+        let password = "";
         let res = await User.loginUser(email, password);
         console.log(res);
         //setLoginStatus(false);

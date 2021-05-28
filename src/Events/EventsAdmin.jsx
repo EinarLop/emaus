@@ -5,12 +5,16 @@ import Page from '../firebase/pages'
 import EventCardAdmin from "../Components/EventCardAdmin"
 import { Link } from "react-router-dom";
 import { Redirect } from 'react-router-dom'
+import useLogin from '../hooks/useLogin'
+
 
 const EventsAdmin = () => {
 
+    const { loginStatus } = useLogin();
     const [eventList, setEventList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [msg, setMsg] = useState("");
+    const [showButton, setShowButton] = useState(true);
 
     useEffect(() => {
         async function fetchData() {
@@ -39,7 +43,10 @@ const EventsAdmin = () => {
 
         let msg = <p styles={{ color: 'green' }}>¡Pagina actualizada correctamente!</p>
         setMsg(msg);
-        setTimeout(() => refreshPage(), 2000);
+        setTimeout(() => {
+            setShowButton(true);
+            refreshPage();
+        }, 2000);
     }
 
     const refreshPage = () => {
@@ -57,7 +64,7 @@ const EventsAdmin = () => {
 
 
     const handleOnSubmit = async () => {
-        // async / await
+        setShowButton(false);
         const res = await Page.updateEvents(content);
         console.log(res);
         handleRedirect()
@@ -78,41 +85,53 @@ const EventsAdmin = () => {
 
     return (
         <>
-            <div class="bg-blue-300 flex flex-col text-center w-full mb-4 p-4">
-                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de la página de eventos</h1>
-                <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Usted se encuentra en modo de edición. Escriba sobre las entradas de texto y presione guardar cambios cuando termine para actualizar el contenido.</p>
-                <div class="w-full flex justify-center my-8">
+            { loginStatus ? (
+            <>
+                <div class="bg-blue-300 flex flex-col text-center w-full mb-4 p-4">
+                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de la página de eventos</h1>
+                    <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Usted se encuentra en modo de edición. Escriba sobre las entradas de texto y presione guardar cambios cuando termine para actualizar el contenido.</p>
+                    <div class="w-full flex justify-center my-8">
 
-                    <button class="text-white bg-indigo-500 border-0 py-4 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"> <Link to="/admin/crear/evento"> Crear entrada de blog </Link> </button>
+                        <button class="text-white bg-indigo-500 border-0 py-4 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"> <Link to="/admin/crear/evento"> Crear entrada de blog </Link> </button>
 
+                    </div>
                 </div>
-            </div>
 
-            <div class=" container px-5 py-16 md:py-12   flex flex-wrap justify-center mx-auto">
-                <div class="flex flex-col text-center w-full mb-4 ">
-                    <h2 contenteditable="True" onBlur={handleOnChange} align="mainKicker" class="text-xs  h-auto text-indigo-500 tracking-widest font-medium title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.mainKicker}</h2>
-                    <h1 contenteditable="True" onBlur={handleOnChange} align="mainTitle" class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 focus:bg-blue-100 focus:outline-none">{content.mainTitle}</h1>
-                    <p contenteditable="True" onBlur={handleOnChange} align="mainDescription" class="lg:w-2/3 mx-auto leading-relaxed text-base focus:bg-blue-100 focus:bg-blue-100 focus:outline-none">{content.mainDescription}</p>
+                <div class=" container px-5 py-16 md:py-12   flex flex-wrap justify-center mx-auto">
+                    <div class="flex flex-col text-center w-full mb-4 ">
+                        <h2 contenteditable="True" onBlur={handleOnChange} align="mainKicker" class="text-xs  h-auto text-indigo-500 tracking-widest font-medium title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.mainKicker}</h2>
+                        <h1 contenteditable="True" onBlur={handleOnChange} align="mainTitle" class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 focus:bg-blue-100 focus:outline-none">{content.mainTitle}</h1>
+                        <p contenteditable="True" onBlur={handleOnChange} align="mainDescription" class="lg:w-2/3 mx-auto leading-relaxed text-base focus:bg-blue-100 focus:bg-blue-100 focus:outline-none">{content.mainDescription}</p>
+                    </div>
                 </div>
-            </div>
-            {
-                loading ? <p>Cargando Eventos...</p>
-                    :
-                    (eventList.length ?
-                        <div>
-                            {eventList.map((e, i) => (<EventCardAdmin key={i} delete={() => onDelete(i, e.eventId)} eventInfo={e} />))}
-                        </div>
-                        : (<p>No hay eventos planeados</p>)
+                {
+                    loading ? <p>Cargando Eventos...</p>
+                        :
+                        (eventList.length ?
+                            <div>
+                                {eventList.map((e, i) => (<EventCardAdmin key={i} delete={() => onDelete(i, e.eventId)} eventInfo={e} />))}
+                            </div>
+                            : (<p>No hay eventos planeados</p>)
+                        )}
+                <div class="w-full flex justify-center my-20">
+                    {msg}
+                </div>
+                <div class="w-full flex justify-center my-20">
+                    {showButton && (
+                        <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" 
+                        onClick={handleOnSubmit}>
+                            Guardar cambios
+                        </button>
                     )}
-            <div class="w-full flex justify-center my-20">
-                {msg}
+                </div>
+            </>
+            ) : 
+            (
+            <div style={{display: 'flex', justifyContent:'center'}}>
+                <h1 style={{textAlign:'center'}}>404 Ruta no encontrada</h1>
             </div>
-            <div class="w-full flex justify-center my-20">
-                <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" onClick={handleOnSubmit}>Guardar cambios</button>
-            </div>
+            )}
         </>
-
-
     );
 }
 
