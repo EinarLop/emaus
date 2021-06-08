@@ -39,12 +39,11 @@ const Login = () => {
       let res = await User.loginWithUsername(user, pass);
       console.log(res)
       if (!res.ok) {
-        setMsg(res.message);
+        let msg = <p style={{color:'#22ff'}}>{res.errors.general}</p>
+        setMsg(msg);
         setShowButton(true);
       }
     }
-
-    //setTimeout(()=>{User.logOut()}, 3000);
   }
 
   const handleChange = (e) => {

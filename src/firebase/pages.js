@@ -1,4 +1,4 @@
-import { firebase, db} from "./app";
+import { db } from "./app";
 
 const CONSTANTS = require('./config/config').CONSTANTS;  // page addresses in firestore
 /* ------ READ, UPDATE DE PAGES ------- */

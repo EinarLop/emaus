@@ -137,6 +137,7 @@ Post.updatePost = async (postId, postData) => {
             message: 'Client Error: no postData received',
             ok: false,
         }
+        return result;
     }
 
     // postData is an object, firestore only updates the defined fields

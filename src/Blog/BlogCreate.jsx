@@ -38,23 +38,27 @@ const BlogCreate = () => {
     setMsg("");
   }, [file, blog])
 
-  const onFileSubmit = (e) => {
-    // adds the selected file to the files array for preloading
+  const onFilePreview = (e) => {
     e.preventDefault();
-    let f = e.target.file.files[0];
-    console.log(f.size)
+    
+    let f = file;
+
     let fileSize = checkFileSize(f.size)
-    if (f != null && fileSize) {
+    
+    if (fileSize) {
       let fpreview = URL.createObjectURL(f);
-
       setPreview(fpreview);
-
       console.log("Added", f);
-      setFile(f);
-      setUploadMsg(<p style={{ color: "#9ccc65" }}>Se añadió archivo: {f.name}</p>);
-      e.target.file.value = null; // reset the input
+      e.target.file.value = null;
     }
   };
+
+  const handleFileInput = (e) => {
+    let f = e.target.files[0];
+    if (!f) return;
+    setFile(f);
+    setUploadMsg(<p style={{ color: "#9ccc65" }}>Se añadió archivo: {f.name}</p>);
+  }
 
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value);
@@ -75,7 +79,6 @@ const BlogCreate = () => {
     setShowButton(false);
 
     if (title.trim() === '' || description.trim() === '') {
-      // feedback message: Favor de llenar los campos
       msg = <p styles={{ color: '#ff0033' }}>Por favor incluye título y descripción</p>
       setMsg(msg);
       return;
@@ -106,7 +109,7 @@ const BlogCreate = () => {
     }
 
     const response = await Post.createNewPost(cleanBlogPost);
-    console.log(response); //Printear mensjae de exito
+    console.log(response); 
 
     if (response.ok) {
       const responseImg = await Post.addImageToPost(response.id, file);
@@ -124,7 +127,6 @@ const BlogCreate = () => {
     setMsg(msg);
     setTimeout(() => setRedirect(true), 2000);
   }
-
 
   return (
     <>
@@ -172,7 +174,7 @@ const BlogCreate = () => {
 
               <form
                 class="flex w-full flew-wrap  my-4 items-center justify-center bg-grey-lighter"
-                onSubmit={onFileSubmit}
+                onSubmit={onFilePreview}
               >
                 {/* Select file input */}
 
@@ -188,13 +190,12 @@ const BlogCreate = () => {
                   <span class="mt-2 text-base leading-normal">
                     Select a file
                     </span>
-                  <input name="file" type="file" class="hidden" />
+                  <input name="file" type="file" class="hidden" onChange={handleFileInput}/>
                 </label>
 
                 {/* Select file input */}
 
                 {/* Preview button */}
-
                 <button
                   class=" p-2 h-full w-6/12 mx-2 leading rounded-lg shadow-lg  border-2  py-2 px-8 focus:outline-none  hover:border-indigo-400  rounded text-lg"
                   type="
@@ -204,6 +205,7 @@ const BlogCreate = () => {
                   </button>
                 {/* Preview button */}
               </form>
+              {uploadMsg}
               <div class="flex-column w-full items-center border-2 p-2 mb-10">
                 <p > Imagenes seleccionadas</p>
                 <img alt="vista previa" class="mx-auto my-4 border-4 hover:border-red-500" src={preview} onClick={onDeleteFile} />

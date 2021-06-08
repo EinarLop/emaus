@@ -39,10 +39,9 @@ const EventsAdmin = () => {
     const handleRedirect = () => {
         console.log("Redirecting...");
 
-        let msg = <p styles={{ color: 'green' }}>¡Pagina actualizada correctamente!</p>
+        let msg = <p styles={{ color: 'green' }}>¡Página actualizada correctamente!</p>
         setMsg(msg);
         setTimeout(() => {
-            setShowButton(true);
             refreshPage();
         }, 2000);
     }

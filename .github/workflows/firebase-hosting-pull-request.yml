@@ -16,4 +16,3 @@ jobs:
           projectId: emaus-49818
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
-          CI: false
