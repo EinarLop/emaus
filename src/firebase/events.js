@@ -5,7 +5,6 @@ const Event = {};
 
 // CREATE
 Event.createNewEvent = async (clientData) => {
-  // Sanity checks
   const validation = validateClientData(clientData);
   if (!validation.ok) {
     return validation;
@@ -55,7 +54,7 @@ Event.createNewEvent = async (clientData) => {
     console.error(err);
     let result = {
       ok: false,
-      message: "Algo inesperado sucedió:" + err.message,
+      message: "Algo inesperado sucedió: " + err.message,
     };
     return result;
   }
@@ -66,7 +65,7 @@ Event.getAllEvents = async () => {
   try {
     const data = await db.collection("event").orderBy("date", "asc").get();
 
-    let events = Array();
+    let events = [];
 
     data.forEach((doc) => {
       let obj = {
@@ -119,8 +118,6 @@ Event.getOneEvent = async (eventId) => {
 
 // UPDATE
 Event.updateEvent = async (eventId, eventData) => {
-  // eventData should contain all Object keys
-  // eventData should be a Date object.
 
   const validation = validateClientData(eventData);
 

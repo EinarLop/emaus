@@ -1,5 +1,4 @@
 import { firebase, db } from './app';
-import Post from './posts';
 
 const User = {}
 

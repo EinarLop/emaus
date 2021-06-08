@@ -9,6 +9,8 @@ import BlogCreate from "./Blog/BlogCreate";
 import EventCreate from "./Events/EventCreate";
 
 import BlogPost from "./Blog/BlogPost";
+import EventPost from "./Events/EventPost";
+
 ////////////////Admin////////////////////////
 import AdminPanel from "./Login/AdminPanel";
 import HomeAdmin from "./Home/HomeAdmin";
@@ -19,8 +21,7 @@ import Login from "./Login/Login";
 import VolunteerAdmin from "./Donate/VolunteerAdmin";
 ////////////////Admin////////////////////////
 
-import TestBackend from "./TestBackend";
-import EventPost from "./Events/EventPost";
+
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
 
         <Route exact path="/blogpost/:id" component={BlogPost} />
         <Route exact path="/eventos/:id" component={EventPost} />
-        <Route exact path="/asayo" component={TestBackend} />
+        {/* <Route exact path="/asayo" component={TestBackend} /> */}
 
         {/* ////////////////////Admin/////////////////// */}
         <Route exact path="/admin/panel" component={AdminPanel} />

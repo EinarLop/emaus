@@ -4,13 +4,11 @@ import { Redirect } from 'react-router-dom'
 
 const EventCreate = () => {
   const [preview, setPreview] = useState();
-  // array for local URL Objects for previewing an image
   const [uploadMsg, setUploadMsg] = useState();
-  const [feedbackMsg, setFeedbackMsg] = useState(); 
   const [file, setFile] = useState();
   const [msg, setMsg] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const [showButton, setShowButton] = useState(false);
+  const [showButton, setShowButton] = useState(true);
 
   const [event, setEvent] = useState({
     title: '',
@@ -40,24 +38,27 @@ const EventCreate = () => {
     setMsg("");
   }, [file, event])
 
-  const onFileSubmit = (e) => {
-
-    // adds the selected file to the files array for preloading
+  const onFilePreview = (e) => {
     e.preventDefault();
-    let f = e.target.file.files[0];
+    
+    let f = file;
+
     let fileSize = checkFileSize(f.size)
-
-    if (f != null && fileSize) {
+    
+    if (fileSize) {
       let fpreview = URL.createObjectURL(f);
-
       setPreview(fpreview);
-
       console.log("Added", f);
-      setFile(f);
-      setUploadMsg(<p style={{ color: "#9ccc65" }}>Added file: {f.name}</p>);
-      e.target.file.value = null; // reset the input
+      e.target.file.value = null;
     }
   };
+
+  const handleFileInput = (e) => {
+    let f = e.target.files[0];
+    if (!f) return;
+    setFile(f);
+    setUploadMsg(<p style={{ color: "#9ccc65" }}>Se añadió archivo: {f.name}</p>);
+  }
 
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value);
@@ -136,7 +137,7 @@ const EventCreate = () => {
   const handleRedirect = () => {
     console.log("Redirecting...");
 
-    let msg = <p styles={{ fontSize: '24px', color: '#9ccc65' }}>¡Publicación creada exitosamente!</p>
+    let msg = <p styles={{ fontSize: '24px', color: '#9ccc65' }}>Evento creado exitosamente!</p>
     setMsg(msg);
     setTimeout(() => setRedirect(true), 2000);
   }
@@ -203,7 +204,7 @@ const EventCreate = () => {
 
               <form
                 class="flex w-full flew-wrap  my-4 items-center justify-center bg-grey-lighter"
-                onSubmit={onFileSubmit}
+                onSubmit={onFilePreview}
               >
                 {/* Select file input */}
 
@@ -219,7 +220,7 @@ const EventCreate = () => {
                   <span class="mt-2 text-base leading-normal">
                     Select a file
                     </span>
-                  <input name="file" type="file" class="hidden" />
+                  <input name="file" type="file" class="hidden" onChange={handleFileInput}/>
                 </label>
 
                 {/* Select file input */}
@@ -235,9 +236,10 @@ const EventCreate = () => {
                   </button>
                 {/* Preview button */}
               </form>
+              {uploadMsg}
               <div class="flex-column w-full items-center border-2 p-2 mb-10">
                 <p > Imagenes seleccionadas</p>
-                <img class="mx-auto my-4 border-4 hover:border-red-500" src={preview} onClick={onDeleteFile} />
+                <img alt="vista previa" class="mx-auto my-4 border-4 hover:border-red-500" src={preview} onClick={onDeleteFile} />
 
               </div>
               <div class="p-2 w-full max-w-sm mx-auto">
