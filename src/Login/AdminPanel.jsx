@@ -23,7 +23,16 @@ const AdminPanel = () => {
       <div class="flex flex-col text-center w-full mb-4 px-8">
         <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">COMUNIDAD EMAÚS A.C</h2>
         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Panel administrativo </h1>
-        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag.</p>
+        <div>
+          ¡Bienvenid@ al panel de Administración de Emaús Web!
+          <ul>
+            <li>"Editar Contenido Página Inicio": para editar el texto mostrado en la página <b>Inicio</b>.</li>
+            <li>"Editar Contenido Página Apoyanos": para editar el texto mostrado en la página <b>Apóyanos</b>.</li>
+            <li>"Administrar Blogs": crear y eliminar publicaciones de <b>Blog</b>, y seleccionar publicaciones destacadas.</li>
+            <li>"Administrar Eventos": usted puede crear nuevos eventos futuros. o eliminar los ya existentes. Todos los eventos se mostrarán en la página de <b>Eventos</b>.</li>
+            <li>En "Registros a Voluntariado": usted puede visualizar las posulaciones a voluntariado que han hecho los visitantes del sitio en la página de <b>Apóyanos</b>, y borrar los mismos.</li>
+          </ul>
+        </div>
       </div>
       <section class="text-gray-600 body-font">
         <div class="container px-5 py-4 mx-auto">
