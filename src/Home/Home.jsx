@@ -12,29 +12,29 @@ const Home = () => {
         mainKicker: "Cargando...",
         mainTitle: "Cargando...",
         mainDescription: "Cargando...",
-        featuredBlogsTitle:"Cargando...",
-        featuredBlogsDescription:"Cargando...",
+        featuredBlogsTitle: "Cargando...",
+        featuredBlogsDescription: "Cargando...",
     });
-   const [loading, setLoading] = useState(true);
-   const [postList, setPostList] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [postList, setPostList] = useState([]);
 
-   useEffect(() => {
-    async function fetchData() {
-        console.log("Fetching favorite events...");
-        const posts = await Post.getFavoritePosts();
-        setPostList(posts);
-        setLoading(false);
-    }
+    useEffect(() => {
+        async function fetchData() {
+            console.log("Fetching favorite events...");
+            const posts = await Post.getFavoritePosts();
+            setPostList(posts);
+            setLoading(false);
+        }
 
-    async function fetchHome() {
-        console.log("Fetching Home page info...");
-        const homeData = await Page.getHome();
-        setContent(homeData);
-    }
+        async function fetchHome() {
+            console.log("Fetching Home page info...");
+            const homeData = await Page.getHome();
+            setContent(homeData);
+        }
 
-    fetchHome();
-    fetchData();
-   }, [])
+        fetchHome();
+        fetchData();
+    }, [])
 
     return (
         <>
@@ -61,16 +61,16 @@ const Home = () => {
 
                 <div>
 
-                {
-                    loading ? <p>Cargando Eventos...</p>
-                        :
-                        (postList.length ?
-                            <div  class="flex flex-wrap justify-center mx-auto p-4">
-                                {postList.map((p, i) => (<BlogCard key={i} postInfo={p} />))}
-                            </div>
-                            : (<p>No hay publicaciones destacadas por el momento.</p>)
-                        )
-                }
+                    {
+                        loading ? <p>Cargando Eventos...</p>
+                            :
+                            (postList.length ?
+                                <div class="flex flex-wrap justify-center mx-auto p-4">
+                                    {postList.map((p, i) => (<BlogCard key={i} postInfo={p} />))}
+                                </div>
+                                : (<p class="text-center">No hay publicaciones destacadas por el momento.</p>)
+                            )
+                    }
 
                 </div>
             </section>

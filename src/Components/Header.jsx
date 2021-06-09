@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
-
         <>
             <header class="text-gray-600 body-font">
                 <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -15,25 +14,25 @@ const Header = () => {
 
                         <Link
                             to="/"
-                            class="mr-5 hover:text-gray-900"
+                            class="mr-5 text-base hover:text-gray-900"
                         >
                             Inicio
                         </Link>
                         <Link
                             to="/blog"
-                            class="mr-5 hover:text-gray-900"
+                            class="mr-5 text-base hover:text-gray-900"
                         >
                             Blog
                         </Link>
                         <Link
                             to="/eventos"
-                            class="mr-5 hover:text-gray-900"
+                            class="mr-5 text-base hover:text-gray-900"
                         >
                             Eventos
                         </Link>
                         <Link
                             to="/donativos"
-                            class="mr-5 hover:text-gray-900"
+                            class="mr-5 text-base hover:text-gray-900"
                         >
                             Apóyanos
                         </Link>
