@@ -4,8 +4,12 @@ import Volunteer from '../firebase/volunteers'
 import { TiGroup } from "react-icons/ti"
 import { RiTShirt2Fill } from "react-icons/ri"
 import { RiStethoscopeFill } from "react-icons/ri"
+import useLogin from '../hooks/useLogin'
+import {Link} from 'react-router-dom'
 
 const Donate = () => {
+
+    const {loginStatus} = useLogin();
 
     const [content, setContent] = useState({
         electronicDescription: "Cargando...",
@@ -34,7 +38,6 @@ const Donate = () => {
 
     useEffect(() => {
         async function fetchPage() {
-            console.log("Fetching Donations page info...");
             const pageData = await Page.getDonations();
             setContent(pageData);
         }
@@ -75,6 +78,14 @@ const Donate = () => {
 
     return (
         <>
+            {loginStatus && (<div class="p-4 w-full mx-auto max-w-xl">
+                            <button class=" mx-auto w-full  text-xl text-color bg-blue-100 border-2 border-blue-100 py-2 px-8 focus:outline-none hover:border-blue-300 rounded text-lg">
+                                <Link
+                                    to="/admin/panel"
+                                > Volver al panel administrativo
+                            </Link>
+                            </button>
+            </div>)}
             <div class="text-center mb-4 px-4">
                 <h1 class="sm:text-4xl text-3xl font-medium title-font text-gray-900 mb-4">Donativos</h1>
 
@@ -115,12 +126,7 @@ const Donate = () => {
                     </div>
                 </div>
 
-
             </section >
-
-
-            {/* /////////////////////////////////////////////////////////////// */}
-
 
             <section section class="text-gray-600 body-font" >
                 <div class="container px-5 mb-16 mx-auto">
@@ -143,15 +149,7 @@ const Donate = () => {
                         </div>
                         <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
                             <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-                                {/* <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
-                                    <circle cx="6" cy="6" r="3"></circle>
-                                    <circle cx="6" cy="18" r="3"></circle>
-                                    <
-                                    <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
-                                </svg> */}
                                 <RiTShirt2Fill class="w-12 h-12" />
-
-
                             </div>
                             <div class="flex-grow">
                                 <h2 class="text-gray-900 text-lg title-font font-medium mb-3">
@@ -164,10 +162,6 @@ const Donate = () => {
                         </div>
                         <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
                             <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-                                {/* <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
-                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg> */}
                                 <RiStethoscopeFill class="w-12 h-12" />
 
                             </div>
@@ -243,8 +237,6 @@ const Donate = () => {
                     </div>
                 </div>
             </section>
-
-
         </>
     );
 }

@@ -56,7 +56,7 @@ const AdminPanel = () => {
                 <Link class="p-4 h-64 w-full  md:w-1/4" to="/admin/blog">
                   <button class=" mx-auto w-full h-full text-xl  text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg">
 
-                    Adminsitrar Blog
+                    Administrar Blog
                   </button>
                 </Link>
 

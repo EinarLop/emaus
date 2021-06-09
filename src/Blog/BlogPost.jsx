@@ -6,9 +6,7 @@ const BlogPost = (props) => {
 
   useEffect(() => {
     async function fetchPost() {
-      console.log("Fetching Post info...");
       const postData = await Post.getOnePost(props.match.params.id);
-      console.log("TEST", postData.data);
       setContent(postData.data);
       const date = postData.data.posted.toDate();
       const mm = date.toLocaleString("es-ES", { month: "long" }).toUpperCase();
@@ -17,7 +15,7 @@ const BlogPost = (props) => {
       setDateString(mm + " " + dd + ", " + yyyy);
     }
     fetchPost();
-  }, []);
+  }, [props.match.params.id]);
 
   const [content, setContent] = useState({
     title: "cargando...",
@@ -30,12 +28,10 @@ const BlogPost = (props) => {
   return (
     <>
       <section class="text-gray-600 body-font">
-        {/* {props.match.params.id} */}
         <div class="flex flex-col text-center w-full mb-2 px-4">
           <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
             {content.title}
           </h1>
-          {/* <p class="lg:w-2/3 mx-auto leading-relaxed text-base">{content.mainKicker}</p> */}
         </div>
         <div class="container px-5 py-8 mx-auto flex flex-col">
           <div class="lg:w-4/6 mx-auto">

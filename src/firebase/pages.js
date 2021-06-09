@@ -7,8 +7,6 @@ const Page = {};
 
 Page.getHome = async () => {
     const data = await db.collection('pages').doc(CONSTANTS.HOME).get();
-
-    console.log(data.data());
     return data.data();
 }
 

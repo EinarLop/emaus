@@ -9,7 +9,7 @@ const useLogin = () => {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
               // User is signed in.
-              console.log("Curr user", user.email);
+              console.log("Current user ", user.email);
               setLoginStatus(true);
             } else {
               // No user is signed in.
@@ -18,7 +18,6 @@ const useLogin = () => {
             }
         });
     }, []);
-
     return { loginStatus };
 };
 

@@ -1,12 +1,14 @@
 import Slider from "../Components/Slider"
 import BlogCard from "../Components/BlogCard"
-
 import { useState, useEffect } from "react"
-
 import Post from '../firebase/posts'
 import Page from '../firebase/pages'
+import useLogin from '../hooks/useLogin'
+import {Link} from 'react-router-dom'
 
 const Home = () => {
+
+    const {loginStatus} = useLogin();
 
     const [content, setContent] = useState({
         mainKicker: "Cargando...",
@@ -38,6 +40,14 @@ const Home = () => {
 
     return (
         <>
+            {loginStatus && (<div class="p-4 w-full mx-auto max-w-xl">
+                            <button class=" mx-auto w-full  text-xl text-color bg-blue-100 border-2 border-blue-100 py-2 px-8 focus:outline-none hover:border-blue-300 rounded text-lg">
+                                <Link
+                                    to="/admin/panel"
+                                > Volver al panel administrativo
+                            </Link>
+                            </button>
+            </div>)}
             <section class=" sm:p-8 text-gray-600 body-font p-4  ">
                 <div class="flex flex-col text-center w-full mb-8">
                     <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">

@@ -6,9 +6,7 @@ const EventPost = (props) => {
 
   useEffect(() => {
     async function fetchEvent() {
-      console.log("Fetching Post info...");
       const eventData = await Event.getOneEvent(props.match.params.id);
-      console.log("TEST", eventData.data);
       setContent(eventData.data);
 
       const date = eventData.data.date.toDate();
@@ -20,7 +18,7 @@ const EventPost = (props) => {
       setDateString(mm + " " + dd + ", " + yyyy + " " + hours + ":" + minutes);
     }
     fetchEvent();
-  }, []);
+  }, [props.match.params.id]);
 
   const [content, setContent] = useState({
     title: "cargando...",
