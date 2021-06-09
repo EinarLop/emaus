@@ -21,11 +21,18 @@ import Login from "./Login/Login";
 import VolunteerAdmin from "./Donate/VolunteerAdmin";
 ////////////////Admin////////////////////////
 
+const background = {
+  backgroundColor: "#ffffff",
 
+  backgroundImage:
+    "radial-gradient(#dfe0f0 1.35px, transparent 1.35px), radial-gradient(#dfe0f0 1.35px, #ffffff 1.35px)",
+  backgroundSize: "54px 54px",
+  backgroundPosition: "0 0,27px 27px",
+};
 
 function App() {
   return (
-    <>
+    <div style={background}>
       <Router>
         <Header />
         {/* <TestBackend/> */}
@@ -50,7 +57,7 @@ function App() {
         <Route exact path="/admin/voluntarios" component={VolunteerAdmin} />
         {/* ////////////////////Admin/////////////////// */}
       </Router>
-    </>
+    </div>
   );
 }
 

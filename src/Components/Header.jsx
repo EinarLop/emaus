@@ -1,4 +1,5 @@
-import Logo from "../Img/logo.webp"
+// import Logo from "../Img/logo.webp"
+import Logo from "../Img/LOGOEMAUS.jpg"
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -8,7 +9,7 @@ const Header = () => {
             <header class="text-gray-600 body-font">
                 <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
                     <Link to="/" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                        <img alt="logo" src={Logo}></img>
+                        <img class="w-24" alt="logo" src={Logo}></img>
                         <span class="ml-3 text-xl"> COMUNIDAD EMAÚS  A.C </span>
                     </Link>
                     <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
