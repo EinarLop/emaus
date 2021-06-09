@@ -146,7 +146,7 @@ const BlogCreate = () => {
               <div class="p-2 w-full">
                 <div class="relative">
                   <label for="title" class="leading-7 text-sm text-gray-600">
-                    Título del evento
+                    Título del blog
                   </label>
                   <input
                     type="text"
@@ -160,7 +160,7 @@ const BlogCreate = () => {
               <div class="p-2 w-full">
                 <div class="relative">
                   <label for="description" class="leading-7 text-sm text-gray-600">
-                    Descripción del evento
+                    Descripción del blog
                   </label>
                   <textarea
                     id="description"
