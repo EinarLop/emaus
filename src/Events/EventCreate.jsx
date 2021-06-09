@@ -18,7 +18,7 @@ const EventCreate = () => {
 
   const checkFileSize = (size) => {
     if (size > 2000000) {
-      let msg = <p style={{color: '#22ff'}}>El tamaño de la imagen excede los 2MB, por favor seleccione otra</p>
+      let msg = <p style={{ color: '#22ff' }}>El tamaño de la imagen excede los 2MB, por favor seleccione otra</p>
       setMsg(msg);
       return false;
     }
@@ -40,11 +40,11 @@ const EventCreate = () => {
 
   const onFilePreview = (e) => {
     e.preventDefault();
-    
+
     let f = file;
 
     let fileSize = checkFileSize(f.size)
-    
+
     if (fileSize) {
       let fpreview = URL.createObjectURL(f);
       setPreview(fpreview);
@@ -83,7 +83,7 @@ const EventCreate = () => {
     if (title.trim() === '' || description.trim() === '') {
       // feedback message: Favor de llenar los campos
       msg = <p styles={{ color: '#ff0033' }}>Por favor incluye título y descripción</p>
-      setMsg(msg);      
+      setMsg(msg);
       return;
     }
 
@@ -152,8 +152,7 @@ const EventCreate = () => {
               Crear entrada de evento
             </h1>
             <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
-              Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical
-              gentrify.
+              Seguro tienes algo que contar, muéstrale al mundo lo que representa Emaús
             </p>
           </div>
           <div class="lg:w-1/2 md:w-2/3 mx-auto">
@@ -220,7 +219,7 @@ const EventCreate = () => {
                   <span class="mt-2 text-base leading-normal">
                     Select a file
                     </span>
-                  <input name="file" type="file" class="hidden" onChange={handleFileInput}/>
+                  <input name="file" type="file" class="hidden" onChange={handleFileInput} />
                 </label>
 
                 {/* Select file input */}
