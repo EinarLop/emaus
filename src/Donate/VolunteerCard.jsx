@@ -1,7 +1,6 @@
 const VolunteerCard = (props) => {
 
   const date = props.date.toDate()
-  console.log(date);
   const mm = date.toLocaleString('es-ES', { month: 'long' });
   const dd = date.getDate();
   const yyyy = date.getFullYear();

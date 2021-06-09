@@ -2,6 +2,7 @@ import Logo from "../Img/logo.webp"
 import { Link } from "react-router-dom";
 
 const Header = () => {
+
     return (
         <>
             <header class="text-gray-600 body-font">

@@ -44,7 +44,7 @@ const DonateAdmin = () => {
     const handleRedirect = () => {
         console.log("Redirecting...");
 
-        let msg = <p styles={{ color: 'green' }}>¡Página actualizada correctamente!</p>
+        let msg = <p styles={{ color: '#9ccc65' }}>¡Página actualizada correctamente!</p>
         setMsg(msg);
         setTimeout(() => {
             refreshPage();
@@ -72,7 +72,6 @@ const DonateAdmin = () => {
 
     useEffect(() => {
         async function fetchPage() {
-            console.log("Fetching Donations page info...");
             const pageData = await Page.getDonations();
             setContent(pageData);
         }

@@ -6,9 +6,7 @@ const BlogPost = (props) => {
 
   useEffect(() => {
     async function fetchPost() {
-      console.log("Fetching Post info...");
       const postData = await Post.getOnePost(props.match.params.id);
-      console.log("TEST", postData.data);
       setContent(postData.data);
       const date = postData.data.posted.toDate();
       const mm = date.toLocaleString("es-ES", { month: "long" }).toUpperCase();

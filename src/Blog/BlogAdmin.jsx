@@ -23,13 +23,11 @@ const BlogAdmin = () => {
 
     useEffect(() => {
         async function fetchData() {
-            console.log("Fetching events data...");
             const posts = await Post.getAllPosts();
             setPostList(posts);
             setLoading(false);
         }
         async function fetchPage() {
-            console.log("Fetching Blog page info...");
             const pageData = await Page.getBlog();
             setContent(pageData);
         }
@@ -45,9 +43,7 @@ const BlogAdmin = () => {
     }
 
     const handleRedirect = () => {
-        console.log("Redirecting...");
-
-        let msg = <p styles={{ color: 'green' }}>¡Página actualizada correctamente!</p>
+        let msg = <p styles={{ color: '#9ccc65' }}>¡Página actualizada correctamente!</p>
         setMsg(msg);
         setTimeout(() => {
             refreshPage();
@@ -60,40 +56,34 @@ const BlogAdmin = () => {
 
     const handleOnSubmit = async () => {
         // Updates Page Content
+        setMsg("");
         setShowButton(false);
         const res = await Page.updateBlog(content);
         console.log(res);
-        // mostrar "Cambios guardados con éxito"
         handleRedirect();
     }
 
 
-    /////////////////////////Fav and delete blog/////////////////////////
-
     const onDelete = async (index, postId) => {
-        console.log("Deleting comment", index);
-
         let newBlogs = postList.filter((blog, blog_index) => blog_index !== index);
         setPostList(newBlogs);
         let res = await Post.deletePost(postId);
+        setMsg(res.message);
         console.log("Deleted from firestore result:", res);
     }
 
     const setFav = async (index, postId) => {
-        console.log("Toggle fav clicked", postId);
         let newBlogs = [...postList]
-        console.log("Previous value: ", newBlogs[index].favorite);
 
         const value = !newBlogs[index].favorite;
         newBlogs[index].favorite = value;
-        console.log("New value:", value);
 
         let res = await Post.updatePost(postId, { favorite: value });
-        console.log("Update favorite result:", res);
+        console.log("Set Fav result:");
+        console.dir(res);
         setPostList(newBlogs)
     }
 
-    /////////////////////////Fav and delete blog/////////////////////////
     return (
         <>
             { loginStatus ? (
@@ -128,10 +118,9 @@ const BlogAdmin = () => {
 
                         {/* MIN 200 chars*/}
                         {
-                            loading ? <p>Cargando Blogs...</p>
+                            loading ? <p class="text-center">Cargando Blogs...</p>
                                 :
                                 (postList.length ?
-                                    // <div class="flex flex-wrap justify-center mx-auto p-4">
                                     <div class="flex flex-wrap justify-center w-screen p-4">
                                         {postList.map((post, index) => (
 

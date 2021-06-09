@@ -1,3 +1,4 @@
+import { RiCreativeCommonsZeroLine } from 'react-icons/ri';
 import { firebase, db } from './app';
 
 const User = {}
@@ -6,9 +7,11 @@ const User = {}
 User.loginUser = async (email, password) => {
     // returns an errors object and the status: valid or not
     const user = {
-        email: email,
+        email: email.trim(),
         password: password
     }
+    console.log("Logging in as:")
+    console.dir(user);
 
     const { valid, errors } = validateLogin(user);
     if (!valid) {

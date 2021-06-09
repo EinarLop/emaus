@@ -2,8 +2,12 @@ import { useState, useEffect } from 'react'
 import EventCard from "../Components/EventCard.jsx"
 import Event from '../firebase/events'
 import Page from '../firebase/pages'
+import useLogin from '../hooks/useLogin'
+import {Link} from 'react-router-dom'
 
 const Events = () => {
+
+    const {loginStatus} = useLogin();
 
     const [eventList, setEventList] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,13 +19,11 @@ const Events = () => {
 
     useEffect(() => {
         async function fetchData() {
-            console.log("Fetching events data...");
             const events = await Event.getAllEvents();
             setEventList(events);
             setLoading(false);
         }
         async function fetchPage() {
-            console.log("Fetching Events page info...");
             const pageData = await Page.getEvents();
             setContent(pageData);
         }
@@ -31,6 +33,15 @@ const Events = () => {
 
     return (
         <>
+            {loginStatus && (
+            <div class="p-4 w-full mx-auto max-w-xl">
+                            <button class=" mx-auto w-full  text-xl text-color bg-blue-100 border-2 border-blue-100 py-2 px-8 focus:outline-none hover:border-blue-300 rounded text-lg">
+                                <Link
+                                    to="/admin/panel"
+                                > Volver al panel administrativo
+                            </Link>
+                            </button>
+            </div>)}
             <div class=" container px-5 py-16 md:py-12   flex flex-wrap justify-center mx-auto">
                 <div class="flex flex-col text-center w-full mb-4 ">
                     <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">{content.mainKicker}</h2>

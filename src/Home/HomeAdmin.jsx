@@ -26,7 +26,7 @@ const HomeAdmin = () => {
     const handleRedirect = () => {
         console.log("Redirecting...");
 
-        let msg = <p styles={{ color: 'green' }}>¡Página actualizada correctamente!</p>
+        let msg = <p styles={{ color: '#9ccc65' }}>¡Página actualizada correctamente!</p>
         setMsg(msg);
         setTimeout(() => {
             refreshPage();
@@ -54,7 +54,6 @@ const HomeAdmin = () => {
 
     useEffect(() => {
         async function fetchHome() {
-            console.log("Fetching Home page info...");
             const homeData = await Page.getHome();
             setContent(homeData);
         }
