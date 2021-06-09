@@ -89,7 +89,7 @@ const EventsAdmin = () => {
                         <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Usted se encuentra en modo de edición. Escriba sobre las entradas de texto y presione guardar cambios cuando termine para actualizar el contenido.</p>
                         <div class="w-full flex justify-center my-8">
 
-                            <button class="text-white bg-indigo-500 border-0 py-4 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"> <Link to="/admin/crear/evento"> Crear entrada de blog </Link> </button>
+                            <button class="text-white bg-indigo-500 border-0 py-4 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"> <Link to="/admin/crear/evento"> Crear entrada de evento </Link> </button>
 
                         </div>
 

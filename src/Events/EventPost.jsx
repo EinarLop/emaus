@@ -12,10 +12,12 @@ const EventPost = (props) => {
       setContent(eventData.data);
 
       const date = eventData.data.date.toDate();
+      const minutes = date.getMinutes()
+      const hours = date.getHours()
       const mm = date.toLocaleString("es-ES", { month: "long" }).toUpperCase();
       const dd = date.getDate();
       const yyyy = date.getFullYear();
-      setDateString(mm + " " + dd + ", " + yyyy);
+      setDateString(mm + " " + dd + ", " + yyyy + " " + hours + ":" + minutes);
     }
     fetchEvent();
   }, []);
@@ -50,8 +52,8 @@ const EventPost = (props) => {
             <div class="flex flex-col sm:flex-row mt-4">
               <div class="sm:w-full sm:py-8  mt-4 pt-4 sm:mt-0 text-center sm:text-left">
                 <p class=" text-justify font-medium leading-relaxed text-lg mb-4">
-                  Fecha de publicación:{" "}
-                  <b class="text-indigo-500">{dateString}</b>
+                  Fecha del evento:
+                  <b class="text-indigo-500"> {dateString}</b>
                 </p>
                 {/* <p class=" text-justify font-medium leading-relaxed text-lg mb-4">Escrito por: <b class="text-indigo-500">{content.mainAutor}</b></p> */}
 
