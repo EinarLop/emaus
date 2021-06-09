@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import Post from "./firebase/posts";
 import User from "./firebase/users";
 import Event from "./firebase/events";

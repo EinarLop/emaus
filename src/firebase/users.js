@@ -1,4 +1,3 @@
-import { RiCreativeCommonsZeroLine } from 'react-icons/ri';
 import { firebase, db } from './app';
 
 const User = {}

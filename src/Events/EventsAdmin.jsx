@@ -16,13 +16,11 @@ const EventsAdmin = () => {
 
     useEffect(() => {
         async function fetchData() {
-            console.log("Fetching events data...");
             const events = await Event.getAllEvents();
             setEventList(events);
             setLoading(false);
         }
         async function fetchPage() {
-            console.log("Fetching Events page info...");
             const pageData = await Page.getEvents();
             setContent(pageData);
         }
