@@ -96,65 +96,76 @@ const BlogAdmin = () => {
     /////////////////////////Fav and delete blog/////////////////////////
     return (
         <>
-        { loginStatus ? (
-            <>
-                <div class="bg-blue-300 flex flex-col text-center w-full mb-4 p-4">
-                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de la página de blog</h1>
-                    <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Usted se encuentra en modo de edición. Escriba sobre las entradas de texto y presione guardar cambios cuando termine para actualizar el contenido.</p>
-                    <div class="w-full flex justify-center my-8">
+            { loginStatus ? (
+                <>
+                    <div class="bg-blue-300 flex flex-col text-center w-full mb-4 p-4">
+                        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Administración del contenido de la página de blog</h1>
+                        <p class="lg:w-2/3 mx-auto leading-relaxed text-xl">Usted se encuentra en modo de edición. Escriba sobre las entradas de texto y presione guardar cambios cuando termine para actualizar el contenido.</p>
+                        <div class="w-full flex justify-center my-8">
 
-                        <button class="text-white bg-indigo-500 border-0 py-4 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"> <Link to="/admin/crear/blog"> Crear entrada de blog </Link> </button>
+                            <button class="text-white bg-indigo-500 border-0 py-4 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"> <Link to="/admin/crear/blog"> Crear entrada de blog </Link> </button>
+
+                        </div>
+
+
+                        <div class="p-4 w-full mx-auto max-w-xl">
+                            <button class=" mx-auto w-full  text-xl text-color bg-blue-100 border-2 border-blue-100 py-2 px-8 focus:outline-none hover:border-blue-300 rounded text-lg">
+                                <Link
+                                    to="/admin/panel"
+                                > Volver al panel administrativo
+                            </Link>
+                            </button>
+                        </div>
 
                     </div>
-                </div>
-                <div class="flex flex-wrap justify-center mx-auto p-4">
-                    <div class="flex flex-col text-center w-full mb-4 ">
-                        <h2 contenteditable="True" onBlur={handleOnChange} align="mainKicker" class="text-xs  h-auto text-indigo-500 tracking-widest font-medium title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.mainKicker}</h2>
-                        <h1 contenteditable="True" onBlur={handleOnChange} align="mainTitle" class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 focus:bg-blue-100 focus:outline-none">{content.mainTitle}</h1>
-                        <p contenteditable="True" onBlur={handleOnChange} align="mainDescription" class="lg:w-2/3 mx-auto leading-relaxed text-base focus:bg-blue-100 focus:bg-blue-100 focus:outline-none">{content.mainDescription}</p>
+                    <div class="flex flex-wrap justify-center mx-auto p-4">
+                        <div class="flex flex-col text-center w-full mb-4 ">
+                            <h2 contenteditable="True" onBlur={handleOnChange} align="mainKicker" class="text-xs  h-auto text-indigo-500 tracking-widest font-medium title-font mb-1 focus:bg-blue-100 focus:outline-none">{content.mainKicker}</h2>
+                            <h1 contenteditable="True" onBlur={handleOnChange} align="mainTitle" class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 focus:bg-blue-100 focus:outline-none">{content.mainTitle}</h1>
+                            <p contenteditable="True" onBlur={handleOnChange} align="mainDescription" class="lg:w-2/3 mx-auto leading-relaxed text-base focus:bg-blue-100 focus:bg-blue-100 focus:outline-none">{content.mainDescription}</p>
+                        </div>
+
+
+                        {/* MIN 200 chars*/}
+                        {
+                            loading ? <p>Cargando Blogs...</p>
+                                :
+                                (postList.length ?
+                                    // <div class="flex flex-wrap justify-center mx-auto p-4">
+                                    <div class="flex flex-wrap justify-center w-screen p-4">
+                                        {postList.map((post, index) => (
+
+                                            <BlogCardAdmin
+                                                setFav={() => setFav(index, post.postId)}
+                                                key={index}
+                                                delete={() => onDelete(index, post.postId)}
+                                                postInfo={post}
+                                            />))}
+                                    </div>
+                                    : (<p>No hay blogs publicados</p>)
+                                )}
                     </div>
 
 
-                    {/* MIN 200 chars*/}
-                    {
-                        loading ? <p>Cargando Blogs...</p>
-                            :
-                            (postList.length ?
-                                // <div class="flex flex-wrap justify-center mx-auto p-4">
-                                <div class="flex flex-wrap justify-center w-screen p-4">
-                                    {postList.map((post, index) => (
 
-                                        <BlogCardAdmin
-                                            setFav={() => setFav(index, post.postId)}
-                                            key={index}
-                                            delete={() => onDelete(index, post.postId)}
-                                            postInfo={post}
-                                        />))}
-                                </div>
-                                : (<p>No hay blogs publicados</p>)
-                            )}
-                </div>
-
-
-
-                <div class="w-full flex justify-center my-20">
-                    {msg}
-                </div>
-                <div class="w-full flex justify-center my-20">
-                    { showButton && (
-                        <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg" 
-                        onClick={handleOnSubmit}>
-                            Guardar cambios
-                        </button>
-                    )}
-                </div>
-            </>
-        ) : 
-        (
-        <div style={{display: 'flex', justifyContent:'center'}}>
-            <h1 style={{textAlign:'center'}}>404 Ruta no encontrada</h1>
-        </div>
-        )}
+                    <div class="w-full flex justify-center my-20">
+                        {msg}
+                    </div>
+                    <div class="w-full flex justify-center my-20">
+                        {showButton && (
+                            <button class="text-white bg-green-500 border-0 py-4 px-10 focus:outline-none hover:bg-green-600 rounded text-lg"
+                                onClick={handleOnSubmit}>
+                                Guardar cambios
+                            </button>
+                        )}
+                    </div>
+                </>
+            ) :
+                (
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <h1 style={{ textAlign: 'center' }}>404 Ruta no encontrada</h1>
+                    </div>
+                )}
         </>
     );
 }

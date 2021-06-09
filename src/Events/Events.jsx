@@ -45,7 +45,7 @@ const Events = () => {
                         <div>
                             {eventList.map((e, i) => (<EventCard key={i} eventInfo={e} />))}
                         </div>
-                        : (<p>No hay eventos planeados</p>)
+                        : (<p class="text-center">No hay eventos planeados</p>)
                     )}
         </>
     );
