@@ -29,15 +29,17 @@ const EventsAdmin = () => {
     }, [])
 
     const [content, setContent] = useState({
-        mainTitle: "Titulo",
-        mainKicker: "mainKicker",
+        mainTitle: "Cargando...",
+        mainKicker: "Cargando...",
         mainDescription: "Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag",
     })
 
-    const handleRedirect = () => {
+    const handleRedirect = (message) => {
         console.log("Redirecting...");
-
-        let msg = <p styles={{ color: '#9ccc65' }}>¡Página actualizada correctamente!</p>
+        if (!message) {
+            message = "¡Página actualizada exitosamente!";
+        }
+        let msg = <p styles={{ color: '#9ccc65' }}>{message}</p>
         setMsg(msg);
         setTimeout(() => {
             refreshPage();
@@ -62,7 +64,7 @@ const EventsAdmin = () => {
         setShowButton(false);
         const res = await Page.updateEvents(content);
         console.log(res);
-        handleRedirect()
+        handleRedirect(res.message);
     }
 
     ////////////////////////// Delete Event ////////////////////////////

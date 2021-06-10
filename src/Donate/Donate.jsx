@@ -10,6 +10,7 @@ import {Link} from 'react-router-dom'
 const Donate = () => {
 
     const {loginStatus} = useLogin();
+    const [msg, setMsg] = useState("")
 
     const [content, setContent] = useState({
         electronicDescription: "Cargando...",
@@ -64,6 +65,15 @@ const Donate = () => {
             note: "",
         }
         setVolunteer(form);
+        setMsg("¡Gracias! Revisaremos tu solicitud y te contactaremos.");
+        setTimeout(() => {
+            setMsg("");
+        }, 5000);
+    }
+
+    const openPaypal = () => {
+        const link = "https://www.paypal.com/mx/webapps/mpp/donar";
+        window.open(link, "_blank");
     }
 
     const iframeStyle = {
@@ -98,9 +108,10 @@ const Donate = () => {
 
                     </div>
                 </div>
-                <button class="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Dona a través de Paypal</button>
-
-
+                <button onClick={openPaypal}
+                    class="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    Dona a través de Paypal
+                    </button>
             </section >
 
 
@@ -232,7 +243,7 @@ const Donate = () => {
                             Contáctanos
                         </button>
                         <p class="text-xs text-gray-500 mt-3">
-                            ¡Revisaremos tu solicitud y te contactaremos!
+                            {msg}
                         </p>
                     </div>
                 </div>

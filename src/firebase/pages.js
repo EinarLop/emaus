@@ -13,21 +13,18 @@ Page.getHome = async () => {
 Page.getDonations = async () => {
     const data = await db.collection('pages').doc(CONSTANTS.DONATE).get();
 
-    console.log(data.data());
     return data.data();
 }
 
 Page.getEvents = async () => {
     const data = await db.collection('pages').doc(CONSTANTS.EVENTS).get();
 
-    console.log(data.data());
     return data.data();
 }
 
 Page.getBlog = async () => {
     const data = await db.collection('pages').doc(CONSTANTS.BLOG).get();
 
-    console.log(data.data());
     return data.data();
 }
 
@@ -149,7 +146,7 @@ Page.updateBlog = async (page) => {
         const res = await pageRef.update(pageData);
         console.log("Update page result", res);
         let result = {
-            message: "La página de Donaciones fue actualizada exitosamente.",
+            message: "La página de Blog fue actualizada exitosamente.",
             ok: true,
         }
         
@@ -188,7 +185,7 @@ Page.updateEvents = async (page) => {
         const res = await pageRef.update(pageData);
         console.log("Update page result", res);
         let result = {
-            message: "La página de Donaciones fue actualizada exitosamente.",
+            message: "La página de Eventos fue actualizada exitosamente.",
             ok: true,
         }
         
