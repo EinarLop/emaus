@@ -54,10 +54,19 @@ const Donate = () => {
     }
 
     const submitVolunteer = async () => {
+        setMsg("");
+        if (volunteer.name===""){
+            setMsg("Por favor, proporciona un nombre para tu contacto.");
+            return;
+        }
+        if (volunteer.email==="" && volunteer.phone==="") {
+            setMsg("Por favor, proporciona algún medio de contacto (correo o teléfono).");
+            return;
+        }
+        
         const currentVolunteer = volunteer;
         let res = await Volunteer.registerOne(currentVolunteer);
         console.log(res);
-
         let form = {
             name: "",
             phone: "",
@@ -65,10 +74,10 @@ const Donate = () => {
             note: "",
         }
         setVolunteer(form);
-        setMsg("¡Gracias! Revisaremos tu solicitud y te contactaremos.");
+        setMsg(res.message);
         setTimeout(() => {
             setMsg("");
-        }, 5000);
+        }, 6000);
     }
 
     const openPaypal = () => {
