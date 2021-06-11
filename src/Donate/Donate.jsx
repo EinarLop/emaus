@@ -10,6 +10,7 @@ import {Link} from 'react-router-dom'
 const Donate = () => {
 
     const {loginStatus} = useLogin();
+    const [msg, setMsg] = useState("")
 
     const [content, setContent] = useState({
         electronicDescription: "Cargando...",
@@ -53,10 +54,19 @@ const Donate = () => {
     }
 
     const submitVolunteer = async () => {
+        setMsg("");
+        if (volunteer.name===""){
+            setMsg("Por favor, proporciona un nombre para tu contacto.");
+            return;
+        }
+        if (volunteer.email==="" && volunteer.phone==="") {
+            setMsg("Por favor, proporciona algún medio de contacto (correo o teléfono).");
+            return;
+        }
+        
         const currentVolunteer = volunteer;
         let res = await Volunteer.registerOne(currentVolunteer);
         console.log(res);
-
         let form = {
             name: "",
             phone: "",
@@ -64,6 +74,16 @@ const Donate = () => {
             note: "",
         }
         setVolunteer(form);
+        setMsg(res.message);
+        setTimeout(() => {
+            setMsg("");
+        }, 6000);
+    }
+
+    const openPaypal = () => {
+        //const link = "https://www.paypal.com/mx/webapps/mpp/donar";
+        const link = "https://paypal.me/ComunidadEmaus?locale.x=es_XC";
+        window.open(link, "_blank");
     }
 
     const iframeStyle = {
@@ -98,9 +118,10 @@ const Donate = () => {
 
                     </div>
                 </div>
-                <button class="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Dona a través de Paypal</button>
-
-
+                <button onClick={openPaypal}
+                    class="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    Dona a través de Paypal
+                    </button>
             </section >
 
 
@@ -133,9 +154,6 @@ const Donate = () => {
                     <div class="flex flex-wrap justify-center sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
                         <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
                             <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-                                {/* <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
-                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                                </svg> */}
                                 < TiGroup class="w-12 h-12 " />
                             </div>
                             <div class="flex-grow">
@@ -231,9 +249,9 @@ const Donate = () => {
                             onClick={submitVolunteer}>
                             Contáctanos
                         </button>
-                        <p class="text-xs text-gray-500 mt-3">
-                            ¡Revisaremos tu solicitud y te contactaremos!
-                        </p>
+                        <div class="text-xs text-gray-500 mt-3 text-center" style={{fontSize:18}}>
+                           {msg}
+                        </div>
                     </div>
                 </div>
             </section>

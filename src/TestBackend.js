@@ -16,12 +16,13 @@ export default function TestBackend() {
     // Volunteer API ************
     const submitVolunteer = async (e) => {
         const example = {
-            name: "Eric Chao 2",
-            phone: "7787888887",
-            mail: "ericjardon@hotmail.com",
-            note: "Hello thank you bye"
+            name: "Test jue",
+            phone: "jue",
+            mail: "jue@hotmail.com",
+            note: "hello note"
         }
-
+        console.log("New volunteer");
+        console.dir(example);
         let res = await Volunteer.registerOne(example);
         console.dir(res)
     }
@@ -91,7 +92,7 @@ export default function TestBackend() {
 
     const eventDelete = async () => {
         console.log("Deleting event and its image!!")
-        const res = await Event.deleteEvent('x3hmHHnXDgiNQQlfU1ud');
+        const res = await Event.deleteEvent('GsvcLRM1mTYFq1ahWH0S');
         console.log(res);
     }
 
@@ -152,8 +153,8 @@ export default function TestBackend() {
     // User API ***********
     const login = async (e) => {
         console.log("logging in...")
-        let email = "";
-        let password = "";
+        let email = "comunidad.emaus_ac@yahoo.com";
+        let password = "03LO2102@J1028";
         let res = await User.loginUser(email, password);
         console.log(res);
         //setLoginStatus(false);
@@ -228,7 +229,7 @@ export default function TestBackend() {
     return (
         <div style={{border:"solid 1px blue", padding:"20px", display:"flex", flexDirection:"column"}}>
             <input type='datetime-local' onChange={printDate}></input>
-            <button onClick={deleteAPost}>Do something</button>
+            <button onClick={submitVolunteer}>Do something</button>
             <button onClick={handleEventImageUpload}>Upload Event img</button>
             <button onClick={getEvents}>Fetch event list</button>
             <button onClick={loginWithUsername}>Log in with username</button>

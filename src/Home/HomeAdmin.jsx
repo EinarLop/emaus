@@ -23,10 +23,12 @@ const HomeAdmin = () => {
         window.location.reload();
     }
 
-    const handleRedirect = () => {
+    const handleRedirect = (message) => {
         console.log("Redirecting...");
-
-        let msg = <p styles={{ color: '#9ccc65' }}>¡Página actualizada correctamente!</p>
+        if (!message) {
+            message = "¡Página actualizada exitosamente!";
+        }
+        let msg = <p styles={{ color: '#9ccc65' }}>{message}</p>
         setMsg(msg);
         setTimeout(() => {
             refreshPage();
@@ -48,7 +50,7 @@ const HomeAdmin = () => {
         setShowButton(false);
         const res = await Page.updateHome(content);
         console.log(res);
-        handleRedirect();
+        handleRedirect(res.message);
     }
 
 

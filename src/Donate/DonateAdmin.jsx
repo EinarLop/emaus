@@ -41,10 +41,12 @@ const DonateAdmin = () => {
         officialAddress: "Carr. Xochimilco Topilejo No. 33 Col. San Miguel Topilejo Alcaldía Tlalpan CDMX C.P. 14500"
     })
 
-    const handleRedirect = () => {
+    const handleRedirect = (message) => {
         console.log("Redirecting...");
-
-        let msg = <p styles={{ color: '#9ccc65' }}>¡Página actualizada correctamente!</p>
+        if (!message) {
+            message = "¡Página actualizada exitosamente!";
+        }
+        let msg = <p styles={{ color: '#9ccc65' }}>{message}</p>
         setMsg(msg);
         setTimeout(() => {
             refreshPage();
@@ -67,7 +69,7 @@ const DonateAdmin = () => {
         setShowButton(false);
         const res = await Page.updateDonations(content);
         console.log(res);
-        handleRedirect()
+        handleRedirect(res.message)
     }
 
     useEffect(() => {

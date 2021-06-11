@@ -30,7 +30,7 @@ Volunteer.registerOne = async (clientData) => {
     const newDoc = await db.collection("volunteer").add(clientData);
     let result = {
       ok: true,
-      message: "Tu registro se envió exitosamente.",
+      message: "¡Gracias! Revisaremos tu solicitud y te contactaremos.",
       id: newDoc.id,
     };
     return result;

@@ -11,8 +11,8 @@ const BlogAdmin = () => {
     const { loginStatus } = useLogin();
 
     const [content, setContent] = useState({
-        mainTitle: "Titulo",
-        mainKicker: "mainKicker",
+        mainTitle: "Cargando...",
+        mainKicker: "Cargando...",
         mainDescription: "Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag",
     })
 
@@ -42,8 +42,12 @@ const BlogAdmin = () => {
         });
     }
 
-    const handleRedirect = () => {
-        let msg = <p styles={{ color: '#9ccc65' }}>¡Página actualizada correctamente!</p>
+    const handleRedirect = (message) => {
+        console.log("Redirecting...");
+        if (!message) {
+            message = "¡Página actualizada exitosamente!";
+        }
+        let msg = <p styles={{ color: '#9ccc65' }}>{message}</p>
         setMsg(msg);
         setTimeout(() => {
             refreshPage();
@@ -60,7 +64,7 @@ const BlogAdmin = () => {
         setShowButton(false);
         const res = await Page.updateBlog(content);
         console.log(res);
-        handleRedirect();
+        handleRedirect(res.message);
     }
 
 
