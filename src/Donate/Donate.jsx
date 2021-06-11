@@ -81,7 +81,8 @@ const Donate = () => {
     }
 
     const openPaypal = () => {
-        const link = "https://www.paypal.com/mx/webapps/mpp/donar";
+        //const link = "https://www.paypal.com/mx/webapps/mpp/donar";
+        const link = "https://paypal.me/ComunidadEmaus?locale.x=es_XC";
         window.open(link, "_blank");
     }
 
