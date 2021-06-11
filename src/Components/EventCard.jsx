@@ -13,6 +13,7 @@ const EventCard = (props) => {
   const mm = date.toLocaleString("es-ES", { month: "short" }).toUpperCase();
   const dd = date.getDate();
   const imageUrl = image === "" ? Event.defaultImage : image;
+  //const time = date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
 
   return (
     <section class="text-gray-600 body-font max-w-screen-md overflow-hidden mx-auto">
@@ -86,6 +87,5 @@ const EventCard = (props) => {
   );
 };
 
-// https://dummyimage.com/400x400
 
 export default EventCard;
