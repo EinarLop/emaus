@@ -10,12 +10,11 @@ const EventPost = (props) => {
       setContent(eventData.data);
 
       const date = eventData.data.date.toDate();
-      const minutes = date.getMinutes()
-      const hours = date.getHours()
+      const time = date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
       const mm = date.toLocaleString("es-ES", { month: "long" }).toUpperCase();
       const dd = date.getDate();
       const yyyy = date.getFullYear();
-      setDateString(mm + " " + dd + ", " + yyyy + " " + hours + ":" + minutes);
+      setDateString(mm + " " + dd + ", " + yyyy + " " + time);
     }
     fetchEvent();
   }, [props.match.params.id]);
