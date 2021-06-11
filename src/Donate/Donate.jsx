@@ -248,9 +248,9 @@ const Donate = () => {
                             onClick={submitVolunteer}>
                             Contáctanos
                         </button>
-                        <p class="text-xs text-gray-500 mt-3 text-center" style={{fontSize:18}}>
+                        <div class="text-xs text-gray-500 mt-3 text-center" style={{fontSize:18}}>
                            {msg}
-                        </p>
+                        </div>
                     </div>
                 </div>
             </section>
